@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Reporte Diario 19 Ago · MXCD06 · jvillamil</title>
+<style>
+  :root{
+    --ml-yellow:#FFE600;
+    --ml-yellow-deep:#FFD100;
+    --ml-blue:#2D3277;
+    --ml-blue-dark:#1A1E4D;
+    --ml-blue-light:#3483FA;
+    --ink:#1A1A2E;
+    --ink-soft:#4A4A68;
+    --line:#E8E6DC;
+    --card:#FFFFFF;
+    --bg:#F6F5F0;
+    --ok:#00A650;
+    --ok-bg:#E8F8EF;
+    --warn:#F5A623;
+    --warn-bg:#FEF6E7;
+    --bad:#E63946;
+    --bad-bg:#FDEBEC;
+    --neutral:#8B8B9E;
+    --neutral-bg:#F0EFEA;
+    --radius:14px;
+    --mono: 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:40px;
+  }
+  a{color:inherit;text-decoration:none;}
+
+  /* ── HEADER ── */
+  .topbar{
+    background:var(--ml-blue);
+    background-image:linear-gradient(160deg,var(--ml-blue) 0%, var(--ml-blue-dark) 100%);
+    padding:18px 18px 54px;
+    position:relative;
+    overflow:hidden;
+  }
+  .topbar::after{
+    content:"";
+    position:absolute;
+    top:-40px; right:-60px;
+    width:220px; height:220px;
+    background:var(--ml-yellow);
+    opacity:0.08;
+    border-radius:50%;
+  }
+  .brand-row{
+    display:flex; align-items:center; gap:10px;
+    position:relative; z-index:1;
+  }
+  .brand-mark{
+    width:30px;height:30px;border-radius:8px;
+    background:var(--ml-yellow);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:15px;color:var(--ml-blue-dark);
+    flex-shrink:0;
+  }
+  .brand-txt{font-size:12px;font-weight:700;color:#fff;letter-spacing:0.04em;text-transform:uppercase;opacity:0.85;}
+  .site-tag{
+    margin-left:auto;
+    font-size:11px;font-weight:700;color:var(--ml-blue-dark);
+    background:var(--ml-yellow);
+    padding:4px 10px;border-radius:20px;
+  }
+  .h-title{
+    font-size:22px;font-weight:800;color:#fff;
+    margin:16px 0 2px; position:relative; z-index:1;
+    letter-spacing:-0.01em;
+  }
+  .h-sub{font-size:13px;color:rgba(255,255,255,0.65);position:relative;z-index:1;}
+
+  /* KPI strip - floats over header bottom edge */
+  .kpi-strip{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin:-38px 12px 0;
+    position:relative; z-index:2;
+  }
+  .kpi{
+    background:var(--card);
+    border-radius:12px;
+    padding:11px 10px;
+    box-shadow:0 4px 14px rgba(26,30,77,0.12);
+  }
+  .kpi-label{font-size:9.5px;font-weight:700;color:var(--neutral);text-transform:uppercase;letter-spacing:0.05em;}
+  .kpi-val{font-size:19px;font-weight:800;margin-top:3px;line-height:1;}
+  .kpi-sub{font-size:9.5px;color:var(--ink-soft);margin-top:3px;}
+  .kpi-val.ok{color:var(--ok);}
+  .kpi-val.warn{color:var(--warn);}
+  .kpi-val.bad{color:var(--bad);}
+  .kpi-val.neutral{color:var(--neutral);}
+
+  /* ── TABS ── */
+  .tabs{
+    display:flex;
+    gap:6px;
+    padding:16px 12px 0;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex-shrink:0;
+    background:var(--card);
+    border:1.5px solid var(--line);
+    color:var(--ink-soft);
+    font-size:12.5px;font-weight:700;
+    padding:9px 14px;
+    border-radius:20px;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .tab-btn.active{
+    background:var(--ml-blue);
+    border-color:var(--ml-blue);
+    color:#fff;
+  }
+
+  .panel{display:none; padding:16px 12px 0;}
+  .panel.active{display:block;}
+
+  /* ── SECTION ── */
+  .section-head{
+    display:flex;align-items:baseline;gap:8px;
+    margin:22px 2px 10px;
+  }
+  .section-head:first-child{margin-top:4px;}
+  .section-eyebrow{
+    font-size:10.5px;font-weight:800;color:var(--ml-blue-light);
+    text-transform:uppercase;letter-spacing:0.08em;
+  }
+  .section-line{flex:1;height:1px;background:var(--line);}
+
+  /* ── ALERT BOX ── */
+  .alert{
+    background:var(--warn-bg);
+    border:1px solid #FBE1AE;
+    border-radius:var(--radius);
+    padding:13px 15px;
+    margin-bottom:16px;
+    font-size:12.5px;
+    line-height:1.5;
+  }
+  .alert-title{font-weight:800;color:#B7791F;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+  .alert p{margin:4px 0;color:#8a6116;}
+  .alert b{color:#5c4110;}
+
+  /* ── PROCESS CARD ── */
+  .proc-card{
+    background:var(--card);
+    border-radius:var(--radius);
+    margin-bottom:14px;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .proc-head{
+    padding:13px 15px 11px;
+    border-bottom:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:flex-start;
+    background:linear-gradient(180deg,#FAFAF7,#fff);
+  }
+  .proc-name{font-size:14.5px;font-weight:800;color:var(--ml-blue);}
+  .proc-meta-row{
+    display:flex; gap:10px; margin-top:4px; flex-wrap:wrap;
+  }
+  .proc-meta-item{font-size:10.5px;color:var(--ink-soft);}
+  .proc-meta-item b{color:var(--ink);}
+  .proc-team-badge{
+    text-align:right; flex-shrink:0;
+  }
+  .proc-team-val{font-size:17px;font-weight:800;color:var(--ml-blue);}
+  .proc-team-lbl{font-size:9px;color:var(--neutral);text-transform:uppercase;font-weight:700;}
+
+  /* operator row (card style, not table, for mobile) */
+  .op-row{
+    padding:11px 15px;
+    border-bottom:1px solid #F2F1EC;
+    display:flex; align-items:center; gap:10px;
+  }
+  .op-row:last-child{border-bottom:none;}
+  .op-row.op-zero{background:#FAFAF9;}
+  .op-id{
+    font-family:var(--mono);
+    font-size:11px; color:var(--ink-soft);
+    width:98px; flex-shrink:0;
+    overflow:hidden; text-overflow:ellipsis;
+  }
+  .op-body{flex:1; min-width:0;}
+  .op-metrics{display:flex; gap:14px; align-items:baseline;}
+  .op-net{font-size:15px;font-weight:800;color:var(--ink);}
+  .op-net.zero{color:var(--neutral); font-weight:600;}
+  .op-units{font-size:10px;color:var(--neutral);}
+  .op-bars{display:flex; gap:10px; margin-top:5px;}
+  .bar-group{flex:1;}
+  .bar-lbl{font-size:8.5px;color:var(--neutral);text-transform:uppercase;font-weight:700;display:flex;justify-content:space-between;}
+  .bar-track{height:4px;background:#EDEBE3;border-radius:3px;margin-top:3px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:3px;}
+  .chip{
+    font-size:10.5px;font-weight:800;
+    padding:3px 8px;border-radius:7px;
+    flex-shrink:0;
+  }
+  .chip.ok{background:var(--ok-bg);color:var(--ok);}
+  .chip.warn{background:var(--warn-bg);color:#B7791F;}
+  .chip.bad{background:var(--bad-bg);color:var(--bad);}
+  .chip.neutral{background:var(--neutral-bg);color:var(--neutral);}
+
+  .formula-note{
+    font-size:9.5px;color:var(--neutral);
+    padding:9px 15px;background:#FAFAF9;
+    border-top:1px solid #F2F1EC;
+  }
+  .formula-note code{
+    font-family:var(--mono);font-size:9px;
+    background:#F0EFEA;padding:1px 4px;border-radius:4px;
+  }
+
+  /* ── FAST START rows ── */
+  .fs-summary{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;
+  }
+  .fs-card{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:13px 10px;text-align:center;
+  }
+  .fs-val{font-size:22px;font-weight:800;color:var(--ok);}
+  .fs-lbl{font-size:9.5px;color:var(--neutral);text-transform:uppercase;font-weight:700;margin-top:3px;}
+  .fs-sub{font-size:9.5px;color:var(--ink-soft);margin-top:2px;}
+
+  .banner-ok{
+    background:var(--ok-bg); border:1px solid #BDEBD1;
+    border-radius:var(--radius); padding:12px 15px; margin-bottom:16px;
+    font-size:12.5px; color:#00713A;
+  }
+  .banner-ok b{color:#00512A;}
+
+  .empty-state{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:38px 22px; text-align:center;
+  }
+  .empty-icon{font-size:34px;margin-bottom:10px;}
+  .empty-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:8px;}
+  .empty-desc{font-size:12.5px;color:var(--ink-soft);line-height:1.6;max-width:320px;margin:0 auto;}
+  .empty-hint{font-size:11px;color:var(--neutral);margin-top:14px;}
+
+  /* attendance footer */
+  .att-card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:14px 15px; margin:22px 12px 0;
+    display:flex; flex-wrap:wrap; gap:14px; font-size:12px;
+  }
+  .att-item b{font-weight:800;}
+  .att-ok{color:var(--ok);}
+  .att-bad{color:var(--bad);}
+  .att-blue{color:var(--ml-blue);}
+
+  .foot{
+    text-align:center; font-size:10.5px; color:var(--neutral);
+    margin-top:22px; padding:0 20px;
+  }
+
+  .simple-table-wrap{overflow-x:auto;}
+  table.simple{width:100%;border-collapse:collapse;font-size:11.5px;}
+  table.simple th{
+    text-align:left;padding:8px 10px;color:var(--neutral);
+    font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:0.03em;
+    border-bottom:1.5px solid var(--line);white-space:nowrap;
+  }
+  table.simple td{padding:9px 10px;border-bottom:1px solid #F2F1EC;white-space:nowrap;}
+  table.simple tr:last-child td{border-bottom:none;}
+  .op-name-mono{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);}
+
+  .status-pill{
+    font-size:10px;font-weight:800;padding:3px 8px;border-radius:7px;display:inline-block;
+  }
+
+  @media (min-width:640px){
+    .kpi-strip{grid-template-columns:repeat(6,1fr);margin:-38px 20px 0;}
+    .tabs, .panel{padding-left:20px;padding-right:20px;}
+    .att-card{margin:22px 20px 0;}
+    .proj-grid{grid-template-columns:repeat(4,1fr);}
+  }
+
+  /* ── SEMANA ── */
+  .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px;}
+  .proj-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px;text-align:center;}
+  .proj-val{font-size:21px;font-weight:800;}
+  .proj-lbl{font-size:9.5px;color:var(--neutral);text-transform:uppercase;font-weight:700;margin-top:3px;}
+  .proj-sub{font-size:10px;color:var(--ink-soft);margin-top:2px;}
+  .bar-chart{display:flex;align-items:flex-end;gap:6px;height:110px;margin-top:8px;}
+  .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+  .bar-visual{width:100%;max-width:26px;border-radius:4px 4px 0 0;position:relative;}
+  .bar-day-lbl{font-size:8.5px;color:var(--neutral);font-weight:700;}
+  .bar-val-lbl{font-size:8.5px;color:var(--ink-soft);font-weight:700;}
+  .legend-row{display:flex;gap:14px;flex-wrap:wrap;font-size:10.5px;color:var(--ink-soft);margin-top:8px;}
+  .legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;}
+  .day-mono{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="topbar">
+    <div class="brand-row">
+      <div class="brand-mark">ML</div>
+      <div class="brand-txt">MXCD06 · jvillamil</div>
+      <div class="site-tag">Fulfillment</div>
+    </div>
+    <div class="h-title">Reporte diario del equipo</div>
+    <div class="h-sub">Miércoles 19 · Agosto 2026 (turno en curso)</div>
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi">
+      <div class="kpi-label">Asistencia</div>
+      <div class="kpi-val ok" id="k-asist">18/18</div>
+      <div class="kpi-sub">100%</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Prod. Neta Put.</div>
+      <div class="kpi-val" style="color:var(--ml-blue)" id="k-net">—</div>
+      <div class="kpi-sub">equipo activo</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Util. Putaway</div>
+      <div class="kpi-val" id="k-util">—</div>
+      <div class="kpi-sub">EF / Total</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Ocio Putaway</div>
+      <div class="kpi-val" id="k-ocio">—</div>
+      <div class="kpi-sub">NoSis / Total</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Fast Start</div>
+      <div class="kpi-val neutral">S/D</div>
+      <div class="kpi-sub">sin consultar</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Calidad</div>
+      <div class="kpi-val neutral">S/D</div>
+      <div class="kpi-sub">sin registros</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="prod">📦 Productividades</button>
+    <button class="tab-btn" data-tab="tiempos">⏱️ Util / Ocio</button>
+    <button class="tab-btn" data-tab="calidad">🔍 Calidad</button>
+    <button class="tab-btn" data-tab="fsss">🚀 Fast Start / SF</button>
+    <button class="tab-btn" data-tab="semana">📅 Semana</button>
+  </div>
+
+  <!-- PANEL: PRODUCTIVIDAD -->
+  <div class="panel active" id="panel-prod">
+    <div id="alerts-slot"></div>
+    <div class="section-head">
+      <span class="section-eyebrow">Procesos del día</span>
+      <span class="section-line"></span>
+    </div>
+    <div id="proc-tables-slot"></div>
+  </div>
+
+  <!-- PANEL: TIEMPOS -->
+  <div class="panel" id="panel-tiempos">
+    <div class="alert" style="background:#EAF2FE;border-color:#BFDBFE;">
+      <div class="alert-title" style="color:var(--ml-blue-light);">ℹ️ Fórmulas aplicadas</div>
+      <p><code style="background:#DCE9FD;">% Util = Tiempo Efectivo ÷ Tiempo Total</code></p>
+      <p><code style="background:#DCE9FD;">% Ocio = Tiempo No Sistémico ÷ Tiempo Total</code></p>
+      <p style="margin-top:6px;">Tiempo Total = Tiempo Sistémico + Tiempo No Sistémico. Ambos % comparten el mismo denominador — por eso ahora cuadran contra el tiempo real.</p>
+      <p style="margin-top:6px;"><b>Target Utilización:</b> mayor a 85% &nbsp;·&nbsp; <b>Target Ocio:</b> menor a 15%</p>
+    </div>
+    <div class="section-head">
+      <span class="section-eyebrow">Putaway · Detalle por operador</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="proc-card">
+      <div class="simple-table-wrap">
+        <table class="simple" id="tiempos-table"></table>
+      </div>
+    </div>
+    <div class="alert" style="margin-top:16px;">
+      <div class="alert-title">⚠️ Nota AT / Kronos</div>
+      <p>El Available Time oficial y los tiempos de comida no están disponibles en Polaris. Consulta directamente en Kronos.</p>
+    </div>
+  </div>
+
+  <!-- PANEL: CALIDAD -->
+  <div class="panel" id="panel-calidad">
+    <div class="empty-state">
+      <div class="empty-icon">📊</div>
+      <div class="empty-title">Sin datos de calidad — 18 agosto</div>
+      <div class="empty-desc">
+        La tabla de calidad operativa no devolvió registros para esta fecha. Puede que los errores del día aún no hayan sido procesados.
+      </div>
+      <div class="empty-hint">Consulta mañana con fecha de ayer, o revisa Metabase / Redash para DPMO por subprocess en tiempo real.</div>
+    </div>
+  </div>
+
+  <!-- PANEL: FAST START -->
+  <div class="panel" id="panel-fsss">
+    <div class="section-head">
+      <span class="section-eyebrow">Fast Start</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="empty-state">
+      <div class="empty-icon">🚀</div>
+      <div class="empty-title">Sin datos de Fast Start — 19 agosto</div>
+      <div class="empty-desc">No se pudo consultar la herramienta de Fast Start en esta corrida. El resto del reporte (productividad, utilización, ocio, asistencia) sí está actualizado con datos reales del día.</div>
+    </div>
+
+    <div class="section-head">
+      <span class="section-eyebrow">Strong Finish</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="empty-state">
+      <div class="empty-icon">🕐</div>
+      <div class="empty-title">Sin datos de Strong Finish</div>
+      <div class="empty-desc">El turno aún no había cerrado o Polaris no procesó los datos finales.</div>
+    </div>
+  </div>
+
+  <!-- PANEL: SEMANA -->
+  <div class="panel" id="panel-semana">
+    <div class="section-head">
+      <span class="section-eyebrow" id="week-range-lbl">Registro semanal</span>
+      <span class="section-line"></span>
+    </div>
+
+    <div class="section-head">
+      <span class="section-eyebrow">Proyección de avance</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="proj-grid" id="proj-slot"></div>
+
+    <div class="section-head">
+      <span class="section-eyebrow">Prod. Neta Putaway — últimos días</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="proc-card" style="padding:15px;">
+      <div class="bar-chart" id="chart-slot"></div>
+      <div class="legend-row">
+        <span><span class="legend-dot" style="background:#3483FA;"></span>Prod. neta equipo</span>
+        <span><span class="legend-dot" style="background:#FFE600;"></span>Meta (300 Un/h)</span>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <span class="section-eyebrow">Detalle diario</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="proc-card">
+      <div class="simple-table-wrap">
+        <table class="simple" id="week-days-table"></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATTENDANCE FOOTER -->
+  <div class="att-card">
+    <div class="att-item">Presentes: <b class="att-ok">17</b></div>
+    <div class="att-item">Ausentes: <b class="att-ok">0</b></div>
+    <div class="att-item">Tasa: <b class="att-blue">100%</b></div>
+  </div>
+  <div class="foot">Polaris · MXCD06 · Generado automáticamente</div>
+
+<script>
+// ═══════════════════ DATOS (19 Ago 2026 — turno en curso) ═══════════════════
+const RAW = [
+  { ldap:"agonzalezure",  proc:"open_transfer",   units:9,    netProd:204.55, ef:0.044, ts:0.044, tns:0.000 },
+  { ldap:"stsolanodomi",  proc:"open_transfer",   units:6,    netProd:40.54,  ef:0.148, ts:0.148, tns:0.000 },
+  { ldap:"rmontessalda",  proc:"open_transfer",   units:21,   netProd:37.50,  ef:0.560, ts:0.973, tns:0.000 },
+  { ldap:"edelalozanav",  proc:"open_transfer",   units:5,    netProd:21.74,  ef:0.230, ts:0.230, tns:0.000 },
+  { ldap:"edmaldonado",   proc:"open_transfer",   units:2,    netProd:21.05,  ef:0.095, ts:0.095, tns:0.000 },
+  { ldap:"jmanriquebra",  proc:"open_transfer",   units:7,    netProd:19.77,  ef:0.354, ts:0.496, tns:0.000 },
+  { ldap:"igarciasayas",  proc:"putaway",         units:555,  netProd:3226.74,ef:0.172, ts:0.184, tns:0.264 },
+  { ldap:"osruizolea",    proc:"putaway",         units:1366, netProd:2311.34,ef:0.591, ts:1.424, tns:0.406 },
+  { ldap:"jbarrongarci",  proc:"putaway",         units:408,  netProd:2305.08,ef:0.177, ts:0.184, tns:0.262 },
+  { ldap:"rmontessalda",  proc:"putaway",         units:235,  netProd:242.77, ef:0.968, ts:1.571, tns:0.187 },
+  { ldap:"brogelcampos",  proc:"putaway",         units:426,  netProd:202.95, ef:2.099, ts:2.486, tns:0.246 },
+  { ldap:"stsolanodomi",  proc:"putaway",         units:272,  netProd:181.94, ef:1.495, ts:1.991, tns:0.000 },
+  { ldap:"rcoronaperez",  proc:"putaway",         units:297,  netProd:156.32, ef:1.900, ts:2.188, tns:0.544 },
+  { ldap:"edmaldonado",   proc:"putaway",         units:143,  netProd:84.81,  ef:1.686, ts:2.034, tns:0.000 },
+  { ldap:"bsotogalicia",  proc:"putaway",         units:8,    netProd:81.63,  ef:0.098, ts:0.192, tns:2.539 },
+  { ldap:"bmanzanorodr",  proc:"putaway",         units:153,  netProd:75.56,  ef:2.025, ts:2.444, tns:0.043 },
+  { ldap:"shrodriguezf",  proc:"putaway",         units:90,   netProd:64.84,  ef:1.388, ts:2.200, tns:0.532 },
+  { ldap:"agonzalezure",  proc:"putaway",         units:97,   netProd:57.84,  ef:1.677, ts:2.291, tns:0.414 },
+  { ldap:"edelalozanav",  proc:"putaway",         units:101,  netProd:54.96,  ef:1.838, ts:2.194, tns:0.307 },
+  { ldap:"edchavezhern",  proc:"putaway",         units:105,  netProd:50.73,  ef:2.070, ts:2.411, tns:0.321 },
+  { ldap:"fhernandezca",  proc:"putaway",         units:72,   netProd:42.91,  ef:1.678, ts:2.383, tns:0.402 },
+  { ldap:"jmanriquebra",  proc:"putaway",         units:42,   netProd:31.81,  ef:1.320, ts:1.605, tns:0.081 },
+];
+
+const TARGETS = {
+  checkin:         { meta:300 },
+  pick_to_movable: { meta:400 },
+  open_transfer:   { meta:null },
+  putaway:         { meta:300 },
+};
+const PROC_LABELS = {
+  checkin:"Check-In", pick_to_movable:"Pick to Movable",
+  open_transfer:"Open Transfer", putaway:"Putaway",
+};
+const PROC_FORMULA = {
+  putaway:"Prod. Neta = Unidades ÷ Tiempo Efectivo",
+  checkin:"Prod. Neta = Unidades ÷ Tiempo Efectivo",
+  pick_to_movable:"Prod. Neta = Unidades ÷ Tiempo de Proceso",
+  open_transfer:"Prod. Neta = Unidades ÷ Tiempo de Proceso",
+};
+
+function calcRow(r){
+  const t = TARGETS[r.proc];
+  const totalH = r.ts + r.tns;
+  const util = totalH > 0 ? (r.ef/totalH)*100 : null;
+  const ocio = totalH > 0 ? (r.tns/totalH)*100 : null;
+  const vsMeta = (r.netProd && t && t.meta) ? (r.netProd/t.meta)*100 : null;
+  return Object.assign({}, r, {util, ocio, vsMeta, totalH});
+}
+const DATA = RAW.map(calcRow);
+
+const fmt0 = v => (v!=null && v>0) ? Math.round(v).toLocaleString("es-MX") : "—";
+const fmtPct = v => v!=null ? v.toFixed(1)+"%" : "—";
+
+function chipClass(pct){
+  if(pct==null) return "neutral";
+  if(pct>=90) return "ok";
+  if(pct>=70) return "warn";
+  return "bad";
+}
+function utilClass(v){
+  if(v==null) return "neutral";
+  return v>=85?"ok":v>=60?"warn":"bad";
+}
+function ocioClass(v){
+  if(v==null) return "neutral";
+  return v<=15?"ok":v<=30?"warn":"bad";
+}
+function colorFor(cls){
+  return {ok:"#00A650",warn:"#F5A623",bad:"#E63946",neutral:"#8B8B9E"}[cls];
+}
+
+// ═══════════════════ RENDER: PRODUCTIVIDAD ═══════════════════
+function renderProcCard(proc){
+  const rows = DATA.filter(r=>r.proc===proc).sort((a,b)=>b.netProd-a.netProd);
+  if(!rows.length) return "";
+  const t = TARGETS[proc];
+  const activos = rows.filter(r=>r.units>0);
+  const sumEf = activos.reduce((s,r)=>s+r.ef,0);
+  const sumTs = activos.reduce((s,r)=>s+r.ts,0);
+  const sumTns = activos.reduce((s,r)=>s+r.tns,0);
+  const sumUnits = activos.reduce((s,r)=>s+r.units,0);
+  const isNetEffective = (proc==="putaway"||proc==="checkin");
+  const sumProc = activos.reduce((s,r)=>s+r.ts+r.tns,0); // approx process time
+  const teamNet = isNetEffective ? (sumEf>0?sumUnits/sumEf:null) : (sumProc>0?sumUnits/sumProc:null);
+  const totalH = sumTs+sumTns;
+  const teamUtil = totalH>0 ? (sumEf/totalH)*100 : null;
+  const teamOcio = totalH>0 ? (sumTns/totalH)*100 : null;
+
+  let rowsHtml = rows.map(r=>{
+    const zeroClass = r.units===0 ? "op-zero" : "";
+    const netClass = r.netProd>0 ? "" : "zero";
+    const chipCls = chipClass(r.vsMeta);
+    const uCls = utilClass(r.util);
+    const oCls = ocioClass(r.ocio);
+    return `
+    <div class="op-row ${zeroClass}">
+      <div class="op-id">${r.ldap}</div>
+      <div class="op-body">
+        <div class="op-metrics">
+          <span class="op-net ${netClass}">${fmt0(r.netProd)}</span>
+          <span class="op-units">${r.units>0? r.units.toLocaleString('es-MX')+' un' : 'sin unidades'}</span>
+          ${t.meta ? `<span class="chip ${chipCls}" style="margin-left:auto;">${r.vsMeta!=null?r.vsMeta.toFixed(0)+'%':'—'}</span>` : ''}
+        </div>
+        <div class="op-bars">
+          <div class="bar-group">
+            <div class="bar-lbl"><span>Util</span><span style="color:${colorFor(uCls)};font-weight:700;">${fmtPct(r.util)}</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${r.util!=null?Math.min(r.util,100):0}%;background:${colorFor(uCls)};"></div></div>
+          </div>
+          <div class="bar-group">
+            <div class="bar-lbl"><span>Ocio</span><span style="color:${colorFor(oCls)};font-weight:700;">${fmtPct(r.ocio)}</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:${r.ocio!=null?Math.min(r.ocio,100):0}%;background:${colorFor(oCls)};"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+
+  return `
+  <div class="proc-card">
+    <div class="proc-head">
+      <div>
+        <div class="proc-name">${PROC_LABELS[proc]}</div>
+        <div class="proc-meta-row">
+          ${t.meta ? `<span class="proc-meta-item">Meta <b>${t.meta}</b> Un/h</span>` : ''}
+          <span class="proc-meta-item">Util <b style="color:${colorFor(utilClass(teamUtil))}">${fmtPct(teamUtil)}</b></span>
+          <span class="proc-meta-item">Ocio <b style="color:${colorFor(ocioClass(teamOcio))}">${fmtPct(teamOcio)}</b></span>
+        </div>
+      </div>
+      <div class="proc-team-badge">
+        <div class="proc-team-val">${teamNet? Math.round(teamNet).toLocaleString('es-MX') : '—'}</div>
+        <div class="proc-team-lbl">Un/h equipo</div>
+      </div>
+    </div>
+    ${rowsHtml}
+    <div class="formula-note"><code>${PROC_FORMULA[proc]}</code></div>
+  </div>`;
+}
+
+document.getElementById("proc-tables-slot").innerHTML =
+  ["putaway","checkin","pick_to_movable","open_transfer"].map(renderProcCard).join("");
+
+// ═══════════════════ ALERTAS ═══════════════════
+const sinProd = DATA.filter(r=>r.proc==="putaway"&&r.units===0);
+const ocioAlto = DATA.filter(r=>r.proc==="putaway"&&r.units>0&&(r.ocio||0)>30);
+let alertsHtml = `<div class="alert" style="background:#EAF2FE;border-color:#BFDBFE;">
+  <div class="alert-title" style="color:#2D3277;">ℹ️ Jornada en curso</div>
+  <p style="color:#2D3277;">Datos consultados a media jornada del 19 de agosto — no reflejan el cierre completo del día. Check-In y Pick to Movable aún sin unidades registradas.</p>
+</div>`;
+if(sinProd.length || ocioAlto.length){
+  alertsHtml += `<div class="alert">
+    <div class="alert-title">⚠️ Alertas</div>
+    ${sinProd.length ? `<p><b>Sin producción en Putaway:</b> ${sinProd.map(r=>r.ldap).join(", ")}</p>` : ""}
+    ${ocioAlto.length ? `<p><b>Ocio &gt;30% en Putaway:</b> ${ocioAlto.map(r=>r.ldap+' ('+fmtPct(r.ocio)+')').join(", ")}</p>` : ""}
+  </div>`;
+}
+document.getElementById("alerts-slot").innerHTML = alertsHtml;
+
+// ═══════════════════ HEADER KPIs ═══════════════════
+const putActivos = DATA.filter(r=>r.proc==="putaway"&&r.units>0);
+const sEf = putActivos.reduce((s,r)=>s+r.ef,0);
+const sTs = putActivos.reduce((s,r)=>s+r.ts,0);
+const sTns = putActivos.reduce((s,r)=>s+r.tns,0);
+const sU = putActivos.reduce((s,r)=>s+r.units,0);
+const totH = sTs+sTns;
+const gUtil = totH>0 ? (sEf/totH)*100 : 0;
+const gOcio = totH>0 ? (sTns/totH)*100 : 0;
+const gNet = sEf>0 ? sU/sEf : 0;
+
+document.getElementById("k-net").textContent = Math.round(gNet).toLocaleString('es-MX');
+const utilEl = document.getElementById("k-util");
+utilEl.textContent = fmtPct(gUtil);
+utilEl.className = "kpi-val " + (gUtil>=85?"ok":gUtil>=60?"warn":"bad");
+const ocioEl = document.getElementById("k-ocio");
+ocioEl.textContent = fmtPct(gOcio);
+ocioEl.className = "kpi-val " + (gOcio<=15?"ok":gOcio<=30?"warn":"bad");
+
+// ═══════════════════ TABLA TIEMPOS (Putaway) ═══════════════════
+const tiemposRows = DATA.filter(r=>r.proc==="putaway").sort((a,b)=>(b.util||0)-(a.util||0));
+let tHtml = `<thead><tr>
+  <th>Operador</th><th>Unid.</th><th>Neta</th><th>H.Ef</th><th>H.Sist</th><th>H.NoSist</th><th>%Util</th><th>%Ocio</th><th>Estado</th>
+</tr></thead><tbody>`;
+tiemposRows.forEach(r=>{
+  let estLabel, estBg, estFg;
+  if(r.units===0){estLabel="Sin prod.";estBg="#FDEBEC";estFg="#E63946";}
+  else if((r.ocio||0)>30){estLabel="Ocio crítico";estBg="#FEF6E7";estFg="#B7791F";}
+  else if((r.util||0)>=85){estLabel="OK";estBg="#E8F8EF";estFg="#00A650";}
+  else {estLabel="Regular";estBg="#FEF6E7";estFg="#B7791F";}
+  tHtml += `<tr>
+    <td class="op-name-mono">${r.ldap}</td>
+    <td>${r.units>0?r.units.toLocaleString('es-MX'):'—'}</td>
+    <td style="font-weight:700;">${fmt0(r.netProd)}</td>
+    <td style="color:#8B8B9E;">${r.ef>0?r.ef.toFixed(2)+'h':'—'}</td>
+    <td style="color:#8B8B9E;">${r.ts>0?r.ts.toFixed(2)+'h':'—'}</td>
+    <td style="color:${r.tns>1?'#E63946':'#8B8B9E'};font-weight:${r.tns>1?700:400};">${r.tns>0?r.tns.toFixed(2)+'h':'—'}</td>
+    <td style="color:${colorFor(utilClass(r.util))};font-weight:700;">${fmtPct(r.util)}</td>
+    <td style="color:${colorFor(ocioClass(r.ocio))};font-weight:700;">${fmtPct(r.ocio)}</td>
+    <td><span class="status-pill" style="background:${estBg};color:${estFg};">${estLabel}</span></td>
+  </tr>`;
+});
+tHtml += "</tbody>";
+document.getElementById("tiempos-table").innerHTML = tHtml;
+
+// ═══════════════════ FAST START: sin datos hoy, panel ya es empty-state ═══════════════════
+
+
+
+// ═══════════════════ SEMANA (histórico embebido, se actualiza cada corrida) ═══════════════════
+// Este bloque se auto-actualiza cada vez que corres "actualiza el reporte": se agrega/reemplaza
+// la entrada del día en curso y se conservan los días anteriores para el análisis semanal.
+const WEEK_DATA = [
+  {"date":"2026-08-18","attendance":{"present":17,"total":18,"rate":94.4},"putaway":{"team_net":1130,"util":52.8,"ocio":37.6,"units":30472},"checkin":{"team_net":191,"units":394},"pick_to_movable":{"team_net":279,"units":316},"fast_start_rate":100},
+  {"date":"2026-08-19","attendance":{"present":18,"total":18,"rate":100.0},"putaway":{"team_net":206.3,"util":61.7,"ocio":19.1,"units":4370},"checkin":{"team_net":null,"units":0},"pick_to_movable":{"team_net":null,"units":0},"fast_start_rate":null,"partial_day":true}
+];
+
+const PUTAWAY_TARGET = 300;
+const weekDays = WEEK_DATA.slice().sort((a,b)=>a.date.localeCompare(b.date));
+
+function fmtDateShort(d){
+  const dt = new Date(d+"T00:00:00");
+  const dias = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+  return dias[dt.getDay()]+" "+dt.getDate();
+}
+function colorNet(v){ return v>=PUTAWAY_TARGET? "#00A650" : v>=PUTAWAY_TARGET*0.7 ? "#F5A623" : "#E63946"; }
+function colorUtilWk(v){ return v>=85?"#00A650":v>=60?"#F5A623":"#E63946"; }
+function colorOcioWk(v){ return v<=15?"#00A650":v<=30?"#F5A623":"#E63946"; }
+
+if(weekDays.length){
+  document.getElementById("week-range-lbl").textContent =
+    weekDays.length===1 ? "Registro semanal · "+fmtDateShort(weekDays[0].date)
+    : "Registro semanal · "+fmtDateShort(weekDays[0].date)+" — "+fmtDateShort(weekDays[weekDays.length-1].date);
+}
+
+const last5 = weekDays.slice(-5);
+const avgNetWk = last5.reduce((s,d)=>s+(d.putaway.team_net||0),0)/last5.length;
+const avgUtilWk = last5.reduce((s,d)=>s+(d.putaway.util||0),0)/last5.length;
+const avgOcioWk = last5.reduce((s,d)=>s+(d.putaway.ocio||0),0)/last5.length;
+const deltaVsMeta = avgNetWk - PUTAWAY_TARGET;
+
+document.getElementById("proj-slot").innerHTML = `
+  <div class="proj-card">
+    <div class="proj-val" style="color:${colorNet(avgNetWk)}">${Math.round(avgNetWk).toLocaleString('es-MX')}</div>
+    <div class="proj-lbl">Prom. Móvil Neta</div>
+    <div class="proj-sub">últimos ${last5.length} días</div>
+  </div>
+  <div class="proj-card">
+    <div class="proj-val" style="color:${deltaVsMeta>=0?'#00A650':'#E63946'}">${deltaVsMeta>=0?'+':''}${Math.round(deltaVsMeta)}</div>
+    <div class="proj-lbl">Delta vs Meta</div>
+    <div class="proj-sub">meta 300 Un/h</div>
+  </div>
+  <div class="proj-card">
+    <div class="proj-val" style="color:${colorUtilWk(avgUtilWk)}">${avgUtilWk.toFixed(1)}%</div>
+    <div class="proj-lbl">Util. Promedio</div>
+    <div class="proj-sub">target ≥85%</div>
+  </div>
+  <div class="proj-card">
+    <div class="proj-val" style="color:${colorOcioWk(avgOcioWk)}">${avgOcioWk.toFixed(1)}%</div>
+    <div class="proj-lbl">Ocio Promedio</div>
+    <div class="proj-sub">target ≤15%</div>
+  </div>
+`;
+
+const maxValWk = Math.max(PUTAWAY_TARGET, ...weekDays.map(d=>d.putaway.team_net||0)) * 1.15;
+document.getElementById("chart-slot").innerHTML = weekDays.map(d=>{
+  const v = d.putaway.team_net||0;
+  const h = maxValWk>0 ? Math.max((v/maxValWk)*90, 3) : 3;
+  const targetH = maxValWk>0 ? (PUTAWAY_TARGET/maxValWk)*90 : 0;
+  return `<div class="bar-col">
+    <div class="bar-val-lbl">${Math.round(v).toLocaleString('es-MX')}</div>
+    <div class="bar-visual" style="height:${h}px;background:${colorNet(v)};position:relative;">
+      <div style="position:absolute;left:-3px;right:-3px;top:${90-targetH<0?0:90-targetH}px;height:2px;background:#FFD100;"></div>
+    </div>
+    <div class="bar-day-lbl">${fmtDateShort(d.date)}${d.partial_day?' *':''}</div>
+  </div>`;
+}).join("");
+
+let wkHtml = `<thead><tr>
+  <th>Día</th><th>Asist.</th><th>Neta Put.</th><th>Util</th><th>Ocio</th><th>Check-In</th><th>PtM</th><th>Fast Start</th><th>Estado</th>
+</tr></thead><tbody>`;
+weekDays.forEach(d=>{
+  const net = d.putaway.team_net||0;
+  let estLabel,estBg,estFg;
+  if(net>=PUTAWAY_TARGET){estLabel="Meta OK";estBg="#E8F8EF";estFg="#00A650";}
+  else if(net>=PUTAWAY_TARGET*0.7){estLabel="Cerca";estBg="#FEF6E7";estFg="#B7791F";}
+  else {estLabel="Bajo meta";estBg="#FDEBEC";estFg="#E63946";}
+  wkHtml += `<tr>
+    <td class="day-mono">${fmtDateShort(d.date)}</td>
+    <td>${d.attendance.present}/${d.attendance.total} (${d.attendance.rate}%)</td>
+    <td style="font-weight:700;color:${colorNet(net)};">${Math.round(net).toLocaleString('es-MX')}</td>
+    <td style="color:${colorUtilWk(d.putaway.util)};font-weight:700;">${d.putaway.util!=null?d.putaway.util.toFixed(1)+'%':'—'}</td>
+    <td style="color:${colorOcioWk(d.putaway.ocio)};font-weight:700;">${d.putaway.ocio!=null?d.putaway.ocio.toFixed(1)+'%':'—'}</td>
+    <td>${d.checkin&&d.checkin.team_net?Math.round(d.checkin.team_net):'—'}</td>
+    <td>${d.pick_to_movable&&d.pick_to_movable.team_net?Math.round(d.pick_to_movable.team_net):'—'}</td>
+    <td>${d.fast_start_rate!=null?d.fast_start_rate+'%':'—'}</td>
+    <td><span class="status-pill" style="background:${estBg};color:${estFg};">${estLabel}</span>${d.partial_day?' <span style="font-size:9px;color:#8B8B9E;">(parcial)</span>':''}</td>
+  </tr>`;
+});
+wkHtml += "</tbody>";
+document.getElementById("week-days-table").innerHTML = wkHtml;
+
+// ═══════════════════ TABS ═══════════════════
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("panel-"+btn.dataset.tab).classList.add("active");
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+});
+</script>
+</body>
+</html>
