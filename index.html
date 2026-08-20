@@ -322,7 +322,7 @@
       <div class="kpi">
         <div class="kpi-label">Prod. Neta Equipo</div>
         <div class="kpi-val" style="color:var(--ml-blue)" id="k-net">—</div>
-        <div class="kpi-sub">unidades por hora, equipo</div>
+        <div class="kpi-sub">unidades por hora, todos los procesos</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Utilización Equipo</div>
@@ -660,10 +660,20 @@ if(sinProd.length || ocioAlto.length){
   </div>`;
 }
 document.getElementById("alerts-slot").innerHTML = alertsHtml;
-const putActivos = DATA.filter(r=>r.proc==="putaway"&&r.units>0);
-const sEf = putActivos.reduce((s,r)=>s+r.ef,0);
-const sU = putActivos.reduce((s,r)=>s+r.units,0);
-const gNet = sEf>0 ? sU/sEf : 0;
+// Prod. Neta Equipo: combina TODOS los procesos, cada uno con su fórmula respectiva
+// (NET_EFFECTIVE para putaway/checkin usa horas efectivas; NET_PROCESS para
+// pick_to_movable/open_transfer usa horas de proceso), luego suma unidades ÷ suma horas.
+let teamTotalUnits = 0;
+let teamTotalHoursForNet = 0;
+["putaway","checkin","pick_to_movable","open_transfer"].forEach(proc=>{
+  const rowsP = DATA.filter(r=>r.proc===proc && r.units>0);
+  const isNE = (proc==="putaway"||proc==="checkin");
+  rowsP.forEach(r=>{
+    teamTotalUnits += r.units;
+    teamTotalHoursForNet += isNE ? r.ef : (r.ts+r.tns);
+  });
+});
+const gNet = teamTotalHoursForNet>0 ? teamTotalUnits/teamTotalHoursForNet : 0;
 document.getElementById("k-net").textContent = Math.round(gNet).toLocaleString('es-MX');
 
 // Utilización y Ocio TOTAL EQUIPO: suma de TODOS los procesos (no solo Putaway)
