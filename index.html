@@ -76,6 +76,16 @@
     letter-spacing:-0.01em;
   }
   .h-sub{font-size:13px;color:rgba(255,255,255,0.65);position:relative;z-index:1;}
+  .date-selector-wrap{
+    margin-top:14px; position:relative; z-index:1;
+    display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  }
+  .date-picker-lbl{font-size:12px;font-weight:700;color:rgba(255,255,255,0.85);}
+  .date-picker{
+    background:#fff; color:var(--ink); border:none; border-radius:10px;
+    padding:8px 12px; font-size:13px; font-weight:700; cursor:pointer;
+    box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  }
   .kpi-strip{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -301,14 +311,18 @@
       <div class="site-tag">Fulfillment</div>
     </div>
     <div class="h-title">Reporte diario del equipo</div>
-    <div class="h-sub">Miércoles 19 · Agosto 2026 (día cerrado)</div>
+    <div class="h-sub" id="h-sub-date">Miércoles 19 · Agosto 2026 (día cerrado)</div>
+    <div class="date-selector-wrap">
+      <label for="date-picker" class="date-picker-lbl">📅 Ver reporte del día:</label>
+      <select id="date-picker" class="date-picker"></select>
+    </div>
   </div>
   <div class="kpi-strip">
     <div class="kpi-strip-row">
       <div class="kpi">
         <div class="kpi-label">Asistencia</div>
         <div class="kpi-val ok" id="k-asist">18/18</div>
-        <div class="kpi-sub">100% del equipo presente</div>
+        <div class="kpi-sub" id="k-asist-sub">100% del equipo presente</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">AT (Tiempo Disp.)</div>
@@ -317,13 +331,13 @@
       </div>
       <div class="kpi">
         <div class="kpi-label">Fast Start</div>
-        <div class="kpi-val warn">93.8%</div>
-        <div class="kpi-sub">15 de 16 iniciaron a tiempo</div>
+        <div class="kpi-val warn" id="k-fs">93.8%</div>
+        <div class="kpi-sub" id="k-fs-sub">15 de 16 iniciaron a tiempo</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Strong Finish</div>
-        <div class="kpi-val ok">100%</div>
-        <div class="kpi-sub">14 de 14 cerraron a tiempo</div>
+        <div class="kpi-val ok" id="k-sf">100%</div>
+        <div class="kpi-sub" id="k-sf-sub">14 de 14 cerraron a tiempo</div>
       </div>
     </div>
     <div class="kpi-strip-row">
@@ -398,10 +412,7 @@
     <div style="font-size:10.5px;color:var(--neutral);margin:6px 2px 12px;">
       Este resumen agrupa a todo el equipo por proceso, para comparar en qué actividad se concentró el tiempo trabajado vs. el tiempo sin actividad.
     </div>
-    <div class="alert" style="margin-bottom:20px;">
-      <div class="alert-title">⚠️ Reposition sin tiempo efectivo</div>
-      <p><b>23.4 horas</b> en Reposition hoy fueron 100% tiempo no sistémico — es decir, tiempo registrado en el proceso sin ningún scan efectivo. Vale la pena revisar si es un tema de asignación de tarea o de registro.</p>
-    </div>
+    <div id="reposition-note-slot"></div>
 
     <div class="section-head">
       <span class="section-eyebrow">Putaway · Detalle por persona</span>
@@ -417,7 +428,7 @@
   <div class="panel" id="panel-calidad">
     <div class="empty-state">
       <div class="empty-icon">📊</div>
-      <div class="empty-title">Sin datos de calidad — 19 agosto</div>
+      <div class="empty-title">Sin datos de calidad para este día</div>
       <div class="empty-desc">
         Esta pestaña mostrará los errores por subproceso (DPMO) una vez que Polaris procese la información del día. Todavía no hay registros disponibles.
       </div>
@@ -433,53 +444,15 @@
       <span class="section-eyebrow">Fast Start · Inicio de turno</span>
       <span class="section-line"></span>
     </div>
-    <div class="proj-grid">
-      <div class="proj-card">
-        <div class="proj-val" style="color:#F5A623">93.8%</div>
-        <div class="proj-lbl">Cumplimiento</div>
-        <div class="proj-sub">15 de 16</div>
-      </div>
-      <div class="proj-card">
-        <div class="proj-val" style="color:#F5A623">1</div>
-        <div class="proj-lbl">Retrasados</div>
-        <div class="proj-sub">operadores</div>
-      </div>
-      <div class="proj-card">
-        <div class="proj-val" style="color:#F5A623">2.0</div>
-        <div class="proj-lbl">Min. perdidos</div>
-        <div class="proj-sub">promedio</div>
-      </div>
-    </div>
-    <div class="alert">
-      <div class="alert-title">⚠️ Fast Start con 1 retraso</div>
-      <p><b>rmontessalda</b> registró su primer scan 2 minutos tarde. El resto del equipo (15/16) inició a tiempo.</p>
-    </div>
+    <div class="proj-grid" id="fs-summary-slot"></div>
+    <div id="fs-note-slot"></div>
 
     <div class="section-head">
       <span class="section-eyebrow">Strong Finish · Cierre de turno</span>
       <span class="section-line"></span>
     </div>
-    <div class="proj-grid">
-      <div class="proj-card">
-        <div class="proj-val" style="color:#00A650">100%</div>
-        <div class="proj-lbl">Cumplimiento</div>
-        <div class="proj-sub">14 de 14</div>
-      </div>
-      <div class="proj-card">
-        <div class="proj-val" style="color:#00A650">0</div>
-        <div class="proj-lbl">Retrasados</div>
-        <div class="proj-sub">operadores</div>
-      </div>
-      <div class="proj-card">
-        <div class="proj-val" style="color:#00A650">0</div>
-        <div class="proj-lbl">Min. perdidos</div>
-        <div class="proj-sub">promedio</div>
-      </div>
-    </div>
-    <div class="alert" style="background:#E8F8EF;border-color:#BDEBD1;">
-      <div class="alert-title" style="color:#00713A;">✅ Strong Finish perfecto</div>
-      <p style="color:#00713A;">Los 14 operadores con turno cerrado registraron su último scan a tiempo.</p>
-    </div>
+    <div class="proj-grid" id="sf-summary-slot"></div>
+    <div id="sf-note-slot"></div>
   </div>
   <div class="panel" id="panel-semana">
     <div class="alert" style="background:#EAF2FE;border-color:#BFDBFE;">
@@ -528,31 +501,110 @@
   </div>
   <div class="foot">Polaris · MXCD06 · Generado automáticamente</div>
 <script>
-const RAW = [
-  { ldap:"agonzalezure",  proc:"open_transfer",   units:9,    netProd:202.50, ef:0.044, ts:0.044, tns:0.000 },
-  { ldap:"stsolanodomi",  proc:"open_transfer",   units:6,    netProd:40.45,  ef:0.148, ts:0.148, tns:0.000 },
-  { ldap:"rmontessalda",  proc:"open_transfer",   units:25,   netProd:38.76,  ef:0.645, ts:1.557, tns:0.000 },
-  { ldap:"brogelcampos",  proc:"open_transfer",   units:3,    netProd:30.68,  ef:0.098, ts:0.098, tns:0.000 },
-  { ldap:"edelalozanav",  proc:"open_transfer",   units:12,   netProd:30.04,  ef:0.399, ts:0.399, tns:0.000 },
-  { ldap:"jmanriquebra",  proc:"open_transfer",   units:9,    netProd:25.10,  ef:0.359, ts:0.561, tns:0.000 },
-  { ldap:"edmaldonado",   proc:"open_transfer",   units:2,    netProd:21.11,  ef:0.095, ts:0.095, tns:0.000 },
-  { ldap:"igarciasayas",  proc:"putaway",         units:6381, netProd:5052.34,ef:1.263, ts:1.627, tns:0.318 },
-  { ldap:"jbarrongarci",  proc:"putaway",         units:5751, netProd:3672.41,ef:1.566, ts:1.913, tns:0.324 },
-  { ldap:"osruizolea",    proc:"putaway",         units:4658, netProd:2093.48,ef:2.225, ts:4.133, tns:0.424 },
-  { ldap:"agonzalezure",  proc:"putaway",         units:4240, netProd:1626.44,ef:2.607, ts:3.433, tns:0.578 },
-  { ldap:"fhernandezca",  proc:"putaway",         units:6406, netProd:1539.16,ef:4.162, ts:5.494, tns:0.569 },
-  { ldap:"jmanriquebra",  proc:"putaway",         units:1935, netProd:799.59, ef:2.420, ts:2.973, tns:0.424 },
-  { ldap:"brogelcampos",  proc:"putaway",         units:1517, netProd:274.08, ef:5.535, ts:7.423, tns:0.706 },
-  { ldap:"rmontessalda",  proc:"putaway",         units:235,  netProd:242.77, ef:0.968, ts:1.571, tns:4.738 },
-  { ldap:"stsolanodomi",  proc:"putaway",         units:272,  netProd:181.94, ef:1.495, ts:1.991, tns:5.378 },
-  { ldap:"rcoronaperez",  proc:"putaway",         units:299,  netProd:153.10, ef:1.953, ts:2.242, tns:6.014 },
-  { ldap:"bmanzanorodr",  proc:"putaway",         units:791,  netProd:128.57, ef:6.152, ts:7.805, tns:0.043 },
-  { ldap:"edelalozanav",  proc:"putaway",         units:579,  netProd:98.58,  ef:5.874, ts:7.337, tns:0.458 },
-  { ldap:"edchavezhern",  proc:"putaway",         units:556,  netProd:93.12,  ef:5.971, ts:7.762, tns:0.425 },
-  { ldap:"edmaldonado",   proc:"putaway",         units:143,  netProd:84.80,  ef:1.686, ts:2.034, tns:5.405 },
-  { ldap:"bsotogalicia",  proc:"putaway",         units:8,    netProd:81.82,  ef:0.098, ts:0.192, tns:8.002 },
-  { ldap:"shrodriguezf",  proc:"putaway",         units:90,   netProd:64.84,  ef:1.388, ts:2.200, tns:5.991 },
-];
+// ═══════════════════ DAILY_DATA: detalle completo por operador, por fecha ═══════════════════
+// Solo fechas con verificación completa (todos los operadores, todos los procesos) viven aquí.
+// Se agrega una fecha nueva cada vez que se corre "actualiza el reporte" con el detalle
+// completo de ese día. Fechas sin detalle completo (histórico previo) solo aparecen en
+// WEEK_DATA (pestaña Avance Semanal) con datos agregados.
+const DAILY_DATA = {
+"2026-08-18": {
+  label: "Martes 18 · Agosto 2026 (día cerrado)",
+  attendance: {present:17, total:18, rate:94.4, absentees:["ehernandezdo"]},
+  fastStart: {rate:100, ok:16, total:16},
+  strongFinish: {rate:100, ok:14, total:14},
+  at: {team_avg:99.56, byOperator:[
+    {ldap:"fhernandezca",at:99.2},{ldap:"bmanzanorodr",at:99.5},{ldap:"agonzalezure",at:99.8},
+    {ldap:"igarciasayas",at:99.1},{ldap:"bsotogalicia",at:99.4},{ldap:"osruizolea",at:99.9},
+    {ldap:"jmanriquebra",at:98.9},{ldap:"edelalozanav",at:99.6},{ldap:"rcoronaperez",at:99.3},
+    {ldap:"shrodriguezf",at:99.7},{ldap:"brogelcampos",at:99.0},{ldap:"edchavezhern",at:99.5},
+    {ldap:"stsolanodomi",at:99.8},{ldap:"rmontessalda",at:99.2},{ldap:"jbarrongarci",at:99.6},
+    {ldap:"edmaldonado",at:99.4},{ldap:"brmorenogarc",at:99.0},{ldap:"ehernandezdo",at:0.0}
+  ]},
+  processTime: [
+    {proc:"putaway", label:"Putaway", ef:53.85, ts:66.53, tns:39.55},
+    {proc:"checkin", label:"Check-In", ef:2.789, ts:3.473, tns:0.0},
+    {proc:"pick_to_movable", label:"Pick to Movable", ef:1.127, ts:1.131, tns:0.0},
+    {proc:"open_transfer", label:"Open Transfer", ef:1.089, ts:1.533, tns:0.0},
+  ],
+  reposicionNote: null,
+  raw: [
+    { ldap:"shrodriguezf",  proc:"checkin",         units:840,  netProd:241.86, ef:2.789, ts:3.473, tns:0.000 },
+    { ldap:"shrodriguezf",  proc:"pick_to_movable", units:316,  netProd:279.30, ef:1.127, ts:1.131, tns:0.000 },
+    { ldap:"osruizolea",    proc:"open_transfer",   units:63,   netProd:251.72, ef:0.189, ts:0.250, tns:0.000 },
+    { ldap:"igarciasayas",  proc:"open_transfer",   units:102,  netProd:291.66, ef:0.315, ts:0.350, tns:0.000 },
+    { ldap:"brogelcampos",  proc:"open_transfer",   units:4,    netProd:171.43, ef:0.023, ts:0.023, tns:0.000 },
+    { ldap:"edelalozanav",  proc:"open_transfer",   units:12,   netProd:24.88,  ef:0.351, ts:0.482, tns:0.000 },
+    { ldap:"jmanriquebra",  proc:"open_transfer",   units:4,    netProd:9.31,   ef:0.211, ts:0.429, tns:0.000 },
+    { ldap:"fhernandezca",  proc:"putaway",         units:6297, netProd:4005.73,ef:1.572, ts:1.823, tns:0.869 },
+    { ldap:"bmanzanorodr",  proc:"putaway",         units:6815, netProd:3156.55,ef:2.159, ts:2.213, tns:0.671 },
+    { ldap:"agonzalezure",  proc:"putaway",         units:4865, netProd:2145.06,ef:2.268, ts:2.549, tns:0.669 },
+    { ldap:"igarciasayas",  proc:"putaway",         units:4922, netProd:1691.41,ef:2.910, ts:4.130, tns:0.395 },
+    { ldap:"bsotogalicia",  proc:"putaway",         units:3582, netProd:1345.60,ef:2.662, ts:6.069, tns:0.831 },
+    { ldap:"osruizolea",    proc:"putaway",         units:4914, netProd:1342.53,ef:3.661, ts:5.093, tns:0.712 },
+    { ldap:"jmanriquebra",  proc:"putaway",         units:1765, netProd:711.12, ef:2.482, ts:3.263, tns:2.824 },
+    { ldap:"edelalozanav",  proc:"putaway",         units:2253, netProd:411.73, ef:5.472, ts:7.098, tns:0.550 },
+    { ldap:"rcoronaperez",  proc:"putaway",         units:1068, netProd:223.61, ef:4.776, ts:6.026, tns:2.191 },
+    { ldap:"shrodriguezf",  proc:"putaway",         units:373,  netProd:181.24, ef:2.058, ts:3.342, tns:0.280 },
+    { ldap:"brogelcampos",  proc:"putaway",         units:120,  netProd:99.50,  ef:1.206, ts:1.590, tns:6.703 },
+    { ldap:"edchavezhern",  proc:"putaway",         units:64,   netProd:91.04,  ef:0.703, ts:0.870, tns:7.367 },
+    { ldap:"stsolanodomi",  proc:"putaway",         units:0,    netProd:0,      ef:0.000, ts:0.000, tns:8.169 },
+    { ldap:"rmontessalda",  proc:"putaway",         units:0,    netProd:0,      ef:0.000, ts:0.000, tns:5.942 },
+    { ldap:"jbarrongarci",  proc:"putaway",         units:0,    netProd:0,      ef:0.000, ts:0.000, tns:6.865 },
+    { ldap:"edmaldonado",   proc:"putaway",         units:0,    netProd:0,      ef:0.000, ts:0.000, tns:7.274 },
+    { ldap:"brmorenogarc",  proc:"putaway",         units:0,    netProd:0,      ef:0.000, ts:0.028, tns:0.383 },
+  ]
+},
+"2026-08-19": {
+  label: "Miércoles 19 · Agosto 2026 (día cerrado)",
+  attendance: {present:18, total:18, rate:100.0, absentees:[]},
+  fastStart: {rate:93.8, ok:15, total:16, note:"rmontessalda registró su primer scan 2 minutos tarde."},
+  strongFinish: {rate:100, ok:14, total:14},
+  at: {team_avg:102.1, byOperator:[
+    {ldap:"bsotogalicia",at:104.0},{ldap:"edelalozanav",at:103.7},{ldap:"edchavezhern",at:103.6},
+    {ldap:"agonzalezure",at:103.6},{ldap:"brogelcampos",at:103.5},{ldap:"rcoronaperez",at:103.4},
+    {ldap:"igarciasayas",at:103.4},{ldap:"shrodriguezf",at:103.2},{ldap:"fhernandezca",at:103.1},
+    {ldap:"bmanzanorodr",at:103.0},{ldap:"osruizolea",at:102.9},{ldap:"edmaldonado",at:102.0},
+    {ldap:"stsolanodomi",at:101.8},{ldap:"jmanriquebra",at:101.2},{ldap:"rmontessalda",at:100.9},
+    {ldap:"jbarrongarci",at:90.1}
+  ]},
+  processTime: [
+    {proc:"putaway", label:"Putaway", ef:45.36, ts:60.13, tns:39.80},
+    {proc:"reposition", label:"Reposition", ef:0.00, ts:0.00, tns:23.43},
+    {proc:"stagein", label:"Stage-In", ef:1.35, ts:3.50, tns:0.00},
+    {proc:"open_transfer", label:"Open Transfer", ef:1.79, ts:2.90, tns:0.00},
+    {proc:"inp_transfer", label:"Inp. Transfer", ef:0.00, ts:0.00, tns:0.91},
+    {proc:"pick_to_movable", label:"Pick to Movable", ef:0.00, ts:0.00, tns:0.81},
+    {proc:"massive_count", label:"Massive Count", ef:0.00, ts:0.00, tns:0.42},
+  ],
+  reposicionNote: "23.4 horas en Reposition hoy fueron 100% tiempo no sistémico — es decir, tiempo registrado en el proceso sin ningún scan efectivo. Vale la pena revisar si es un tema de asignación de tarea o de registro.",
+  raw: [
+    { ldap:"agonzalezure",  proc:"open_transfer",   units:9,    netProd:202.50, ef:0.044, ts:0.044, tns:0.000 },
+    { ldap:"stsolanodomi",  proc:"open_transfer",   units:6,    netProd:40.45,  ef:0.148, ts:0.148, tns:0.000 },
+    { ldap:"rmontessalda",  proc:"open_transfer",   units:25,   netProd:38.76,  ef:0.645, ts:1.557, tns:0.000 },
+    { ldap:"brogelcampos",  proc:"open_transfer",   units:3,    netProd:30.68,  ef:0.098, ts:0.098, tns:0.000 },
+    { ldap:"edelalozanav",  proc:"open_transfer",   units:12,   netProd:30.04,  ef:0.399, ts:0.399, tns:0.000 },
+    { ldap:"jmanriquebra",  proc:"open_transfer",   units:9,    netProd:25.10,  ef:0.359, ts:0.561, tns:0.000 },
+    { ldap:"edmaldonado",   proc:"open_transfer",   units:2,    netProd:21.11,  ef:0.095, ts:0.095, tns:0.000 },
+    { ldap:"igarciasayas",  proc:"putaway",         units:6381, netProd:5052.34,ef:1.263, ts:1.627, tns:0.318 },
+    { ldap:"jbarrongarci",  proc:"putaway",         units:5751, netProd:3672.41,ef:1.566, ts:1.913, tns:0.324 },
+    { ldap:"osruizolea",    proc:"putaway",         units:4658, netProd:2093.48,ef:2.225, ts:4.133, tns:0.424 },
+    { ldap:"agonzalezure",  proc:"putaway",         units:4240, netProd:1626.44,ef:2.607, ts:3.433, tns:0.578 },
+    { ldap:"fhernandezca",  proc:"putaway",         units:6406, netProd:1539.16,ef:4.162, ts:5.494, tns:0.569 },
+    { ldap:"jmanriquebra",  proc:"putaway",         units:1935, netProd:799.59, ef:2.420, ts:2.973, tns:0.424 },
+    { ldap:"brogelcampos",  proc:"putaway",         units:1517, netProd:274.08, ef:5.535, ts:7.423, tns:0.706 },
+    { ldap:"rmontessalda",  proc:"putaway",         units:235,  netProd:242.77, ef:0.968, ts:1.571, tns:4.738 },
+    { ldap:"stsolanodomi",  proc:"putaway",         units:272,  netProd:181.94, ef:1.495, ts:1.991, tns:5.378 },
+    { ldap:"rcoronaperez",  proc:"putaway",         units:299,  netProd:153.10, ef:1.953, ts:2.242, tns:6.014 },
+    { ldap:"bmanzanorodr",  proc:"putaway",         units:791,  netProd:128.57, ef:6.152, ts:7.805, tns:0.043 },
+    { ldap:"edelalozanav",  proc:"putaway",         units:579,  netProd:98.58,  ef:5.874, ts:7.337, tns:0.458 },
+    { ldap:"edchavezhern",  proc:"putaway",         units:556,  netProd:93.12,  ef:5.971, ts:7.762, tns:0.425 },
+    { ldap:"edmaldonado",   proc:"putaway",         units:143,  netProd:84.80,  ef:1.686, ts:2.034, tns:5.405 },
+    { ldap:"bsotogalicia",  proc:"putaway",         units:8,    netProd:81.82,  ef:0.098, ts:0.192, tns:8.002 },
+    { ldap:"shrodriguezf",  proc:"putaway",         units:90,   netProd:64.84,  ef:1.388, ts:2.200, tns:5.991 },
+  ]
+}
+};
+
 const TARGETS = {
   checkin:         { meta:300 },
   pick_to_movable: { meta:400 },
@@ -577,7 +629,7 @@ function calcRow(r){
   const vsMeta = (r.netProd && t && t.meta) ? (r.netProd/t.meta)*100 : null;
   return Object.assign({}, r, {util, ocio, vsMeta, totalH});
 }
-const DATA = RAW.map(calcRow);
+let DATA = [];
 const fmt0 = v => (v!=null && v>0) ? Math.round(v).toLocaleString("es-MX") : "—";
 const fmtPct = v => v!=null ? v.toFixed(1)+"%" : "—";
 function chipClass(pct){
@@ -660,158 +712,196 @@ function renderProcCard(proc){
     <div class="formula-note"><code>${PROC_FORMULA[proc]}</code></div>
   </div>`;
 }
-document.getElementById("proc-tables-slot").innerHTML =
-  ["putaway","checkin","pick_to_movable","open_transfer"].map(renderProcCard).join("");
-const sinProd = DATA.filter(r=>r.proc==="putaway"&&r.units===0);
-const ocioAlto = DATA.filter(r=>r.proc==="putaway"&&r.units>0&&(r.ocio||0)>30);
-let alertsHtml = "";
-if(sinProd.length || ocioAlto.length){
-  alertsHtml = `<div class="alert">
-    <div class="alert-title">⚠️ Alertas</div>
-    ${sinProd.length ? `<p><b>Sin producción en Putaway:</b> ${sinProd.map(r=>r.ldap).join(", ")}</p>` : ""}
-    ${ocioAlto.length ? `<p><b>Ocio &gt;30% en Putaway:</b> ${ocioAlto.map(r=>r.ldap+' ('+fmtPct(r.ocio)+')').join(", ")}</p>` : ""}
-  </div>`;
-}
-document.getElementById("alerts-slot").innerHTML = alertsHtml;
-// Prod. Neta Equipo: combina TODOS los procesos, cada uno con su fórmula respectiva
-// (NET_EFFECTIVE para putaway/checkin usa horas efectivas; NET_PROCESS para
-// pick_to_movable/open_transfer usa horas de proceso), luego suma unidades ÷ suma horas.
-let teamTotalUnits = 0;
-let teamTotalHoursForNet = 0;
-["putaway","checkin","pick_to_movable","open_transfer"].forEach(proc=>{
-  const rowsP = DATA.filter(r=>r.proc===proc && r.units>0);
-  const isNE = (proc==="putaway"||proc==="checkin");
-  rowsP.forEach(r=>{
-    teamTotalUnits += r.units;
-    teamTotalHoursForNet += isNE ? r.ef : (r.ts+r.tns);
+
+function renderDay(dateStr){
+  const day = DAILY_DATA[dateStr];
+  if(!day) return;
+
+  DATA = day.raw.map(calcRow);
+
+  document.getElementById("h-sub-date").textContent = day.label;
+
+  document.getElementById("k-asist").textContent = day.attendance.present+"/"+day.attendance.total;
+  document.getElementById("k-asist").className = "kpi-val " + (day.attendance.rate>=95?"ok":day.attendance.rate>=85?"warn":"bad");
+  document.getElementById("k-asist-sub").textContent = day.attendance.rate+"% del equipo presente" + (day.attendance.absentees.length?" · Ausente: "+day.attendance.absentees.join(", "):"");
+
+  const fsEl = document.getElementById("k-fs");
+  fsEl.textContent = day.fastStart.rate+"%";
+  fsEl.className = "kpi-val " + (day.fastStart.rate>=98?"ok":day.fastStart.rate>=90?"warn":"bad");
+  document.getElementById("k-fs-sub").textContent = day.fastStart.ok+" de "+day.fastStart.total+" iniciaron a tiempo";
+
+  const sfEl = document.getElementById("k-sf");
+  sfEl.textContent = day.strongFinish.rate+"%";
+  sfEl.className = "kpi-val " + (day.strongFinish.rate>=98?"ok":day.strongFinish.rate>=90?"warn":"bad");
+  document.getElementById("k-sf-sub").textContent = day.strongFinish.ok+" de "+day.strongFinish.total+" cerraron a tiempo";
+
+  const atEl = document.getElementById("k-at");
+  atEl.textContent = day.at.team_avg.toFixed(1)+"%";
+  atEl.className = "kpi-val " + (day.at.team_avg>=95?"ok":day.at.team_avg>=85?"warn":"bad");
+
+  // ── Productividad: tarjetas por proceso ──
+  document.getElementById("proc-tables-slot").innerHTML =
+    ["putaway","checkin","pick_to_movable","open_transfer"].map(renderProcCard).join("");
+
+  const sinProd = DATA.filter(r=>r.proc==="putaway"&&r.units===0);
+  const ocioAlto = DATA.filter(r=>r.proc==="putaway"&&r.units>0&&(r.ocio||0)>30);
+  let alertsHtml = "";
+  if(sinProd.length || ocioAlto.length){
+    alertsHtml = `<div class="alert">
+      <div class="alert-title">⚠️ Alertas</div>
+      ${sinProd.length ? `<p><b>Sin producción en Putaway:</b> ${sinProd.map(r=>r.ldap).join(", ")}</p>` : ""}
+      ${ocioAlto.length ? `<p><b>Ocio &gt;30% en Putaway:</b> ${ocioAlto.map(r=>r.ldap+' ('+fmtPct(r.ocio)+')').join(", ")}</p>` : ""}
+    </div>`;
+  }
+  document.getElementById("alerts-slot").innerHTML = alertsHtml;
+
+  // Prod. Neta Equipo: combina TODOS los procesos, cada uno con su fórmula respectiva
+  let teamTotalUnits = 0;
+  let teamTotalHoursForNet = 0;
+  ["putaway","checkin","pick_to_movable","open_transfer"].forEach(proc=>{
+    const rowsP = DATA.filter(r=>r.proc===proc && r.units>0);
+    const isNE = (proc==="putaway"||proc==="checkin");
+    rowsP.forEach(r=>{
+      teamTotalUnits += r.units;
+      teamTotalHoursForNet += isNE ? r.ef : (r.ts+r.tns);
+    });
   });
-});
-const gNet = teamTotalHoursForNet>0 ? teamTotalUnits/teamTotalHoursForNet : 0;
-document.getElementById("k-net").textContent = Math.round(gNet).toLocaleString('es-MX');
+  const gNet = teamTotalHoursForNet>0 ? teamTotalUnits/teamTotalHoursForNet : 0;
+  document.getElementById("k-net").textContent = Math.round(gNet).toLocaleString('es-MX');
 
-// Utilización y Ocio TOTAL EQUIPO: suma de TODOS los procesos (no solo Putaway)
-const ALL_PROCESS_TIME = [
-  {ef:45.36, ts:60.13, tns:39.80}, // putaway
-  {ef:0.00,  ts:0.00,  tns:23.43}, // reposition
-  {ef:1.35,  ts:3.50,  tns:0.00},  // stagein
-  {ef:1.79,  ts:2.90,  tns:0.00},  // open_transfer
-  {ef:0.00,  ts:0.00,  tns:0.91},  // inp_transfer
-  {ef:0.00,  ts:0.00,  tns:0.81},  // pick_to_movable
-  {ef:0.00,  ts:0.00,  tns:0.42},  // massive_count
-];
-const teamSumEf = ALL_PROCESS_TIME.reduce((s,p)=>s+p.ef,0);
-const teamSumTs = ALL_PROCESS_TIME.reduce((s,p)=>s+p.ts,0);
-const teamSumTns = ALL_PROCESS_TIME.reduce((s,p)=>s+p.tns,0);
-const teamTotH = teamSumTs+teamSumTns;
-const gUtil = teamTotH>0 ? (teamSumEf/teamTotH)*100 : 0;
-const gOcio = teamTotH>0 ? (teamSumTns/teamTotH)*100 : 0;
+  // Utilización y Ocio TOTAL EQUIPO: suma de TODOS los procesos con tiempo (day.processTime)
+  const teamSumEf = day.processTime.reduce((s,p)=>s+p.ef,0);
+  const teamSumTs = day.processTime.reduce((s,p)=>s+p.ts,0);
+  const teamSumTns = day.processTime.reduce((s,p)=>s+p.tns,0);
+  const teamTotH = teamSumTs+teamSumTns;
+  const gUtil = teamTotH>0 ? (teamSumEf/teamTotH)*100 : 0;
+  const gOcio = teamTotH>0 ? (teamSumTns/teamTotH)*100 : 0;
 
-const utilEl = document.getElementById("k-util");
-utilEl.textContent = fmtPct(gUtil);
-utilEl.className = "kpi-val " + (gUtil>=85?"ok":gUtil>=60?"warn":"bad");
-const ocioEl = document.getElementById("k-ocio");
-ocioEl.textContent = fmtPct(gOcio);
-ocioEl.className = "kpi-val " + (gOcio<=15?"ok":gOcio<=30?"warn":"bad");
-const tiemposRows = DATA.filter(r=>r.proc==="putaway").sort((a,b)=>(b.util||0)-(a.util||0));
-let tHtml = `<thead><tr>
-  <th>Operador</th><th>Unid.</th><th>Neta</th><th>H.Ef</th><th>H.Sist</th><th>H.NoSist</th><th>%Util</th><th>%Ocio</th><th>Estado</th>
-</tr></thead><tbody>`;
-tiemposRows.forEach(r=>{
-  let estLabel, estBg, estFg;
-  if(r.units===0){estLabel="Sin prod.";estBg="#FDEBEC";estFg="#E63946";}
-  else if((r.ocio||0)>30){estLabel="Ocio crítico";estBg="#FEF6E7";estFg="#B7791F";}
-  else if((r.util||0)>=85){estLabel="OK";estBg="#E8F8EF";estFg="#00A650";}
-  else {estLabel="Regular";estBg="#FEF6E7";estFg="#B7791F";}
-  tHtml += `<tr>
-    <td class="op-name-mono">${r.ldap}</td>
-    <td>${r.units>0?r.units.toLocaleString('es-MX'):'—'}</td>
-    <td style="font-weight:700;">${fmt0(r.netProd)}</td>
-    <td style="color:#8B8B9E;">${r.ef>0?r.ef.toFixed(2)+'h':'—'}</td>
-    <td style="color:#8B8B9E;">${r.ts>0?r.ts.toFixed(2)+'h':'—'}</td>
-    <td style="color:${r.tns>1?'#E63946':'#8B8B9E'};font-weight:${r.tns>1?700:400};">${r.tns>0?r.tns.toFixed(2)+'h':'—'}</td>
-    <td style="color:${colorFor(utilClass(r.util))};font-weight:700;">${fmtPct(r.util)}</td>
-    <td style="color:${colorFor(ocioClass(r.ocio))};font-weight:700;">${fmtPct(r.ocio)}</td>
-    <td><span class="status-pill" style="background:${estBg};color:${estFg};">${estLabel}</span></td>
-  </tr>`;
-});
-tHtml += "</tbody>";
-document.getElementById("tiempos-table").innerHTML = tHtml;
+  const utilEl = document.getElementById("k-util");
+  utilEl.textContent = fmtPct(gUtil);
+  utilEl.className = "kpi-val " + (gUtil>=85?"ok":gUtil>=60?"warn":"bad");
+  const ocioEl = document.getElementById("k-ocio");
+  ocioEl.textContent = fmtPct(gOcio);
+  ocioEl.className = "kpi-val " + (gOcio<=15?"ok":gOcio<=30?"warn":"bad");
 
-// ═══════════════════ AT (Available Time) — 19 Ago 2026 ═══════════════════
-const AT_DATA = [
-  {ldap:"bsotogalicia",  at:104.0},
-  {ldap:"edelalozanav",  at:103.7},
-  {ldap:"edchavezhern",  at:103.6},
-  {ldap:"agonzalezure",  at:103.6},
-  {ldap:"brogelcampos",  at:103.5},
-  {ldap:"rcoronaperez",  at:103.4},
-  {ldap:"igarciasayas",  at:103.4},
-  {ldap:"shrodriguezf",  at:103.2},
-  {ldap:"fhernandezca",  at:103.1},
-  {ldap:"bmanzanorodr",  at:103.0},
-  {ldap:"osruizolea",    at:102.9},
-  {ldap:"edmaldonado",   at:102.0},
-  {ldap:"stsolanodomi",  at:101.8},
-  {ldap:"jmanriquebra",  at:101.2},
-  {ldap:"rmontessalda",  at:100.9},
-  {ldap:"jbarrongarci",  at:90.1},
-];
-const AT_TEAM_AVG = 102.1;
-function atClass(v){ return v>=95?"ok":v>=85?"warn":"bad"; }
-let atHtml = `<thead><tr><th>Operador</th><th>AT (Tiempo Disponible)</th><th>Estado</th></tr></thead><tbody>`;
-AT_DATA.sort((a,b)=>b.at-a.at).forEach(r=>{
-  const cls = atClass(r.at);
-  const lbl = cls==="ok"?"Cumplió su turno":cls==="warn"?"Ligeramente bajo":"Bajo — revisar";
-  atHtml += `<tr>
-    <td class="op-name-mono">${r.ldap}</td>
-    <td>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <div style="width:90px;height:6px;background:#EDEBE3;border-radius:3px;">
-          <div style="width:${Math.min(r.at,100)}%;height:100%;background:${colorFor(cls)};border-radius:3px;"></div>
+  // ── Tiempo Trabajado: tabla Putaway ──
+  const tiemposRows = DATA.filter(r=>r.proc==="putaway").sort((a,b)=>(b.util||0)-(a.util||0));
+  let tHtml = `<thead><tr>
+    <th>Operador</th><th>Unid.</th><th>Neta</th><th>H.Ef</th><th>H.Sist</th><th>H.NoSist</th><th>%Util</th><th>%Ocio</th><th>Estado</th>
+  </tr></thead><tbody>`;
+  tiemposRows.forEach(r=>{
+    let estLabel, estBg, estFg;
+    if(r.units===0){estLabel="Sin prod.";estBg="#FDEBEC";estFg="#E63946";}
+    else if((r.ocio||0)>30){estLabel="Ocio crítico";estBg="#FEF6E7";estFg="#B7791F";}
+    else if((r.util||0)>=85){estLabel="OK";estBg="#E8F8EF";estFg="#00A650";}
+    else {estLabel="Regular";estBg="#FEF6E7";estFg="#B7791F";}
+    tHtml += `<tr>
+      <td class="op-name-mono">${r.ldap}</td>
+      <td>${r.units>0?r.units.toLocaleString('es-MX'):'—'}</td>
+      <td style="font-weight:700;">${fmt0(r.netProd)}</td>
+      <td style="color:#8B8B9E;">${r.ef>0?r.ef.toFixed(2)+'h':'—'}</td>
+      <td style="color:#8B8B9E;">${r.ts>0?r.ts.toFixed(2)+'h':'—'}</td>
+      <td style="color:${r.tns>1?'#E63946':'#8B8B9E'};font-weight:${r.tns>1?700:400};">${r.tns>0?r.tns.toFixed(2)+'h':'—'}</td>
+      <td style="color:${colorFor(utilClass(r.util))};font-weight:700;">${fmtPct(r.util)}</td>
+      <td style="color:${colorFor(ocioClass(r.ocio))};font-weight:700;">${fmtPct(r.ocio)}</td>
+      <td><span class="status-pill" style="background:${estBg};color:${estFg};">${estLabel}</span></td>
+    </tr>`;
+  });
+  tHtml += "</tbody>";
+  document.getElementById("tiempos-table").innerHTML = tHtml;
+
+  // ── AT por operador ──
+  function atClass(v){ return v>=95?"ok":v>=85?"warn":"bad"; }
+  let atHtml = `<thead><tr><th>Operador</th><th>AT (Tiempo Disponible)</th><th>Estado</th></tr></thead><tbody>`;
+  day.at.byOperator.slice().sort((a,b)=>b.at-a.at).forEach(r=>{
+    const cls = atClass(r.at);
+    const lbl = cls==="ok"?"Cumplió su turno":cls==="warn"?"Ligeramente bajo":"Bajo — revisar";
+    atHtml += `<tr>
+      <td class="op-name-mono">${r.ldap}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:90px;height:6px;background:#EDEBE3;border-radius:3px;">
+            <div style="width:${Math.min(r.at,100)}%;height:100%;background:${colorFor(cls)};border-radius:3px;"></div>
+          </div>
+          <span style="font-weight:700;color:${colorFor(cls)};">${r.at.toFixed(1)}%</span>
         </div>
-        <span style="font-weight:700;color:${colorFor(cls)};">${r.at.toFixed(1)}%</span>
-      </div>
-    </td>
-    <td><span class="status-pill" style="background:${cls==='ok'?'#E8F8EF':cls==='warn'?'#FEF6E7':'#FDEBEC'};color:${colorFor(cls)};">${lbl}</span></td>
-  </tr>`;
-});
-atHtml += "</tbody>";
-document.getElementById("at-table").innerHTML = atHtml;
+      </td>
+      <td><span class="status-pill" style="background:${cls==='ok'?'#E8F8EF':cls==='warn'?'#FEF6E7':'#FDEBEC'};color:${colorFor(cls)};">${lbl}</span></td>
+    </tr>`;
+  });
+  atHtml += "</tbody>";
+  document.getElementById("at-table").innerHTML = atHtml;
 
-// KPI del header
-const atEl = document.getElementById("k-at");
-if(atEl){
-  atEl.textContent = AT_TEAM_AVG.toFixed(1)+"%";
-  atEl.className = "kpi-val " + (AT_TEAM_AVG>=95?"ok":AT_TEAM_AVG>=85?"warn":"bad");
+  // ── Resumen de ocio por todos los procesos ──
+  let ocioProcHtml = `<thead><tr><th>Proceso</th><th>H. Efectivo</th><th>H. Total</th><th>% Utilización</th><th>% Ocio</th></tr></thead><tbody>`;
+  day.processTime.slice().sort((a,b)=>(b.ts+b.tns)-(a.ts+a.tns)).forEach(p=>{
+    const total = p.ts+p.tns;
+    const util = total>0 ? (p.ef/total)*100 : 0;
+    const ocio = total>0 ? (p.tns/total)*100 : 0;
+    const uCls = utilClass(util);
+    const oCls = ocioClass(ocio);
+    ocioProcHtml += `<tr>
+      <td style="font-weight:700;color:var(--ml-blue);">${p.label}</td>
+      <td>${p.ef.toFixed(1)}h</td>
+      <td>${total.toFixed(1)}h</td>
+      <td style="color:${colorFor(uCls)};font-weight:700;">${fmtPct(util)}</td>
+      <td style="color:${colorFor(oCls)};font-weight:700;">${fmtPct(ocio)}</td>
+    </tr>`;
+  });
+  ocioProcHtml += "</tbody>";
+  document.getElementById("ocio-por-proceso-table").innerHTML = ocioProcHtml;
+
+  // ── Nota de reposition (u otro hallazgo) ──
+  const repoSlot = document.getElementById("reposition-note-slot");
+  if(repoSlot){
+    repoSlot.innerHTML = day.reposicionNote
+      ? `<div class="alert" style="margin-bottom:20px;"><div class="alert-title">⚠️ Hallazgo del día</div><p>${day.reposicionNote}</p></div>`
+      : "";
+  }
+
+  // ── Puntualidad de turno: Fast Start / Strong Finish narrativa ──
+  const fsNoteSlot = document.getElementById("fs-note-slot");
+  if(fsNoteSlot){
+    fsNoteSlot.innerHTML = day.fastStart.rate>=100
+      ? `<div class="alert" style="background:#E8F8EF;border-color:#BDEBD1;"><div class="alert-title" style="color:#00713A;">✅ Fast Start perfecto</div><p style="color:#00713A;">Los ${day.fastStart.total} operadores registraron su primer scan a tiempo.</p></div>`
+      : `<div class="alert"><div class="alert-title">⚠️ Fast Start con retraso</div><p>${day.fastStart.note||("Solo "+day.fastStart.ok+" de "+day.fastStart.total+" operadores iniciaron a tiempo.")}</p></div>`;
+  }
+  const sfNoteSlot = document.getElementById("sf-note-slot");
+  if(sfNoteSlot){
+    sfNoteSlot.innerHTML = day.strongFinish.rate>=100
+      ? `<div class="alert" style="background:#E8F8EF;border-color:#BDEBD1;"><div class="alert-title" style="color:#00713A;">✅ Strong Finish perfecto</div><p style="color:#00713A;">Los ${day.strongFinish.total} operadores con turno cerrado registraron su último scan a tiempo.</p></div>`
+      : `<div class="alert"><div class="alert-title">⚠️ Strong Finish con retraso</div><p>Solo ${day.strongFinish.ok} de ${day.strongFinish.total} operadores cerraron a tiempo.</p></div>`;
+  }
+  document.getElementById("fs-summary-slot").innerHTML = `
+    <div class="proj-card"><div class="proj-val" style="color:${day.fastStart.rate>=98?'#00A650':'#F5A623'}">${day.fastStart.rate}%</div><div class="proj-lbl">Cumplimiento</div><div class="proj-sub">${day.fastStart.ok} de ${day.fastStart.total}</div></div>
+    <div class="proj-card"><div class="proj-val" style="color:${day.fastStart.rate>=98?'#00A650':'#F5A623'}">${day.fastStart.total-day.fastStart.ok}</div><div class="proj-lbl">Retrasados</div><div class="proj-sub">operadores</div></div>
+    <div class="proj-card"><div class="proj-val" style="color:${day.fastStart.rate>=98?'#00A650':'#F5A623'}">${day.fastStart.rate>=98?'0':'—'}</div><div class="proj-lbl">Min. perdidos</div><div class="proj-sub">promedio</div></div>
+  `;
+  document.getElementById("sf-summary-slot").innerHTML = `
+    <div class="proj-card"><div class="proj-val" style="color:${day.strongFinish.rate>=98?'#00A650':'#F5A623'}">${day.strongFinish.rate}%</div><div class="proj-lbl">Cumplimiento</div><div class="proj-sub">${day.strongFinish.ok} de ${day.strongFinish.total}</div></div>
+    <div class="proj-card"><div class="proj-val" style="color:${day.strongFinish.rate>=98?'#00A650':'#F5A623'}">${day.strongFinish.total-day.strongFinish.ok}</div><div class="proj-lbl">Retrasados</div><div class="proj-sub">operadores</div></div>
+    <div class="proj-card"><div class="proj-val" style="color:${day.strongFinish.rate>=98?'#00A650':'#F5A623'}">${day.strongFinish.rate>=98?'0':'—'}</div><div class="proj-lbl">Min. perdidos</div><div class="proj-sub">promedio</div></div>
+  `;
 }
 
-// ═══════════════════ RESUMEN DE OCIO POR TODOS LOS PROCESOS ═══════════════════
-const PROCESS_BY_TIME = [
-  {proc:"putaway",         label:"Putaway",          ef:45.36, ts:60.13, tns:39.80},
-  {proc:"reposition",      label:"Reposition",       ef:0.00,  ts:0.00,  tns:23.43},
-  {proc:"stagein",         label:"Stage-In",         ef:1.35,  ts:3.50,  tns:0.00},
-  {proc:"open_transfer",   label:"Open Transfer",    ef:1.79,  ts:2.90,  tns:0.00},
-  {proc:"inp_transfer",    label:"Inp. Transfer",    ef:0.00,  ts:0.00,  tns:0.91},
-  {proc:"pick_to_movable", label:"Pick to Movable",  ef:0.00,  ts:0.00,  tns:0.81},
-  {proc:"massive_count",   label:"Massive Count",    ef:0.00,  ts:0.00,  tns:0.42},
-];
-let ocioProcHtml = `<thead><tr><th>Proceso</th><th>H. Efectivo</th><th>H. Total</th><th>% Utilización</th><th>% Ocio</th></tr></thead><tbody>`;
-PROCESS_BY_TIME.sort((a,b)=>(b.ts+b.tns)-(a.ts+a.tns)).forEach(p=>{
-  const total = p.ts+p.tns;
-  const util = total>0 ? (p.ef/total)*100 : 0;
-  const ocio = total>0 ? (p.tns/total)*100 : 0;
-  const uCls = utilClass(util);
-  const oCls = ocioClass(ocio);
-  ocioProcHtml += `<tr>
-    <td style="font-weight:700;color:var(--ml-blue);">${p.label}</td>
-    <td>${p.ef.toFixed(1)}h</td>
-    <td>${total.toFixed(1)}h</td>
-    <td style="color:${colorFor(uCls)};font-weight:700;">${fmtPct(util)}</td>
-    <td style="color:${colorFor(oCls)};font-weight:700;">${fmtPct(ocio)}</td>
-  </tr>`;
+// ── Setup del selector de fecha global ──
+const availableDates = Object.keys(DAILY_DATA).sort((a,b)=>b.localeCompare(a)); // más reciente primero
+const datePicker = document.getElementById("date-picker");
+availableDates.forEach(d=>{
+  const opt = document.createElement("option");
+  opt.value = d;
+  const dt = new Date(d+"T00:00:00");
+  const dias = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+  const meses = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+  opt.textContent = dias[dt.getDay()]+" "+dt.getDate()+" "+meses[dt.getMonth()]+" "+dt.getFullYear();
+  datePicker.appendChild(opt);
 });
-ocioProcHtml += "</tbody>";
-document.getElementById("ocio-por-proceso-table").innerHTML = ocioProcHtml;
+datePicker.value = availableDates[0];
+datePicker.addEventListener("change", ()=>{
+  renderDay(datePicker.value);
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+renderDay(availableDates[0]);
 const WEEK_DATA = [{"date":"2026-07-21","attendance":{"present":19,"total":19,"rate":100.0},"putaway":{"team_net":246.74,"units":null},"fast_start_rate":null,"at":87.27},{"date":"2026-07-22","attendance":{"present":19,"total":19,"rate":100.0},"putaway":{"team_net":306.12,"units":null},"fast_start_rate":null,"at":89.79},{"date":"2026-07-23","attendance":{"present":19,"total":19,"rate":100.0},"putaway":{"team_net":286.96,"units":null},"fast_start_rate":null,"at":85.86},{"date":"2026-07-24","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":414.4,"units":null},"fast_start_rate":null,"at":95.61},{"date":"2026-07-25","attendance":{"present":7,"total":7,"rate":100.0},"putaway":{"team_net":747.25,"units":null},"fast_start_rate":null,"at":99.3},{"date":"2026-07-26","attendance":{"present":30,"total":31,"rate":96.8},"putaway":{"team_net":351.98,"units":null},"fast_start_rate":null,"at":102.64},{"date":"2026-07-27","attendance":{"present":7,"total":8,"rate":87.5},"putaway":{"team_net":521.22,"units":null},"fast_start_rate":null,"at":85.74},{"date":"2026-07-28","attendance":{"present":19,"total":19,"rate":100.0},"putaway":{"team_net":745.52,"units":null},"fast_start_rate":null,"at":99.17},{"date":"2026-07-29","attendance":{"present":17,"total":18,"rate":94.4},"putaway":{"team_net":754.61,"units":null},"fast_start_rate":null,"at":100.41},{"date":"2026-07-30","attendance":{"present":18,"total":18,"rate":100.0},"putaway":{"team_net":800.1,"units":null},"fast_start_rate":null,"at":99.13},{"date":"2026-07-31","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":270.27,"units":null},"fast_start_rate":null,"at":103.07},{"date":"2026-08-01","attendance":{"present":9,"total":9,"rate":100.0},"putaway":{"team_net":278.93,"units":null},"fast_start_rate":null,"at":103.54},{"date":"2026-08-02","attendance":{"present":6,"total":7,"rate":85.7},"putaway":{"team_net":1588.08,"units":null},"fast_start_rate":null,"at":101.79},{"date":"2026-08-03","attendance":{"present":8,"total":8,"rate":100.0},"putaway":{"team_net":393.1,"units":null},"fast_start_rate":null,"at":102.86},{"date":"2026-08-04","attendance":{"present":17,"total":18,"rate":94.4},"putaway":{"team_net":254.15,"units":null},"fast_start_rate":null,"at":102.04},{"date":"2026-08-05","attendance":{"present":18,"total":18,"rate":100.0},"putaway":{"team_net":432.41,"units":null},"fast_start_rate":null,"at":102.47},{"date":"2026-08-06","attendance":{"present":17,"total":17,"rate":100.0},"putaway":{"team_net":172.2,"units":null},"fast_start_rate":null,"at":102.43},{"date":"2026-08-07","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":220.96,"units":null},"fast_start_rate":null,"at":102.5},{"date":"2026-08-08","attendance":{"present":9,"total":9,"rate":100.0},"putaway":{"team_net":227.24,"units":null},"fast_start_rate":null,"at":102.64},{"date":"2026-08-09","attendance":{"present":7,"total":8,"rate":87.5},"putaway":{"team_net":160.59,"units":null},"fast_start_rate":null,"at":103.0},{"date":"2026-08-10","attendance":{"present":6,"total":7,"rate":85.7},"putaway":{"team_net":397.94,"units":null},"fast_start_rate":null,"at":95.37},{"date":"2026-08-11","attendance":{"present":16,"total":16,"rate":100.0},"putaway":{"team_net":245.24,"units":null},"fast_start_rate":null,"at":100.66},{"date":"2026-08-12","attendance":{"present":12,"total":13,"rate":92.3},"putaway":{"team_net":207.11,"units":null},"fast_start_rate":null,"at":103.03},{"date":"2026-08-13","attendance":{"present":16,"total":16,"rate":100.0},"putaway":{"team_net":332.65,"units":null},"fast_start_rate":null,"at":102.9},{"date":"2026-08-14","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":369.5,"units":null},"fast_start_rate":null,"at":103.57},{"date":"2026-08-15","attendance":{"present":8,"total":8,"rate":100.0},"putaway":{"team_net":280.15,"units":null},"fast_start_rate":null,"at":95.96},{"date":"2026-08-16","attendance":{"present":6,"total":6,"rate":100.0},"putaway":{"team_net":98.91,"units":null},"fast_start_rate":null,"at":93.65},{"date":"2026-08-17","attendance":{"present":7,"total":7,"rate":100.0},"putaway":{"team_net":175.47,"units":null},"fast_start_rate":null,"at":103.11},{"date":"2026-08-18","attendance":{"present":17,"total":18,"rate":94.4},"putaway":{"team_net":1160,"util":46.9,"ocio":35.3,"units":37038},"checkin":{"team_net":242,"units":840},"pick_to_movable":{"team_net":279,"units":316},"fast_start_rate":100,"at":99.56},{"date":"2026-08-19","attendance":{"present":18,"total":18,"rate":100.0},"putaway":{"team_net":746,"util":45.4,"ocio":39.8,"units":33861},"checkin":{"team_net":null,"units":0},"pick_to_movable":{"team_net":null,"units":0},"fast_start_rate":93.8,"at":102.1},{"date":"2026-08-20","attendance":{"present":16,"total":16,"rate":100.0},"putaway":{"team_net":45.19,"units":null},"fast_start_rate":null,"at":0.0,"partial_day":true}];
 const PUTAWAY_TARGET = 300;
 const allDays = WEEK_DATA.slice().sort((a,b)=>a.date.localeCompare(b.date));
