@@ -78,10 +78,15 @@
   .h-sub{font-size:13px;color:rgba(255,255,255,0.65);position:relative;z-index:1;}
   .kpi-strip{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(2,1fr);
     gap:8px;
     margin:-38px 12px 0;
     position:relative; z-index:2;
+  }
+  .kpi-strip-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
   }
   .kpi{
     background:var(--card);
@@ -245,7 +250,8 @@
     font-size:10px;font-weight:800;padding:3px 8px;border-radius:7px;display:inline-block;
   }
   @media (min-width:640px){
-    .kpi-strip{grid-template-columns:repeat(6,1fr);margin:-38px 20px 0;}
+    .kpi-strip{grid-template-columns:1fr;margin:-38px 20px 0;}
+    .kpi-strip-row{grid-template-columns:repeat(4,1fr);}
     .tabs, .panel{padding-left:20px;padding-right:20px;}
     .att-card{margin:22px 20px 0;}
     .proj-grid{grid-template-columns:repeat(4,1fr);}
@@ -276,45 +282,63 @@
     <div class="h-sub">Miércoles 19 · Agosto 2026 (día cerrado)</div>
   </div>
   <div class="kpi-strip">
-    <div class="kpi">
-      <div class="kpi-label">Asistencia</div>
-      <div class="kpi-val ok" id="k-asist">18/18</div>
-      <div class="kpi-sub">100%</div>
+    <div class="kpi-strip-row">
+      <div class="kpi">
+        <div class="kpi-label">Asistencia</div>
+        <div class="kpi-val ok" id="k-asist">18/18</div>
+        <div class="kpi-sub">100% del equipo presente</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">AT (Tiempo Disp.)</div>
+        <div class="kpi-val ok" id="k-at">102.1%</div>
+        <div class="kpi-sub">promedio del equipo</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Fast Start</div>
+        <div class="kpi-val warn">93.8%</div>
+        <div class="kpi-sub">15 de 16 iniciaron a tiempo</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Strong Finish</div>
+        <div class="kpi-val ok">100%</div>
+        <div class="kpi-sub">14 de 14 cerraron a tiempo</div>
+      </div>
     </div>
-    <div class="kpi">
-      <div class="kpi-label">Prod. Neta Put.</div>
-      <div class="kpi-val" style="color:var(--ml-blue)" id="k-net">—</div>
-      <div class="kpi-sub">equipo activo</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">Util. Putaway</div>
-      <div class="kpi-val" id="k-util">—</div>
-      <div class="kpi-sub">EF / Total</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">Ocio Putaway</div>
-      <div class="kpi-val" id="k-ocio">—</div>
-      <div class="kpi-sub">NoSis / Total</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">Fast Start</div>
-      <div class="kpi-val warn">93.8%</div>
-      <div class="kpi-sub">15/16 a tiempo</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-label">Strong Finish</div>
-      <div class="kpi-val ok">100%</div>
-      <div class="kpi-sub">14/14 a tiempo</div>
+    <div class="kpi-strip-row">
+      <div class="kpi">
+        <div class="kpi-label">Prod. Neta Putaway</div>
+        <div class="kpi-val" style="color:var(--ml-blue)" id="k-net">—</div>
+        <div class="kpi-sub">unidades por hora, equipo</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Util. Putaway</div>
+        <div class="kpi-val" id="k-util">—</div>
+        <div class="kpi-sub">% del tiempo trabajando</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Ocio Putaway</div>
+        <div class="kpi-val" id="k-ocio">—</div>
+        <div class="kpi-sub">% del tiempo sin actividad</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Calidad</div>
+        <div class="kpi-val neutral">S/D</div>
+        <div class="kpi-sub">sin registros del día</div>
+      </div>
     </div>
   </div>
   <div class="tabs">
-    <button class="tab-btn active" data-tab="prod">📦 Productividades</button>
-    <button class="tab-btn" data-tab="tiempos">⏱️ Util / Ocio</button>
+    <button class="tab-btn active" data-tab="prod">📦 Productividad</button>
+    <button class="tab-btn" data-tab="tiempos">⏱️ Tiempo Trabajado</button>
     <button class="tab-btn" data-tab="calidad">🔍 Calidad</button>
-    <button class="tab-btn" data-tab="fsss">🚀 Fast Start / SF</button>
-    <button class="tab-btn" data-tab="semana">📅 Semana</button>
+    <button class="tab-btn" data-tab="fsss">🚀 Puntualidad de Turno</button>
+    <button class="tab-btn" data-tab="semana">📅 Avance Semanal</button>
   </div>
   <div class="panel active" id="panel-prod">
+    <div class="alert" style="background:#EAF2FE;border-color:#BFDBFE;">
+      <div class="alert-title" style="color:var(--ml-blue-light);">📦 ¿Qué muestra esta pestaña?</div>
+      <p style="color:#2D3277;">Cuántas unidades procesó cada persona por hora trabajada (Prod. Neta), comparado contra la meta del proceso. El porcentaje junto al nombre indica qué tan cerca o lejos está de la meta.</p>
+    </div>
     <div id="alerts-slot"></div>
     <div class="section-head">
       <span class="section-eyebrow">Procesos del día</span>
@@ -324,24 +348,48 @@
   </div>
   <div class="panel" id="panel-tiempos">
     <div class="alert" style="background:#EAF2FE;border-color:#BFDBFE;">
-      <div class="alert-title" style="color:var(--ml-blue-light);">ℹ️ Fórmulas aplicadas</div>
-      <p><code style="background:#DCE9FD;">% Util = Tiempo Efectivo ÷ Tiempo Total</code></p>
-      <p><code style="background:#DCE9FD;">% Ocio = Tiempo No Sistémico ÷ Tiempo Total</code></p>
-      <p style="margin-top:6px;">Tiempo Total = Tiempo Sistémico + Tiempo No Sistémico. Ambos % comparten el mismo denominador.</p>
-      <p style="margin-top:6px;"><b>Target Utilización:</b> mayor a 85% &nbsp;·&nbsp; <b>Target Ocio:</b> menor a 15%</p>
+      <div class="alert-title" style="color:var(--ml-blue-light);">⏱️ ¿Qué muestra esta pestaña?</div>
+      <p style="color:#2D3277;"><b>% Utilización</b> es cuánto del tiempo trabajado la persona estuvo activa haciendo scans. <b>% Ocio</b> es cuánto tiempo estuvo sin actividad registrada (pausas, espera, sin tarea asignada). Ambos se calculan sobre el mismo tiempo total, así que siempre puedes ver de un vistazo si el tiempo se usó bien o se perdió.</p>
+      <p style="margin-top:8px;color:#2D3277;"><b>Meta de Utilización:</b> arriba de 85% es bueno &nbsp;·&nbsp; <b>Meta de Ocio:</b> abajo de 15% es bueno</p>
     </div>
+
     <div class="section-head">
-      <span class="section-eyebrow">Putaway · Detalle por operador</span>
+      <span class="section-eyebrow">AT · Tiempo Disponible (Kronos)</span>
       <span class="section-line"></span>
     </div>
+    <div class="proc-card" style="padding:15px;">
+      <p style="font-size:12px;color:var(--ink-soft);margin:0 0 12px;">El AT compara las horas que la persona estuvo realmente disponible para trabajar contra las horas que tenía programadas en su turno. 100% significa que cumplió su turno completo.</p>
+      <div class="simple-table-wrap">
+        <table class="simple" id="at-table"></table>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <span class="section-eyebrow">Resumen por proceso — todo el equipo</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="proc-card" style="padding:0;overflow:hidden;">
+      <div class="simple-table-wrap">
+        <table class="simple" id="ocio-por-proceso-table"></table>
+      </div>
+    </div>
+    <div style="font-size:10.5px;color:var(--neutral);margin:6px 2px 12px;">
+      Este resumen agrupa a todo el equipo por proceso, para comparar en qué actividad se concentró el tiempo trabajado vs. el tiempo sin actividad.
+    </div>
+    <div class="alert" style="margin-bottom:20px;">
+      <div class="alert-title">⚠️ Reposition sin tiempo efectivo</div>
+      <p><b>23.4 horas</b> en Reposition hoy fueron 100% tiempo no sistémico — es decir, tiempo registrado en el proceso sin ningún scan efectivo. Vale la pena revisar si es un tema de asignación de tarea o de registro.</p>
+    </div>
+
+    <div class="section-head">
+      <span class="section-eyebrow">Putaway · Detalle por persona</span>
+      <span class="section-line"></span>
+    </div>
+    <p style="font-size:12px;color:var(--ink-soft);margin:0 0 10px;">Putaway es el proceso principal del día, por eso se muestra el detalle individual. Ordenado de mayor a menor utilización.</p>
     <div class="proc-card">
       <div class="simple-table-wrap">
         <table class="simple" id="tiempos-table"></table>
       </div>
-    </div>
-    <div class="alert" style="margin-top:16px;">
-      <div class="alert-title">⚠️ Nota AT / Kronos</div>
-      <p>El Available Time oficial y los tiempos de comida no están disponibles en Polaris. Consulta directamente en Kronos.</p>
     </div>
   </div>
   <div class="panel" id="panel-calidad">
@@ -349,14 +397,18 @@
       <div class="empty-icon">📊</div>
       <div class="empty-title">Sin datos de calidad — 19 agosto</div>
       <div class="empty-desc">
-        La tabla de calidad operativa no devolvió registros para esta fecha. Puede que los errores del día aún no hayan sido procesados.
+        Esta pestaña mostrará los errores por subproceso (DPMO) una vez que Polaris procese la información del día. Todavía no hay registros disponibles.
       </div>
-      <div class="empty-hint">Consulta más adelante, o revisa Metabase / Redash para DPMO por subprocess en tiempo real.</div>
+      <div class="empty-hint">Consulta más adelante, o revisa Metabase / Redash si necesitas el dato de inmediato.</div>
     </div>
   </div>
   <div class="panel" id="panel-fsss">
+    <div class="alert" style="background:#EAF2FE;border-color:#BFDBFE;">
+      <div class="alert-title" style="color:var(--ml-blue-light);">🚀 ¿Qué muestra esta pestaña?</div>
+      <p style="color:#2D3277;"><b>Fast Start</b> mide si la persona hizo su primer scan a tiempo al iniciar turno. <b>Strong Finish</b> mide si hizo su último scan a tiempo antes de terminar turno. Ambos buscan detectar minutos perdidos al arrancar o al cerrar el día.</p>
+    </div>
     <div class="section-head">
-      <span class="section-eyebrow">Fast Start</span>
+      <span class="section-eyebrow">Fast Start · Inicio de turno</span>
       <span class="section-line"></span>
     </div>
     <div class="proj-grid">
@@ -382,7 +434,7 @@
     </div>
 
     <div class="section-head">
-      <span class="section-eyebrow">Strong Finish</span>
+      <span class="section-eyebrow">Strong Finish · Cierre de turno</span>
       <span class="section-line"></span>
     </div>
     <div class="proj-grid">
@@ -404,16 +456,20 @@
     </div>
     <div class="alert" style="background:#E8F8EF;border-color:#BDEBD1;">
       <div class="alert-title" style="color:#00713A;">✅ Strong Finish perfecto</div>
-      <p style="color:#00713A;">Los 14 operadores con turno cerrado registraron su último scan a tiempo. Fuente: Polaris DM_OPS_FAST_START_STRONG_FINISH.</p>
+      <p style="color:#00713A;">Los 14 operadores con turno cerrado registraron su último scan a tiempo.</p>
     </div>
   </div>
   <div class="panel" id="panel-semana">
+    <div class="alert" style="background:#EAF2FE;border-color:#BFDBFE;">
+      <div class="alert-title" style="color:var(--ml-blue-light);">📅 ¿Qué muestra esta pestaña?</div>
+      <p style="color:#2D3277;">Cómo se ha comportado el equipo en Putaway día a día durante la semana, comparado contra la meta de 300 Un/h. Sirve para ver si vamos mejorando o si hay una tendencia que atender antes de que se acumule.</p>
+    </div>
     <div class="section-head">
       <span class="section-eyebrow" id="week-range-lbl">Registro semanal</span>
       <span class="section-line"></span>
     </div>
     <div class="section-head">
-      <span class="section-eyebrow">Proyección de avance</span>
+      <span class="section-eyebrow">Promedio de los últimos días</span>
       <span class="section-line"></span>
     </div>
     <div class="proj-grid" id="proj-slot"></div>
@@ -630,6 +686,82 @@ tiemposRows.forEach(r=>{
 });
 tHtml += "</tbody>";
 document.getElementById("tiempos-table").innerHTML = tHtml;
+
+// ═══════════════════ AT (Available Time) — 19 Ago 2026 ═══════════════════
+const AT_DATA = [
+  {ldap:"bsotogalicia",  at:104.0},
+  {ldap:"edelalozanav",  at:103.7},
+  {ldap:"edchavezhern",  at:103.6},
+  {ldap:"agonzalezure",  at:103.6},
+  {ldap:"brogelcampos",  at:103.5},
+  {ldap:"rcoronaperez",  at:103.4},
+  {ldap:"igarciasayas",  at:103.4},
+  {ldap:"shrodriguezf",  at:103.2},
+  {ldap:"fhernandezca",  at:103.1},
+  {ldap:"bmanzanorodr",  at:103.0},
+  {ldap:"osruizolea",    at:102.9},
+  {ldap:"edmaldonado",   at:102.0},
+  {ldap:"stsolanodomi",  at:101.8},
+  {ldap:"jmanriquebra",  at:101.2},
+  {ldap:"rmontessalda",  at:100.9},
+  {ldap:"jbarrongarci",  at:90.1},
+];
+const AT_TEAM_AVG = 102.1;
+function atClass(v){ return v>=95?"ok":v>=85?"warn":"bad"; }
+let atHtml = `<thead><tr><th>Operador</th><th>AT (Tiempo Disponible)</th><th>Estado</th></tr></thead><tbody>`;
+AT_DATA.sort((a,b)=>b.at-a.at).forEach(r=>{
+  const cls = atClass(r.at);
+  const lbl = cls==="ok"?"Cumplió su turno":cls==="warn"?"Ligeramente bajo":"Bajo — revisar";
+  atHtml += `<tr>
+    <td class="op-name-mono">${r.ldap}</td>
+    <td>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:90px;height:6px;background:#EDEBE3;border-radius:3px;">
+          <div style="width:${Math.min(r.at,100)}%;height:100%;background:${colorFor(cls)};border-radius:3px;"></div>
+        </div>
+        <span style="font-weight:700;color:${colorFor(cls)};">${r.at.toFixed(1)}%</span>
+      </div>
+    </td>
+    <td><span class="status-pill" style="background:${cls==='ok'?'#E8F8EF':cls==='warn'?'#FEF6E7':'#FDEBEC'};color:${colorFor(cls)};">${lbl}</span></td>
+  </tr>`;
+});
+atHtml += "</tbody>";
+document.getElementById("at-table").innerHTML = atHtml;
+
+// KPI del header
+const atEl = document.getElementById("k-at");
+if(atEl){
+  atEl.textContent = AT_TEAM_AVG.toFixed(1)+"%";
+  atEl.className = "kpi-val " + (AT_TEAM_AVG>=95?"ok":AT_TEAM_AVG>=85?"warn":"bad");
+}
+
+// ═══════════════════ RESUMEN DE OCIO POR TODOS LOS PROCESOS ═══════════════════
+const PROCESS_BY_TIME = [
+  {proc:"putaway",         label:"Putaway",          ef:45.36, ts:60.13, tns:39.80},
+  {proc:"reposition",      label:"Reposition",       ef:0.00,  ts:0.00,  tns:23.43},
+  {proc:"stagein",         label:"Stage-In",         ef:1.35,  ts:3.50,  tns:0.00},
+  {proc:"open_transfer",   label:"Open Transfer",    ef:1.79,  ts:2.90,  tns:0.00},
+  {proc:"inp_transfer",    label:"Inp. Transfer",    ef:0.00,  ts:0.00,  tns:0.91},
+  {proc:"pick_to_movable", label:"Pick to Movable",  ef:0.00,  ts:0.00,  tns:0.81},
+  {proc:"massive_count",   label:"Massive Count",    ef:0.00,  ts:0.00,  tns:0.42},
+];
+let ocioProcHtml = `<thead><tr><th>Proceso</th><th>H. Efectivo</th><th>H. Total</th><th>% Utilización</th><th>% Ocio</th></tr></thead><tbody>`;
+PROCESS_BY_TIME.sort((a,b)=>(b.ts+b.tns)-(a.ts+a.tns)).forEach(p=>{
+  const total = p.ts+p.tns;
+  const util = total>0 ? (p.ef/total)*100 : 0;
+  const ocio = total>0 ? (p.tns/total)*100 : 0;
+  const uCls = utilClass(util);
+  const oCls = ocioClass(ocio);
+  ocioProcHtml += `<tr>
+    <td style="font-weight:700;color:var(--ml-blue);">${p.label}</td>
+    <td>${p.ef.toFixed(1)}h</td>
+    <td>${total.toFixed(1)}h</td>
+    <td style="color:${colorFor(uCls)};font-weight:700;">${fmtPct(util)}</td>
+    <td style="color:${colorFor(oCls)};font-weight:700;">${fmtPct(ocio)}</td>
+  </tr>`;
+});
+ocioProcHtml += "</tbody>";
+document.getElementById("ocio-por-proceso-table").innerHTML = ocioProcHtml;
 const WEEK_DATA = [
   {"date":"2026-08-18","attendance":{"present":17,"total":18,"rate":94.4},"putaway":{"team_net":1160,"util":46.9,"ocio":35.3,"units":37038},"checkin":{"team_net":242,"units":840},"pick_to_movable":{"team_net":279,"units":316},"fast_start_rate":100},
   {"date":"2026-08-19","attendance":{"present":18,"total":18,"rate":100.0},"putaway":{"team_net":746,"util":45.4,"ocio":39.8,"units":33861},"checkin":{"team_net":null,"units":0},"pick_to_movable":{"team_net":null,"units":0},"fast_start_rate":93.8}
@@ -657,23 +789,23 @@ const deltaVsMeta = avgNetWk - PUTAWAY_TARGET;
 document.getElementById("proj-slot").innerHTML = `
   <div class="proj-card">
     <div class="proj-val" style="color:${colorNet(avgNetWk)}">${Math.round(avgNetWk).toLocaleString('es-MX')}</div>
-    <div class="proj-lbl">Prom. Móvil Neta</div>
+    <div class="proj-lbl">Promedio Un/h</div>
     <div class="proj-sub">últimos ${last5.length} días</div>
   </div>
   <div class="proj-card">
     <div class="proj-val" style="color:${deltaVsMeta>=0?'#00A650':'#E63946'}">${deltaVsMeta>=0?'+':''}${Math.round(deltaVsMeta)}</div>
-    <div class="proj-lbl">Delta vs Meta</div>
+    <div class="proj-lbl">Vs. la meta</div>
     <div class="proj-sub">meta 300 Un/h</div>
   </div>
   <div class="proj-card">
     <div class="proj-val" style="color:${colorUtilWk(avgUtilWk)}">${avgUtilWk.toFixed(1)}%</div>
-    <div class="proj-lbl">Util. Promedio</div>
-    <div class="proj-sub">target ≥85%</div>
+    <div class="proj-lbl">Utilización</div>
+    <div class="proj-sub">meta ≥85%</div>
   </div>
   <div class="proj-card">
     <div class="proj-val" style="color:${colorOcioWk(avgOcioWk)}">${avgOcioWk.toFixed(1)}%</div>
-    <div class="proj-lbl">Ocio Promedio</div>
-    <div class="proj-sub">target ≤15%</div>
+    <div class="proj-lbl">Ocio</div>
+    <div class="proj-sub">meta ≤15%</div>
   </div>
 `;
 const maxValWk = Math.max(PUTAWAY_TARGET, ...weekDays.map(d=>d.putaway.team_net||0)) * 1.15;
