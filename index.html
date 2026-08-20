@@ -311,14 +311,14 @@
         <div class="kpi-sub">unidades por hora, equipo</div>
       </div>
       <div class="kpi">
-        <div class="kpi-label">Util. Putaway</div>
+        <div class="kpi-label">Utilización Equipo</div>
         <div class="kpi-val" id="k-util">—</div>
-        <div class="kpi-sub">% del tiempo trabajando</div>
+        <div class="kpi-sub">% del tiempo trabajando, todos los procesos</div>
       </div>
       <div class="kpi">
-        <div class="kpi-label">Ocio Putaway</div>
+        <div class="kpi-label">Ocio Equipo</div>
         <div class="kpi-val" id="k-ocio">—</div>
-        <div class="kpi-sub">% del tiempo sin actividad</div>
+        <div class="kpi-sub">% del tiempo sin actividad, todos los procesos</div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Calidad</div>
@@ -648,14 +648,27 @@ if(sinProd.length || ocioAlto.length){
 document.getElementById("alerts-slot").innerHTML = alertsHtml;
 const putActivos = DATA.filter(r=>r.proc==="putaway"&&r.units>0);
 const sEf = putActivos.reduce((s,r)=>s+r.ef,0);
-const sTs = putActivos.reduce((s,r)=>s+r.ts,0);
-const sTns = putActivos.reduce((s,r)=>s+r.tns,0);
 const sU = putActivos.reduce((s,r)=>s+r.units,0);
-const totH = sTs+sTns;
-const gUtil = totH>0 ? (sEf/totH)*100 : 0;
-const gOcio = totH>0 ? (sTns/totH)*100 : 0;
 const gNet = sEf>0 ? sU/sEf : 0;
 document.getElementById("k-net").textContent = Math.round(gNet).toLocaleString('es-MX');
+
+// Utilización y Ocio TOTAL EQUIPO: suma de TODOS los procesos (no solo Putaway)
+const ALL_PROCESS_TIME = [
+  {ef:45.36, ts:60.13, tns:39.80}, // putaway
+  {ef:0.00,  ts:0.00,  tns:23.43}, // reposition
+  {ef:1.35,  ts:3.50,  tns:0.00},  // stagein
+  {ef:1.79,  ts:2.90,  tns:0.00},  // open_transfer
+  {ef:0.00,  ts:0.00,  tns:0.91},  // inp_transfer
+  {ef:0.00,  ts:0.00,  tns:0.81},  // pick_to_movable
+  {ef:0.00,  ts:0.00,  tns:0.42},  // massive_count
+];
+const teamSumEf = ALL_PROCESS_TIME.reduce((s,p)=>s+p.ef,0);
+const teamSumTs = ALL_PROCESS_TIME.reduce((s,p)=>s+p.ts,0);
+const teamSumTns = ALL_PROCESS_TIME.reduce((s,p)=>s+p.tns,0);
+const teamTotH = teamSumTs+teamSumTns;
+const gUtil = teamTotH>0 ? (teamSumEf/teamTotH)*100 : 0;
+const gOcio = teamTotH>0 ? (teamSumTns/teamTotH)*100 : 0;
+
 const utilEl = document.getElementById("k-util");
 utilEl.textContent = fmtPct(gUtil);
 utilEl.className = "kpi-val " + (gUtil>=85?"ok":gUtil>=60?"warn":"bad");
