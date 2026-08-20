@@ -175,32 +175,46 @@
   .proc-team-val{font-size:17px;font-weight:800;color:var(--ml-blue);}
   .proc-team-lbl{font-size:9px;color:var(--neutral);text-transform:uppercase;font-weight:700;}
   .op-row{
-    padding:11px 15px;
+    padding:14px 15px;
     border-bottom:1px solid #F2F1EC;
-    display:flex; align-items:center; gap:10px;
   }
   .op-row:last-child{border-bottom:none;}
   .op-row.op-zero{background:#FAFAF9;}
+  .op-top{
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:10px;
+  }
   .op-id{
     font-family:var(--mono);
-    font-size:11px; color:var(--ink-soft);
-    width:98px; flex-shrink:0;
+    font-size:12px; font-weight:700; color:var(--ink);
+    background:#F0EFEA;
+    padding:3px 9px; border-radius:6px;
+    flex-shrink:0;
     overflow:hidden; text-overflow:ellipsis;
   }
-  .op-body{flex:1; min-width:0;}
-  .op-metrics{display:flex; gap:14px; align-items:baseline;}
-  .op-net{font-size:15px;font-weight:800;color:var(--ink);}
-  .op-net.zero{color:var(--neutral); font-weight:600;}
-  .op-units{font-size:10px;color:var(--neutral);}
-  .op-bars{display:flex; gap:10px; margin-top:5px;}
-  .bar-group{flex:1;}
-  .bar-lbl{font-size:8.5px;color:var(--neutral);text-transform:uppercase;font-weight:700;display:flex;justify-content:space-between;}
-  .bar-track{height:4px;background:#EDEBE3;border-radius:3px;margin-top:3px;overflow:hidden;}
-  .bar-fill{height:100%;border-radius:3px;}
+  .op-net-wrap{display:flex; align-items:baseline; gap:6px; flex:1; min-width:0;}
+  .op-net{font-size:19px;font-weight:800;color:var(--ink); line-height:1;}
+  .op-net.zero{color:var(--neutral); font-weight:600; font-size:15px;}
+  .op-units{font-size:11px;color:var(--neutral); white-space:nowrap;}
+  .op-chip-wrap{flex-shrink:0; text-align:right;}
+  .op-chip-lbl{font-size:8px;color:var(--neutral);text-transform:uppercase;font-weight:700;letter-spacing:0.03em;margin-bottom:2px;}
+  .op-bars{
+    display:grid; grid-template-columns:1fr 1fr; gap:16px;
+    background:#FAFAF9; border-radius:8px; padding:9px 12px;
+  }
+  .bar-group{}
+  .bar-lbl{
+    font-size:9.5px;color:var(--ink-soft);text-transform:uppercase;font-weight:700;
+    display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;
+  }
+  .bar-lbl .bar-pct{font-size:13px;font-weight:800;}
+  .bar-track{height:6px;background:#EDEBE3;border-radius:4px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:4px;}
   .chip{
-    font-size:10.5px;font-weight:800;
-    padding:3px 8px;border-radius:7px;
+    font-size:12px;font-weight:800;
+    padding:4px 10px;border-radius:8px;
     flex-shrink:0;
+    display:inline-block;
   }
   .chip.ok{background:var(--ok-bg);color:var(--ok);}
   .chip.warn{background:var(--warn-bg);color:#B7791F;}
@@ -593,22 +607,22 @@ function renderProcCard(proc){
     const oCls = ocioClass(r.ocio);
     return `
     <div class="op-row ${zeroClass}">
-      <div class="op-id">${r.ldap}</div>
-      <div class="op-body">
-        <div class="op-metrics">
+      <div class="op-top">
+        <span class="op-id">${r.ldap}</span>
+        <div class="op-net-wrap">
           <span class="op-net ${netClass}">${fmt0(r.netProd)}</span>
-          <span class="op-units">${r.units>0? r.units.toLocaleString('es-MX')+' un' : 'sin unidades'}</span>
-          ${t.meta ? `<span class="chip ${chipCls}" style="margin-left:auto;">${r.vsMeta!=null?r.vsMeta.toFixed(0)+'%':'—'}</span>` : ''}
+          <span class="op-units">Un/h${r.units>0? ' · '+r.units.toLocaleString('es-MX')+' unidades' : ' · sin unidades'}</span>
         </div>
-        <div class="op-bars">
-          <div class="bar-group">
-            <div class="bar-lbl"><span>Util</span><span style="color:${colorFor(uCls)};font-weight:700;">${fmtPct(r.util)}</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:${r.util!=null?Math.min(r.util,100):0}%;background:${colorFor(uCls)};"></div></div>
-          </div>
-          <div class="bar-group">
-            <div class="bar-lbl"><span>Ocio</span><span style="color:${colorFor(oCls)};font-weight:700;">${fmtPct(r.ocio)}</span></div>
-            <div class="bar-track"><div class="bar-fill" style="width:${r.ocio!=null?Math.min(r.ocio,100):0}%;background:${colorFor(oCls)};"></div></div>
-          </div>
+        ${t.meta ? `<div class="op-chip-wrap"><div class="op-chip-lbl">vs. meta</div><span class="chip ${chipCls}">${r.vsMeta!=null?r.vsMeta.toFixed(0)+'%':'—'}</span></div>` : ''}
+      </div>
+      <div class="op-bars">
+        <div class="bar-group">
+          <div class="bar-lbl"><span>Utilización</span><span class="bar-pct" style="color:${colorFor(uCls)};">${fmtPct(r.util)}</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:${r.util!=null?Math.min(r.util,100):0}%;background:${colorFor(uCls)};"></div></div>
+        </div>
+        <div class="bar-group">
+          <div class="bar-lbl"><span>Ocio</span><span class="bar-pct" style="color:${colorFor(oCls)};">${fmtPct(r.ocio)}</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:${r.ocio!=null?Math.min(r.ocio,100):0}%;background:${colorFor(oCls)};"></div></div>
         </div>
       </div>
     </div>`;
