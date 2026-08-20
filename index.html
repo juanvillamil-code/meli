@@ -283,6 +283,14 @@
   .legend-row{display:flex;gap:14px;flex-wrap:wrap;font-size:10.5px;color:var(--ink-soft);margin-top:8px;}
   .legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;}
   .day-mono{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);}
+  .range-selector{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+  .range-btn{
+    flex:1; min-width:100px;
+    background:var(--card); border:1.5px solid var(--line);
+    color:var(--ink-soft); font-size:12px; font-weight:700;
+    padding:9px 12px; border-radius:10px; cursor:pointer;
+  }
+  .range-btn.active{background:var(--ml-blue); border-color:var(--ml-blue); color:#fff;}
 </style>
 </head>
 <body>
@@ -476,11 +484,16 @@
   <div class="panel" id="panel-semana">
     <div class="alert" style="background:#EAF2FE;border-color:#BFDBFE;">
       <div class="alert-title" style="color:var(--ml-blue-light);">📅 ¿Qué muestra esta pestaña?</div>
-      <p style="color:#2D3277;">Cómo se ha comportado el equipo en Putaway día a día durante la semana, comparado contra la meta de 300 Un/h. Sirve para ver si vamos mejorando o si hay una tendencia que atender antes de que se acumule.</p>
+      <p style="color:#2D3277;">Cómo se ha comportado el equipo en Putaway día a día, comparado contra la meta de 300 Un/h. Sirve para ver si vamos mejorando o si hay una tendencia que atender antes de que se acumule.</p>
     </div>
     <div class="section-head">
-      <span class="section-eyebrow" id="week-range-lbl">Registro semanal</span>
+      <span class="section-eyebrow" id="week-range-lbl">Registro histórico</span>
       <span class="section-line"></span>
+    </div>
+    <div class="range-selector">
+      <button class="range-btn" data-range="7">Últimos 7 días</button>
+      <button class="range-btn" data-range="14">Últimos 14 días</button>
+      <button class="range-btn active" data-range="30">Últimos 30 días</button>
     </div>
     <div class="section-head">
       <span class="section-eyebrow">Promedio de los últimos días</span>
@@ -488,7 +501,7 @@
     </div>
     <div class="proj-grid" id="proj-slot"></div>
     <div class="section-head">
-      <span class="section-eyebrow">Prod. Neta Putaway — últimos días</span>
+      <span class="section-eyebrow">Prod. Neta Putaway — tendencia</span>
       <span class="section-line"></span>
     </div>
     <div class="proc-card" style="padding:15px;">
@@ -799,12 +812,9 @@ PROCESS_BY_TIME.sort((a,b)=>(b.ts+b.tns)-(a.ts+a.tns)).forEach(p=>{
 });
 ocioProcHtml += "</tbody>";
 document.getElementById("ocio-por-proceso-table").innerHTML = ocioProcHtml;
-const WEEK_DATA = [
-  {"date":"2026-08-18","attendance":{"present":17,"total":18,"rate":94.4},"putaway":{"team_net":1160,"util":46.9,"ocio":35.3,"units":37038},"checkin":{"team_net":242,"units":840},"pick_to_movable":{"team_net":279,"units":316},"fast_start_rate":100},
-  {"date":"2026-08-19","attendance":{"present":18,"total":18,"rate":100.0},"putaway":{"team_net":746,"util":45.4,"ocio":39.8,"units":33861},"checkin":{"team_net":null,"units":0},"pick_to_movable":{"team_net":null,"units":0},"fast_start_rate":93.8}
-];
+const WEEK_DATA = [{"date":"2026-07-21","attendance":{"present":19,"total":19,"rate":100.0},"putaway":{"team_net":246.74,"units":null},"fast_start_rate":null,"at":87.27},{"date":"2026-07-22","attendance":{"present":19,"total":19,"rate":100.0},"putaway":{"team_net":306.12,"units":null},"fast_start_rate":null,"at":89.79},{"date":"2026-07-23","attendance":{"present":19,"total":19,"rate":100.0},"putaway":{"team_net":286.96,"units":null},"fast_start_rate":null,"at":85.86},{"date":"2026-07-24","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":414.4,"units":null},"fast_start_rate":null,"at":95.61},{"date":"2026-07-25","attendance":{"present":7,"total":7,"rate":100.0},"putaway":{"team_net":747.25,"units":null},"fast_start_rate":null,"at":99.3},{"date":"2026-07-26","attendance":{"present":30,"total":31,"rate":96.8},"putaway":{"team_net":351.98,"units":null},"fast_start_rate":null,"at":102.64},{"date":"2026-07-27","attendance":{"present":7,"total":8,"rate":87.5},"putaway":{"team_net":521.22,"units":null},"fast_start_rate":null,"at":85.74},{"date":"2026-07-28","attendance":{"present":19,"total":19,"rate":100.0},"putaway":{"team_net":745.52,"units":null},"fast_start_rate":null,"at":99.17},{"date":"2026-07-29","attendance":{"present":17,"total":18,"rate":94.4},"putaway":{"team_net":754.61,"units":null},"fast_start_rate":null,"at":100.41},{"date":"2026-07-30","attendance":{"present":18,"total":18,"rate":100.0},"putaway":{"team_net":800.1,"units":null},"fast_start_rate":null,"at":99.13},{"date":"2026-07-31","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":270.27,"units":null},"fast_start_rate":null,"at":103.07},{"date":"2026-08-01","attendance":{"present":9,"total":9,"rate":100.0},"putaway":{"team_net":278.93,"units":null},"fast_start_rate":null,"at":103.54},{"date":"2026-08-02","attendance":{"present":6,"total":7,"rate":85.7},"putaway":{"team_net":1588.08,"units":null},"fast_start_rate":null,"at":101.79},{"date":"2026-08-03","attendance":{"present":8,"total":8,"rate":100.0},"putaway":{"team_net":393.1,"units":null},"fast_start_rate":null,"at":102.86},{"date":"2026-08-04","attendance":{"present":17,"total":18,"rate":94.4},"putaway":{"team_net":254.15,"units":null},"fast_start_rate":null,"at":102.04},{"date":"2026-08-05","attendance":{"present":18,"total":18,"rate":100.0},"putaway":{"team_net":432.41,"units":null},"fast_start_rate":null,"at":102.47},{"date":"2026-08-06","attendance":{"present":17,"total":17,"rate":100.0},"putaway":{"team_net":172.2,"units":null},"fast_start_rate":null,"at":102.43},{"date":"2026-08-07","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":220.96,"units":null},"fast_start_rate":null,"at":102.5},{"date":"2026-08-08","attendance":{"present":9,"total":9,"rate":100.0},"putaway":{"team_net":227.24,"units":null},"fast_start_rate":null,"at":102.64},{"date":"2026-08-09","attendance":{"present":7,"total":8,"rate":87.5},"putaway":{"team_net":160.59,"units":null},"fast_start_rate":null,"at":103.0},{"date":"2026-08-10","attendance":{"present":6,"total":7,"rate":85.7},"putaway":{"team_net":397.94,"units":null},"fast_start_rate":null,"at":95.37},{"date":"2026-08-11","attendance":{"present":16,"total":16,"rate":100.0},"putaway":{"team_net":245.24,"units":null},"fast_start_rate":null,"at":100.66},{"date":"2026-08-12","attendance":{"present":12,"total":13,"rate":92.3},"putaway":{"team_net":207.11,"units":null},"fast_start_rate":null,"at":103.03},{"date":"2026-08-13","attendance":{"present":16,"total":16,"rate":100.0},"putaway":{"team_net":332.65,"units":null},"fast_start_rate":null,"at":102.9},{"date":"2026-08-14","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":369.5,"units":null},"fast_start_rate":null,"at":103.57},{"date":"2026-08-15","attendance":{"present":8,"total":8,"rate":100.0},"putaway":{"team_net":280.15,"units":null},"fast_start_rate":null,"at":95.96},{"date":"2026-08-16","attendance":{"present":6,"total":6,"rate":100.0},"putaway":{"team_net":98.91,"units":null},"fast_start_rate":null,"at":93.65},{"date":"2026-08-17","attendance":{"present":7,"total":7,"rate":100.0},"putaway":{"team_net":175.47,"units":null},"fast_start_rate":null,"at":103.11},{"date":"2026-08-18","attendance":{"present":17,"total":18,"rate":94.4},"putaway":{"team_net":1160,"util":46.9,"ocio":35.3,"units":37038},"checkin":{"team_net":242,"units":840},"pick_to_movable":{"team_net":279,"units":316},"fast_start_rate":100,"at":99.56},{"date":"2026-08-19","attendance":{"present":18,"total":18,"rate":100.0},"putaway":{"team_net":746,"util":45.4,"ocio":39.8,"units":33861},"checkin":{"team_net":null,"units":0},"pick_to_movable":{"team_net":null,"units":0},"fast_start_rate":93.8,"at":102.1},{"date":"2026-08-20","attendance":{"present":16,"total":16,"rate":100.0},"putaway":{"team_net":45.19,"units":null},"fast_start_rate":null,"at":0.0,"partial_day":true}];
 const PUTAWAY_TARGET = 300;
-const weekDays = WEEK_DATA.slice().sort((a,b)=>a.date.localeCompare(b.date));
+const allDays = WEEK_DATA.slice().sort((a,b)=>a.date.localeCompare(b.date));
 function fmtDateShort(d){
   const dt = new Date(d+"T00:00:00");
   const dias = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
@@ -813,74 +823,97 @@ function fmtDateShort(d){
 function colorNet(v){ return v>=PUTAWAY_TARGET? "#00A650" : v>=PUTAWAY_TARGET*0.7 ? "#F5A623" : "#E63946"; }
 function colorUtilWk(v){ return v>=85?"#00A650":v>=60?"#F5A623":"#E63946"; }
 function colorOcioWk(v){ return v<=15?"#00A650":v<=30?"#F5A623":"#E63946"; }
-if(weekDays.length){
-  document.getElementById("week-range-lbl").textContent =
-    weekDays.length===1 ? "Registro semanal · "+fmtDateShort(weekDays[0].date)
-    : "Registro semanal · "+fmtDateShort(weekDays[0].date)+" — "+fmtDateShort(weekDays[weekDays.length-1].date);
-}
-const last5 = weekDays.slice(-5);
-const avgNetWk = last5.reduce((s,d)=>s+(d.putaway.team_net||0),0)/last5.length;
-const avgUtilWk = last5.reduce((s,d)=>s+(d.putaway.util||0),0)/last5.length;
-const avgOcioWk = last5.reduce((s,d)=>s+(d.putaway.ocio||0),0)/last5.length;
-const deltaVsMeta = avgNetWk - PUTAWAY_TARGET;
-document.getElementById("proj-slot").innerHTML = `
-  <div class="proj-card">
-    <div class="proj-val" style="color:${colorNet(avgNetWk)}">${Math.round(avgNetWk).toLocaleString('es-MX')}</div>
-    <div class="proj-lbl">Promedio Un/h</div>
-    <div class="proj-sub">últimos ${last5.length} días</div>
-  </div>
-  <div class="proj-card">
-    <div class="proj-val" style="color:${deltaVsMeta>=0?'#00A650':'#E63946'}">${deltaVsMeta>=0?'+':''}${Math.round(deltaVsMeta)}</div>
-    <div class="proj-lbl">Vs. la meta</div>
-    <div class="proj-sub">meta 300 Un/h</div>
-  </div>
-  <div class="proj-card">
-    <div class="proj-val" style="color:${colorUtilWk(avgUtilWk)}">${avgUtilWk.toFixed(1)}%</div>
-    <div class="proj-lbl">Utilización</div>
-    <div class="proj-sub">meta ≥85%</div>
-  </div>
-  <div class="proj-card">
-    <div class="proj-val" style="color:${colorOcioWk(avgOcioWk)}">${avgOcioWk.toFixed(1)}%</div>
-    <div class="proj-lbl">Ocio</div>
-    <div class="proj-sub">meta ≤15%</div>
-  </div>
-`;
-const maxValWk = Math.max(PUTAWAY_TARGET, ...weekDays.map(d=>d.putaway.team_net||0)) * 1.15;
-document.getElementById("chart-slot").innerHTML = weekDays.map(d=>{
-  const v = d.putaway.team_net||0;
-  const h = maxValWk>0 ? Math.max((v/maxValWk)*90, 3) : 3;
-  const targetH = maxValWk>0 ? (PUTAWAY_TARGET/maxValWk)*90 : 0;
-  return `<div class="bar-col">
-    <div class="bar-val-lbl">${Math.round(v).toLocaleString('es-MX')}</div>
-    <div class="bar-visual" style="height:${h}px;background:${colorNet(v)};position:relative;">
-      <div style="position:absolute;left:-3px;right:-3px;top:${90-targetH<0?0:90-targetH}px;height:2px;background:#FFD100;"></div>
+function colorAt(v){ return v>=95?"#00A650":v>=85?"#F5A623":"#E63946"; }
+
+function renderSemanaPanel(range){
+  const weekDays = allDays.slice(-range);
+
+  if(weekDays.length){
+    document.getElementById("week-range-lbl").textContent =
+      weekDays.length===1 ? "Registro histórico · "+fmtDateShort(weekDays[0].date)
+      : "Registro histórico · "+fmtDateShort(weekDays[0].date)+" — "+fmtDateShort(weekDays[weekDays.length-1].date);
+  }
+
+  const last5 = weekDays.slice(-5);
+  const avgNetWk = last5.reduce((s,d)=>s+(d.putaway.team_net||0),0)/last5.length;
+  const avgUtilWk = last5.filter(d=>d.putaway.util!=null).reduce((s,d,_,arr)=>s+(d.putaway.util||0)/arr.length,0);
+  const avgOcioWk = last5.filter(d=>d.putaway.ocio!=null).reduce((s,d,_,arr)=>s+(d.putaway.ocio||0)/arr.length,0);
+  const avgAtWk = last5.reduce((s,d)=>s+(d.at||0),0)/last5.length;
+  const deltaVsMeta = avgNetWk - PUTAWAY_TARGET;
+
+  document.getElementById("proj-slot").innerHTML = `
+    <div class="proj-card">
+      <div class="proj-val" style="color:${colorNet(avgNetWk)}">${Math.round(avgNetWk).toLocaleString('es-MX')}</div>
+      <div class="proj-lbl">Promedio Un/h</div>
+      <div class="proj-sub">últimos ${last5.length} días</div>
     </div>
-    <div class="bar-day-lbl">${fmtDateShort(d.date)}${d.partial_day?' *':''}</div>
-  </div>`;
-}).join("");
-let wkHtml = `<thead><tr>
-  <th>Día</th><th>Asist.</th><th>Neta Put.</th><th>Util</th><th>Ocio</th><th>Check-In</th><th>PtM</th><th>Fast Start</th><th>Estado</th>
-</tr></thead><tbody>`;
-weekDays.forEach(d=>{
-  const net = d.putaway.team_net||0;
-  let estLabel,estBg,estFg;
-  if(net>=PUTAWAY_TARGET){estLabel="Meta OK";estBg="#E8F8EF";estFg="#00A650";}
-  else if(net>=PUTAWAY_TARGET*0.7){estLabel="Cerca";estBg="#FEF6E7";estFg="#B7791F";}
-  else {estLabel="Bajo meta";estBg="#FDEBEC";estFg="#E63946";}
-  wkHtml += `<tr>
-    <td class="day-mono">${fmtDateShort(d.date)}</td>
-    <td>${d.attendance.present}/${d.attendance.total} (${d.attendance.rate}%)</td>
-    <td style="font-weight:700;color:${colorNet(net)};">${Math.round(net).toLocaleString('es-MX')}</td>
-    <td style="color:${colorUtilWk(d.putaway.util)};font-weight:700;">${d.putaway.util!=null?d.putaway.util.toFixed(1)+'%':'—'}</td>
-    <td style="color:${colorOcioWk(d.putaway.ocio)};font-weight:700;">${d.putaway.ocio!=null?d.putaway.ocio.toFixed(1)+'%':'—'}</td>
-    <td>${d.checkin&&d.checkin.team_net?Math.round(d.checkin.team_net):'—'}</td>
-    <td>${d.pick_to_movable&&d.pick_to_movable.team_net?Math.round(d.pick_to_movable.team_net):'—'}</td>
-    <td>${d.fast_start_rate!=null?d.fast_start_rate+'%':'—'}</td>
-    <td><span class="status-pill" style="background:${estBg};color:${estFg};">${estLabel}</span>${d.partial_day?' <span style="font-size:9px;color:#8B8B9E;">(parcial)</span>':''}</td>
-  </tr>`;
+    <div class="proj-card">
+      <div class="proj-val" style="color:${deltaVsMeta>=0?'#00A650':'#E63946'}">${deltaVsMeta>=0?'+':''}${Math.round(deltaVsMeta)}</div>
+      <div class="proj-lbl">Vs. la meta</div>
+      <div class="proj-sub">meta 300 Un/h</div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-val" style="color:${colorAt(avgAtWk)}">${avgAtWk.toFixed(1)}%</div>
+      <div class="proj-lbl">AT Promedio</div>
+      <div class="proj-sub">tiempo disponible</div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-val" style="color:${colorNet(avgNetWk)}">${weekDays.filter(d=>(d.putaway.team_net||0)>=PUTAWAY_TARGET).length}/${weekDays.length}</div>
+      <div class="proj-lbl">Días en meta</div>
+      <div class="proj-sub">del periodo mostrado</div>
+    </div>
+  `;
+
+  const maxValWk = Math.max(PUTAWAY_TARGET, ...weekDays.map(d=>d.putaway.team_net||0)) * 1.15;
+  document.getElementById("chart-slot").innerHTML = weekDays.map(d=>{
+    const v = d.putaway.team_net||0;
+    const h = maxValWk>0 ? Math.max((v/maxValWk)*90, 3) : 3;
+    const targetH = maxValWk>0 ? (PUTAWAY_TARGET/maxValWk)*90 : 0;
+    return `<div class="bar-col">
+      <div class="bar-val-lbl">${Math.round(v).toLocaleString('es-MX')}</div>
+      <div class="bar-visual" style="height:${h}px;background:${colorNet(v)};position:relative;">
+        <div style="position:absolute;left:-3px;right:-3px;top:${90-targetH<0?0:90-targetH}px;height:2px;background:#FFD100;"></div>
+      </div>
+      <div class="bar-day-lbl">${fmtDateShort(d.date)}${d.partial_day?' *':''}</div>
+    </div>`;
+  }).join("");
+
+  let wkHtml = `<thead><tr>
+    <th>Día</th><th>Asist.</th><th>Neta Put.</th><th>Util</th><th>Ocio</th><th>AT</th><th>Check-In</th><th>PtM</th><th>Fast Start</th><th>Estado</th>
+  </tr></thead><tbody>`;
+  weekDays.slice().reverse().forEach(d=>{
+    const net = d.putaway.team_net||0;
+    let estLabel,estBg,estFg;
+    if(net>=PUTAWAY_TARGET){estLabel="Meta OK";estBg="#E8F8EF";estFg="#00A650";}
+    else if(net>=PUTAWAY_TARGET*0.7){estLabel="Cerca";estBg="#FEF6E7";estFg="#B7791F";}
+    else {estLabel="Bajo meta";estBg="#FDEBEC";estFg="#E63946";}
+    wkHtml += `<tr>
+      <td class="day-mono">${fmtDateShort(d.date)}</td>
+      <td>${d.attendance.present}/${d.attendance.total} (${d.attendance.rate}%)</td>
+      <td style="font-weight:700;color:${colorNet(net)};">${Math.round(net).toLocaleString('es-MX')}</td>
+      <td style="color:${colorUtilWk(d.putaway.util)};font-weight:700;">${d.putaway.util!=null?d.putaway.util.toFixed(1)+'%':'—'}</td>
+      <td style="color:${colorOcioWk(d.putaway.ocio)};font-weight:700;">${d.putaway.ocio!=null?d.putaway.ocio.toFixed(1)+'%':'—'}</td>
+      <td style="color:${colorAt(d.at)};font-weight:700;">${d.at!=null?d.at.toFixed(1)+'%':'—'}</td>
+      <td>${d.checkin&&d.checkin.team_net?Math.round(d.checkin.team_net):'—'}</td>
+      <td>${d.pick_to_movable&&d.pick_to_movable.team_net?Math.round(d.pick_to_movable.team_net):'—'}</td>
+      <td>${d.fast_start_rate!=null?d.fast_start_rate+'%':'—'}</td>
+      <td><span class="status-pill" style="background:${estBg};color:${estFg};">${estLabel}</span>${d.partial_day?' <span style="font-size:9px;color:#8B8B9E;">(parcial)</span>':''}</td>
+    </tr>`;
+  });
+  wkHtml += "</tbody>";
+  document.getElementById("week-days-table").innerHTML = wkHtml;
+}
+
+renderSemanaPanel(30);
+
+document.querySelectorAll(".range-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".range-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    renderSemanaPanel(parseInt(btn.dataset.range,10));
+  });
 });
-wkHtml += "</tbody>";
-document.getElementById("week-days-table").innerHTML = wkHtml;
+
 document.querySelectorAll(".tab-btn").forEach(btn=>{
   btn.addEventListener("click",()=>{
     document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
