@@ -358,8 +358,8 @@
       </div>
       <div class="kpi">
         <div class="kpi-label">Calidad</div>
-        <div class="kpi-val neutral">S/D</div>
-        <div class="kpi-sub">sin registros del día</div>
+        <div class="kpi-val neutral" id="k-calidad">S/D</div>
+        <div class="kpi-sub" id="k-calidad-sub">sin registros del día</div>
       </div>
     </div>
   </div>
@@ -426,14 +426,11 @@
     </div>
   </div>
   <div class="panel" id="panel-calidad">
-    <div class="empty-state">
-      <div class="empty-icon">📊</div>
-      <div class="empty-title">Sin datos de calidad para este día</div>
-      <div class="empty-desc">
-        Esta pestaña mostrará los errores por subproceso (DPMO) una vez que Polaris procese la información del día. Todavía no hay registros disponibles.
-      </div>
-      <div class="empty-hint">Consulta más adelante, o revisa Metabase / Redash si necesitas el dato de inmediato.</div>
+    <div class="alert" style="background:#EAF2FE;border-color:#BFDBFE;">
+      <div class="alert-title" style="color:var(--ml-blue-light);">🔍 ¿Qué muestra esta pestaña?</div>
+      <p style="color:#2D3277;">El % de error de cada persona en las auditorías de calidad (errores ÷ unidades auditadas), por subproceso. Un % más bajo es mejor — significa menos unidades mal procesadas.</p>
     </div>
+    <div id="calidad-content-slot"></div>
   </div>
   <div class="panel" id="panel-fsss">
     <div class="alert" style="background:#EAF2FE;border-color:#BFDBFE;">
@@ -512,6 +509,30 @@ const DAILY_DATA = {
   attendance: {present:17, total:18, rate:94.4, absentees:["ehernandezdo"]},
   fastStart: {rate:100, ok:16, total:16},
   strongFinish: {rate:100, ok:14, total:14},
+  quality: {
+    team_error_rate: 0.988, total_errors:42, total_processed:10255,
+    bySubprocess: [
+      {subprocess:"putaway", error_rate:0.989, errors:37, processed:9022},
+      {subprocess:"checkin", error_rate:1.535, errors:5, processed:890},
+      {subprocess:"inbound_pick", error_rate:0.0, errors:0, processed:343},
+    ],
+    byOperator: [
+      {ldap:"edchavezhern", subprocess:"putaway", error_rate:7.048, errors:3, processed:76},
+      {ldap:"edelalozanav", subprocess:"putaway", error_rate:4.818, errors:34, processed:1899},
+      {ldap:"shrodriguezf", subprocess:"checkin", error_rate:1.535, errors:5, processed:890},
+      {ldap:"agonzalezure", subprocess:"putaway", error_rate:0.0, errors:0, processed:554},
+      {ldap:"bmanzanorodr", subprocess:"putaway", error_rate:0.0, errors:0, processed:1332},
+      {ldap:"brogelcampos", subprocess:"putaway", error_rate:0.0, errors:0, processed:141},
+      {ldap:"bsotogalicia", subprocess:"putaway", error_rate:0.0, errors:0, processed:667},
+      {ldap:"fhernandezca", subprocess:"putaway", error_rate:0.0, errors:0, processed:147},
+      {ldap:"igarciasayas", subprocess:"putaway", error_rate:0.0, errors:0, processed:496},
+      {ldap:"jmanriquebra", subprocess:"putaway", error_rate:0.0, errors:0, processed:508},
+      {ldap:"osruizolea", subprocess:"putaway", error_rate:0.0, errors:0, processed:1681},
+      {ldap:"rcoronaperez", subprocess:"putaway", error_rate:0.0, errors:0, processed:1098},
+      {ldap:"shrodriguezf", subprocess:"putaway", error_rate:0.0, errors:0, processed:423},
+      {ldap:"shrodriguezf", subprocess:"inbound_pick", error_rate:0.0, errors:0, processed:343},
+    ]
+  },
   at: {team_avg:99.56, byOperator:[
     {ldap:"fhernandezca",at:99.2},{ldap:"bmanzanorodr",at:99.5},{ldap:"agonzalezure",at:99.8},
     {ldap:"igarciasayas",at:99.1},{ldap:"bsotogalicia",at:99.4},{ldap:"osruizolea",at:99.9},
@@ -559,6 +580,30 @@ const DAILY_DATA = {
   attendance: {present:18, total:18, rate:100.0, absentees:[]},
   fastStart: {rate:93.8, ok:15, total:16, note:"rmontessalda registró su primer scan 2 minutos tarde."},
   strongFinish: {rate:100, ok:14, total:14},
+  quality: {
+    team_error_rate: 2.162, total_errors:78, total_processed:11197,
+    bySubprocess: [
+      {subprocess:"putaway", error_rate:2.162, errors:78, processed:11197},
+    ],
+    byOperator: [
+      {ldap:"osruizolea", subprocess:"putaway", error_rate:15.341, errors:18, processed:765},
+      {ldap:"jmanriquebra", subprocess:"putaway", error_rate:13.222, errors:51, processed:604},
+      {ldap:"rcoronaperez", subprocess:"putaway", error_rate:2.447, errors:2, processed:309},
+      {ldap:"edchavezhern", subprocess:"putaway", error_rate:1.430, errors:3, processed:596},
+      {ldap:"edelalozanav", subprocess:"putaway", error_rate:1.336, errors:2, processed:619},
+      {ldap:"brogelcampos", subprocess:"putaway", error_rate:0.814, errors:2, processed:1581},
+      {ldap:"agonzalezure", subprocess:"putaway", error_rate:0.0, errors:0, processed:2118},
+      {ldap:"bmanzanorodr", subprocess:"putaway", error_rate:0.0, errors:0, processed:775},
+      {ldap:"bsotogalicia", subprocess:"putaway", error_rate:0.0, errors:0, processed:9},
+      {ldap:"edmaldonado", subprocess:"putaway", error_rate:0.0, errors:0, processed:161},
+      {ldap:"fhernandezca", subprocess:"putaway", error_rate:0.0, errors:0, processed:1371},
+      {ldap:"igarciasayas", subprocess:"putaway", error_rate:0.0, errors:0, processed:561},
+      {ldap:"jbarrongarci", subprocess:"putaway", error_rate:0.0, errors:0, processed:1159},
+      {ldap:"rmontessalda", subprocess:"putaway", error_rate:0.0, errors:0, processed:213},
+      {ldap:"shrodriguezf", subprocess:"putaway", error_rate:0.0, errors:0, processed:88},
+      {ldap:"stsolanodomi", subprocess:"putaway", error_rate:0.0, errors:0, processed:268},
+    ]
+  },
   at: {team_avg:102.1, byOperator:[
     {ldap:"bsotogalicia",at:104.0},{ldap:"edelalozanav",at:103.7},{ldap:"edchavezhern",at:103.6},
     {ldap:"agonzalezure",at:103.6},{ldap:"brogelcampos",at:103.5},{ldap:"rcoronaperez",at:103.4},
@@ -608,6 +653,27 @@ const DAILY_DATA = {
   attendance: {present:17, total:17, rate:100.0, absentees:[]},
   fastStart: {rate:100, ok:15, total:15},
   strongFinish: {rate:100, ok:15, total:15},
+  quality: {
+    team_error_rate: 0.468, total_errors:6, total_processed:4640,
+    bySubprocess: [
+      {subprocess:"putaway", error_rate:0.468, errors:6, processed:4640},
+    ],
+    byOperator: [
+      {ldap:"rcoronaperez", subprocess:"putaway", error_rate:5.005, errors:4, processed:433},
+      {ldap:"brogelcampos", subprocess:"putaway", error_rate:1.075, errors:2, processed:960},
+      {ldap:"agonzalezure", subprocess:"putaway", error_rate:0.0, errors:0, processed:123},
+      {ldap:"bsotogalicia", subprocess:"putaway", error_rate:0.0, errors:0, processed:356},
+      {ldap:"edchavezhern", subprocess:"putaway", error_rate:0.0, errors:0, processed:175},
+      {ldap:"edmaldonado", subprocess:"putaway", error_rate:0.0, errors:0, processed:624},
+      {ldap:"fhernandezca", subprocess:"putaway", error_rate:0.0, errors:0, processed:216},
+      {ldap:"igarciasayas", subprocess:"putaway", error_rate:0.0, errors:0, processed:66},
+      {ldap:"jbarrongarci", subprocess:"putaway", error_rate:0.0, errors:0, processed:412},
+      {ldap:"jmanriquebra", subprocess:"putaway", error_rate:0.0, errors:0, processed:253},
+      {ldap:"osruizolea", subprocess:"putaway", error_rate:0.0, errors:0, processed:400},
+      {ldap:"rmontessalda", subprocess:"putaway", error_rate:0.0, errors:0, processed:221},
+      {ldap:"shrodriguezf", subprocess:"putaway", error_rate:0.0, errors:0, processed:401},
+    ]
+  },
   at: {team_avg:103.0, byOperator:[
     {ldap:"rcoronaperez",at:104.3},{ldap:"agonzalezure",at:104.0},{ldap:"fhernandezca",at:103.9},
     {ldap:"edchavezhern",at:103.5},{ldap:"edelalozanav",at:103.5},{ldap:"brogelcampos",at:103.5},
@@ -655,6 +721,25 @@ const DAILY_DATA = {
   attendance: {present:10, total:10, rate:100.0, absentees:[]},
   fastStart: {rate:100, ok:9, total:9},
   strongFinish: {rate:88.9, ok:8, total:9, note:"osruizolea registró su último scan 11 minutos tarde. El resto del equipo (8/9) cerró a tiempo."},
+  quality: {
+    team_error_rate: 0.645, total_errors:16, total_processed:7645,
+    bySubprocess: [
+      {subprocess:"putaway", error_rate:0.645, errors:16, processed:7351},
+      {subprocess:"checkin", error_rate:0.0, errors:0, processed:294},
+    ],
+    byOperator: [
+      {ldap:"edelalozanav", subprocess:"putaway", error_rate:3.090, errors:4, processed:173},
+      {ldap:"edchavezhern", subprocess:"putaway", error_rate:2.713, errors:12, processed:2130},
+      {ldap:"bsotogalicia", subprocess:"putaway", error_rate:0.0, errors:0, processed:569},
+      {ldap:"edmaldonado", subprocess:"putaway", error_rate:0.0, errors:0, processed:228},
+      {ldap:"jmanriquebra", subprocess:"putaway", error_rate:0.0, errors:0, processed:184},
+      {ldap:"osruizolea", subprocess:"putaway", error_rate:0.0, errors:0, processed:3482},
+      {ldap:"rcoronaperez", subprocess:"putaway", error_rate:0.0, errors:0, processed:433},
+      {ldap:"rmontessalda", subprocess:"putaway", error_rate:0.0, errors:0, processed:42},
+      {ldap:"stsolanodomi", subprocess:"putaway", error_rate:0.0, errors:0, processed:110},
+      {ldap:"stsolanodomi", subprocess:"checkin", error_rate:0.0, errors:0, processed:294},
+    ]
+  },
   at: {team_avg:103.1, byOperator:[
     {ldap:"rcoronaperez",at:103.9},{ldap:"edelalozanav",at:103.8},{ldap:"edchavezhern",at:103.7},
     {ldap:"bsotogalicia",at:103.6},{ldap:"osruizolea",at:103.0},{ldap:"jmanriquebra",at:102.9},
@@ -690,6 +775,21 @@ const DAILY_DATA = {
   attendance: {present:7, total:7, rate:100.0, absentees:[]},
   fastStart: {rate:100, ok:7, total:7},
   strongFinish: {rate:100, ok:6, total:6},
+  quality: {
+    team_error_rate: 0.0, total_errors:0, total_processed:2512,
+    bySubprocess: [
+      {subprocess:"putaway", error_rate:0.0, errors:0, processed:2512},
+    ],
+    byOperator: [
+      {ldap:"bsotogalicia", subprocess:"putaway", error_rate:0.0, errors:0, processed:321},
+      {ldap:"edchavezhern", subprocess:"putaway", error_rate:0.0, errors:0, processed:125},
+      {ldap:"edelalozanav", subprocess:"putaway", error_rate:0.0, errors:0, processed:20},
+      {ldap:"edmaldonado", subprocess:"putaway", error_rate:0.0, errors:0, processed:465},
+      {ldap:"jmanriquebra", subprocess:"putaway", error_rate:0.0, errors:0, processed:786},
+      {ldap:"osruizolea", subprocess:"putaway", error_rate:0.0, errors:0, processed:450},
+      {ldap:"rmontessalda", subprocess:"putaway", error_rate:0.0, errors:0, processed:345},
+    ]
+  },
   at: {team_avg:103.4, byOperator:[
     {ldap:"bsotogalicia",at:103.8},{ldap:"edchavezhern",at:103.6},{ldap:"edelalozanav",at:103.6},
     {ldap:"osruizolea",at:103.4},{ldap:"jmanriquebra",at:103.4},{ldap:"edmaldonado",at:103.2},
@@ -719,6 +819,20 @@ const DAILY_DATA = {
   attendance: {present:8, total:8, rate:100.0, absentees:[]},
   fastStart: {rate:83.3, ok:5, total:6, note:"igarciasayas registró su primer scan 2 minutos tarde. El resto del equipo (5/6) inició a tiempo."},
   strongFinish: {rate:100, ok:7, total:7},
+  quality: {
+    team_error_rate: 0.0, total_errors:0, total_processed:1794,
+    bySubprocess: [
+      {subprocess:"putaway", error_rate:0.0, errors:0, processed:1794},
+    ],
+    byOperator: [
+      {ldap:"agonzalezure", subprocess:"putaway", error_rate:0.0, errors:0, processed:72},
+      {ldap:"brogelcampos", subprocess:"putaway", error_rate:0.0, errors:0, processed:144},
+      {ldap:"fhernandezca", subprocess:"putaway", error_rate:0.0, errors:0, processed:118},
+      {ldap:"igarciasayas", subprocess:"putaway", error_rate:0.0, errors:0, processed:103},
+      {ldap:"jbarrongarci", subprocess:"putaway", error_rate:0.0, errors:0, processed:296},
+      {ldap:"shrodriguezf", subprocess:"putaway", error_rate:0.0, errors:0, processed:1061},
+    ]
+  },
   at: {team_avg:98.2, byOperator:[
     {ldap:"brogelcampos",at:103.8},{ldap:"bmanzanorodr",at:103.6},{ldap:"agonzalezure",at:103.4},
     {ldap:"fhernandezca",at:103.4},{ldap:"shrodriguezf",at:102.4},{ldap:"igarciasayas",at:100.6},
@@ -747,6 +861,19 @@ const DAILY_DATA = {
   attendance: {present:8, total:8, rate:100.0, absentees:[]},
   fastStart: {rate:85.7, ok:6, total:7, note:"shrodriguezf registró su primer scan 8 minutos tarde. El resto del equipo (6/7) inició a tiempo."},
   strongFinish: {rate:100, ok:6, total:6},
+  quality: {
+    team_error_rate: 0.0, total_errors:0, total_processed:1029,
+    bySubprocess: [
+      {subprocess:"putaway", error_rate:0.0, errors:0, processed:1029},
+    ],
+    byOperator: [
+      {ldap:"agonzalezure", subprocess:"putaway", error_rate:0.0, errors:0, processed:81},
+      {ldap:"bmanzanorodr", subprocess:"putaway", error_rate:0.0, errors:0, processed:565},
+      {ldap:"brogelcampos", subprocess:"putaway", error_rate:0.0, errors:0, processed:108},
+      {ldap:"igarciasayas", subprocess:"putaway", error_rate:0.0, errors:0, processed:194},
+      {ldap:"shrodriguezf", subprocess:"putaway", error_rate:0.0, errors:0, processed:81},
+    ]
+  },
   at: {team_avg:102.7, byOperator:[
     {ldap:"brogelcampos",at:103.9},{ldap:"bmanzanorodr",at:103.6},{ldap:"fhernandezca",at:103.4},
     {ldap:"agonzalezure",at:103.3},{ldap:"jbarrongarci",at:102.9},{ldap:"igarciasayas",at:102.9},
@@ -775,6 +902,7 @@ const DAILY_DATA = {
   attendance: {present:16, total:16, rate:100.0, absentees:[]},
   fastStart: {rate:100, ok:14, total:14},
   strongFinish: {rate:0, ok:0, total:0, note:"El turno aún no había cerrado al momento de la consulta — sin datos de cierre todavía."},
+  quality: null,
   at: {team_avg:0.0, byOperator:[
     {ldap:"edchavezhern",at:0.0},{ldap:"agonzalezure",at:0.0},{ldap:"igarciasayas",at:0.0},
     {ldap:"stsolanodomi",at:0.0},{ldap:"edelalozanav",at:0.0},{ldap:"fhernandezca",at:0.0},
@@ -940,6 +1068,72 @@ function renderDay(dateStr){
   sfEl.textContent = day.strongFinish.rate+"%";
   sfEl.className = "kpi-val " + (day.strongFinish.rate>=98?"ok":day.strongFinish.rate>=90?"warn":"bad");
   document.getElementById("k-sf-sub").textContent = day.strongFinish.ok+" de "+day.strongFinish.total+" cerraron a tiempo";
+
+  // ── Calidad ──
+  const kCalidad = document.getElementById("k-calidad");
+  const kCalidadSub = document.getElementById("k-calidad-sub");
+  const calidadSlot = document.getElementById("calidad-content-slot");
+  if(day.quality){
+    const errRate = day.quality.team_error_rate;
+    const qCls = errRate<=1?"ok":errRate<=3?"warn":"bad";
+    kCalidad.textContent = errRate.toFixed(2)+"%";
+    kCalidad.className = "kpi-val " + qCls;
+    kCalidadSub.textContent = day.quality.total_errors+" errores de "+day.quality.total_processed.toLocaleString('es-MX')+" auditados";
+
+    let subprocHtml = `<div class="section-head"><span class="section-eyebrow">Por subproceso</span><span class="section-line"></span></div>
+    <div class="proc-card" style="padding:0;overflow:hidden;margin-bottom:20px;">
+      <div class="simple-table-wrap"><table class="simple"><thead><tr>
+        <th>Subproceso</th><th>% Error</th><th>Errores</th><th>Auditado</th>
+      </tr></thead><tbody>`;
+    day.quality.bySubprocess.slice().sort((a,b)=>b.error_rate-a.error_rate).forEach(sp=>{
+      const cls = sp.error_rate<=1?"ok":sp.error_rate<=3?"warn":"bad";
+      subprocHtml += `<tr>
+        <td style="font-weight:700;color:var(--ml-blue);text-transform:capitalize;">${sp.subprocess.replace(/_/g,' ')}</td>
+        <td style="color:${colorFor(cls)};font-weight:700;">${sp.error_rate.toFixed(2)}%</td>
+        <td>${sp.errors}</td>
+        <td>${sp.processed.toLocaleString('es-MX')}</td>
+      </tr>`;
+    });
+    subprocHtml += "</tbody></table></div></div>";
+
+    let opHtml = `<div class="section-head"><span class="section-eyebrow">Por operador</span><span class="section-line"></span></div>
+    <div class="proc-card" style="padding:0;overflow:hidden;">
+      <div class="simple-table-wrap"><table class="simple"><thead><tr>
+        <th>Operador</th><th>Subproceso</th><th>% Error</th><th>Errores</th><th>Auditado</th>
+      </tr></thead><tbody>`;
+    day.quality.byOperator.slice().sort((a,b)=>b.error_rate-a.error_rate).forEach(op=>{
+      const cls = op.error_rate<=1?"ok":op.error_rate<=3?"warn":"bad";
+      opHtml += `<tr>
+        <td class="op-name-mono">${op.ldap}</td>
+        <td style="text-transform:capitalize;color:var(--ink-soft);">${op.subprocess.replace(/_/g,' ')}</td>
+        <td style="color:${colorFor(cls)};font-weight:700;">${op.error_rate.toFixed(2)}%</td>
+        <td>${op.errors}</td>
+        <td>${op.processed.toLocaleString('es-MX')}</td>
+      </tr>`;
+    });
+    opHtml += "</tbody></table></div></div>";
+
+    const highErr = day.quality.byOperator.filter(op=>op.error_rate>3);
+    let alertHtml = "";
+    if(highErr.length){
+      alertHtml = `<div class="alert">
+        <div class="alert-title">⚠️ Error rate alto (&gt;3%)</div>
+        <p>${highErr.map(op=>op.ldap+' en '+op.subprocess.replace(/_/g,' ')+' ('+op.error_rate.toFixed(1)+'%)').join(", ")}</p>
+      </div>`;
+    }
+
+    calidadSlot.innerHTML = alertHtml + subprocHtml + opHtml;
+  } else {
+    kCalidad.textContent = "S/D";
+    kCalidad.className = "kpi-val neutral";
+    kCalidadSub.textContent = "sin registros del día";
+    calidadSlot.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">📊</div>
+      <div class="empty-title">Sin datos de calidad para este día</div>
+      <div class="empty-desc">Esta pestaña mostrará los errores por subproceso una vez que Polaris procese la información del día. Todavía no hay registros disponibles — normal cuando el turno sigue en curso.</div>
+    </div>`;
+  }
+
 
   const atEl = document.getElementById("k-at");
   atEl.textContent = day.at.team_avg.toFixed(1)+"%";
