@@ -1097,6 +1097,61 @@ const DAILY_DATA = {
     { ldap:"shrodriguezf", proc:"putaway",         units:0,    netProd:0,       ef:0.000, ts:0.000, tns:7.954 },
     { ldap:"stsolanodomi", proc:"putaway",         units:0,    netProd:0,       ef:0.000, ts:0.000, tns:6.134 },
   ]
+},
+"2026-08-28": {
+  label: "Viernes 28 · Agosto 2026 (turno en curso)",
+  attendance: {present:10, total:10, rate:100.0, absentees:[]},
+  fastStart: {rate:100, ok:10, total:10},
+  strongFinish: {rate:100, ok:8, total:8},
+  quality: {
+    team_error_rate: 1.246, total_errors:51, total_processed:4025,
+    bySubprocess: [
+      {subprocess:"putaway", error_rate:1.906, errors:51, processed:2675},
+      {subprocess:"receiving", error_rate:0.0, errors:0, processed:1350},
+    ],
+    byOperator: [
+      {ldap:"osruizolea", subprocess:"putaway", error_rate:2.444, errors:51, processed:2087},
+      {ldap:"bsotogalicia", subprocess:"putaway", error_rate:0.0, errors:0, processed:588},
+      {ldap:"edmaldonado", subprocess:"receiving", error_rate:0.0, errors:0, processed:282},
+      {ldap:"rmontessalda", subprocess:"receiving", error_rate:0.0, errors:0, processed:360},
+      {ldap:"stsolanodomi", subprocess:"receiving", error_rate:0.0, errors:0, processed:708},
+    ]
+  },
+  at: {team_avg:0.0, byOperator:[
+    {ldap:"edmaldonado",at:0.0},{ldap:"bsotogalicia",at:0.0},{ldap:"rmontessalda",at:0.0},
+    {ldap:"edelalozanav",at:0.0},{ldap:"osruizolea",at:0.0},{ldap:"igarciasayas",at:0.0},
+    {ldap:"rcoronaperez",at:0.0},{ldap:"jmanriquebra",at:0.0},{ldap:"stsolanodomi",at:0.0},
+    {ldap:"edchavezhern",at:0.0}
+  ]},
+  processTime: [
+    {proc:"putaway", label:"Putaway", ef:7.823, ts:9.185, tns:36.826},
+    {proc:"direct_checkin", label:"Direct Check-In", ef:1.017, ts:2.466, tns:0.000},
+    {proc:"receiving", label:"Receiving", ef:3.130, ts:4.087, tns:0.000},
+    {proc:"stagein", label:"Stage-In", ef:2.240, ts:4.774, tns:0.000},
+    {proc:"open_transfer", label:"Open Transfer", ef:0.041, ts:0.043, tns:0.000},
+    {proc:"reposition", label:"Reposition", ef:0.000, ts:0.000, tns:6.642},
+    {proc:"massive_count", label:"Massive Count", ef:0.000, ts:0.000, tns:0.138},
+    {proc:"inbound_support_management", label:"Inbound Support Mgmt", ef:0.000, ts:0.000, tns:0.013},
+  ],
+  reposicionNote: "Turno en curso con solo 4 de 10 operadores activos en Putaway hasta el momento. osruizolea tiene el error rate más alto del día (2.44%, 51 errores de 2,087 auditados). AT aún no consolidado (0% en todos, normal a esta hora).",
+  raw: [
+    { ldap:"stsolanodomi", proc:"direct_checkin", units:672,   netProd:14841.72, ef:0.045, ts:0.401, tns:0.000 },
+    { ldap:"rmontessalda", proc:"direct_checkin", units:3470,  netProd:3570.16,  ef:0.972, ts:2.065, tns:0.000 },
+    { ldap:"jmanriquebra", proc:"open_transfer",  units:224,   netProd:5448.65,  ef:0.041, ts:0.043, tns:0.000 },
+    { ldap:"edmaldonado",  proc:"receiving",      units:282,   netProd:537.43,   ef:0.525, ts:0.814, tns:0.363 },
+    { ldap:"rmontessalda", proc:"receiving",      units:362,   netProd:426.58,   ef:0.849, ts:1.089, tns:0.000 },
+    { ldap:"stsolanodomi", proc:"receiving",      units:711,   netProd:404.94,   ef:1.756, ts:2.184, tns:0.279 },
+    { ldap:"osruizolea",   proc:"putaway",        units:13547, netProd:4210.41,  ef:3.217, ts:5.198, tns:0.600 },
+    { ldap:"jmanriquebra", proc:"putaway",         units:11287, netProd:4062.10,  ef:2.779, ts:3.675, tns:0.852 },
+    { ldap:"bsotogalicia", proc:"putaway",         units:6168,  netProd:4276.73,  ef:1.442, ts:3.312, tns:3.635 },
+    { ldap:"igarciasayas", proc:"putaway",         units:3354,  netProd:8705.41,  ef:0.385, ts:0.448, tns:7.329 },
+    { ldap:"rmontessalda", proc:"putaway",         units:0,     netProd:0,        ef:0.000, ts:0.000, tns:4.274 },
+    { ldap:"edchavezhern", proc:"putaway",         units:0,     netProd:0,        ef:0.000, ts:0.000, tns:6.857 },
+    { ldap:"edelalozanav", proc:"putaway",         units:0,     netProd:0,        ef:0.000, ts:0.000, tns:8.181 },
+    { ldap:"edmaldonado",  proc:"putaway",         units:0,     netProd:0,        ef:0.000, ts:0.000, tns:6.589 },
+    { ldap:"stsolanodomi", proc:"putaway",         units:0,     netProd:0,        ef:0.000, ts:0.000, tns:2.946 },
+    { ldap:"rcoronaperez", proc:"putaway",         units:0,     netProd:0,        ef:0.000, ts:0.000, tns:8.235 },
+  ]
 }
 };
 
@@ -1470,7 +1525,8 @@ const WEEK_DATA = [{"date":"2026-07-21","attendance":{"present":19,"total":19,"r
 {"date":"2026-08-24","attendance":{"present":8,"total":8,"rate":100.0},"putaway":{"team_net":4280.7,"util":19.7,"ocio":76.0,"units":23625},"fast_start_rate":85.7,"at":102.7},
 {"date":"2026-08-25","attendance":{"present":16,"total":17,"rate":94.1},"putaway":{"team_net":552.7,"util":45.8,"ocio":36.1,"units":24756},"checkin":{"team_net":480.2,"units":2023},"fast_start_rate":93.3,"at":102.8},
 {"date":"2026-08-26","attendance":{"present":18,"total":18,"rate":100.0},"putaway":{"team_net":958.3,"util":36.4,"ocio":51.0,"units":37791},"checkin":{"team_net":286.3,"units":590},"fast_start_rate":93.8,"at":103.1},
-{"date":"2026-08-27","attendance":{"present":17,"total":17,"rate":100.0},"putaway":{"team_net":1053.0,"util":28.2,"ocio":63.5,"units":28774},"checkin":{"team_net":236.7,"units":1914},"fast_start_rate":100,"at":0.0}];
+{"date":"2026-08-27","attendance":{"present":17,"total":17,"rate":100.0},"putaway":{"team_net":1053.0,"util":28.2,"ocio":63.5,"units":28774},"checkin":{"team_net":236.7,"units":1914},"fast_start_rate":100,"at":0.0},
+{"date":"2026-08-28","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":4391.7,"util":12.6,"ocio":79.7,"units":34356},"checkin":{"team_net":4072.8,"units":4142},"fast_start_rate":100,"at":0.0,"partial_day":true}];
 const PUTAWAY_TARGET = 300;
 const allDays = WEEK_DATA.slice().sort((a,b)=>a.date.localeCompare(b.date));
 function fmtDateShort(d){
