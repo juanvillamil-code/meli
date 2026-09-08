@@ -1439,6 +1439,39 @@ const DAILY_DATA = {
     { ldap:"edmaldonado",   proc:"receiving",      units:124,  netProd:198.14,  ef:0.626, ts:1.103, tns:4.512 },
     { ldap:"agonzalezure",  proc:"receiving",      units:0,    netProd:0,       ef:0.000, ts:0.000, tns:1.780 },
   ]
+},
+"2026-09-04": {
+  label: "Viernes 4 · Septiembre 2026 (día cerrado)",
+  attendance: {present:10, total:10, rate:100.0, absentees:[]},
+  fastStart: {rate:66.67, ok:6, total:9, note:"jmanriquebra (41 min), osruizolea (39 min) y stsolanodomi (10 min) llegaron tarde a su primer scan — 3 retrasos el mismo día."},
+  strongFinish: {rate:100, ok:7, total:7},
+  quality: null,
+  at: {team_avg:102.05, byOperator:[
+    {ldap:"rcoronaperez",at:103.91},{ldap:"edelalozanav",at:103.5},{ldap:"edchavezhern",at:103.48},
+    {ldap:"bsotogalicia",at:103.37},{ldap:"jmanriquebra",at:103.1},{ldap:"edmaldonado",at:102.64},
+    {ldap:"osruizolea",at:103.08},{ldap:"rmontessalda",at:96.5},{ldap:"stsolanodomi",at:98.88}
+  ]},
+  processTime: [
+    {proc:"putaway", label:"Putaway", ef:11.760, ts:16.687, tns:35.050},
+    {proc:"open_transfer", label:"Open Transfer", ef:0.032, ts:0.034, tns:0.000},
+    {proc:"receiving", label:"Receiving", ef:0.064, ts:0.145, tns:7.911},
+    {proc:"stagein", label:"Stage-In", ef:0.820, ts:1.545, tns:0.000},
+    {proc:"reposition", label:"Reposition", ef:0.000, ts:0.000, tns:12.324},
+    {proc:"massive_count", label:"Massive Count", ef:0.000, ts:0.000, tns:0.138},
+  ],
+  reposicionNote: "Fast Start con 3 retrasos el mismo día — jmanriquebra (41 min), osruizolea (39 min) y stsolanodomi (10 min). edmaldonado pasó casi toda su jornada (7.9h) en Receiving con solo 3.5% de utilización.",
+  raw: [
+    { ldap:"jmanriquebra", proc:"open_transfer", units:204,  netProd:6331.03, ef:0.032, ts:0.034, tns:0.000 },
+    { ldap:"osruizolea",   proc:"putaway",       units:8347, netProd:3065.93, ef:2.723, ts:5.036, tns:0.431 },
+    { ldap:"jmanriquebra", proc:"putaway",       units:6215, netProd:1986.68, ef:3.128, ts:3.956, tns:0.285 },
+    { ldap:"rcoronaperez", proc:"putaway",       units:876,  netProd:369.53,  ef:2.371, ts:2.728, tns:5.233 },
+    { ldap:"edelalozanav", proc:"putaway",       units:103,  netProd:52.64,   ef:1.957, ts:2.316, tns:5.799 },
+    { ldap:"edchavezhern", proc:"putaway",       units:59,   netProd:39.78,   ef:1.483, ts:2.312, tns:5.808 },
+    { ldap:"rmontessalda", proc:"putaway",       units:5,    netProd:51.14,   ef:0.098, ts:0.330, tns:1.617 },
+    { ldap:"bsotogalicia", proc:"putaway",       units:0,    netProd:0,       ef:0.000, ts:0.000, tns:8.107 },
+    { ldap:"stsolanodomi", proc:"putaway",       units:0,    netProd:0,       ef:0.000, ts:0.000, tns:7.770 },
+    { ldap:"edmaldonado",  proc:"receiving",     units:28,   netProd:434.48,  ef:0.064, ts:0.145, tns:7.911 },
+  ]
 }
 };
 
@@ -1820,7 +1853,7 @@ const WEEK_DATA = [{"date":"2026-07-21","attendance":{"present":19,"total":19,"r
 {"date":"2026-09-01","attendance":{"present":14,"total":14,"rate":100.0},"putaway":{"team_net":1410.5,"util":20.9,"ocio":70.7,"units":16960},"checkin":{"team_net":301.99,"units":2356},"fast_start_rate":100.0,"at":103.1},
 {"date":"2026-09-02","attendance":{"present":17,"total":17,"rate":100.0},"putaway":{"team_net":655.2,"util":37.1,"ocio":52.3,"units":20146},"checkin":{"team_net":267.04,"units":318},"fast_start_rate":93.33,"at":97.69},
 {"date":"2026-09-03","attendance":{"present":16,"total":16,"rate":100.0},"putaway":{"team_net":577.8,"util":34.4,"ocio":56.0,"units":17335},"checkin":{"team_net":327.03,"units":739},"fast_start_rate":100.0,"at":99.91},
-{"date":"2026-09-04","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":301.44},"fast_start_rate":66.67,"at":102.05},
+{"date":"2026-09-04","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":1327.0,"util":22.7,"ocio":67.8,"units":15605},"fast_start_rate":66.67,"at":102.05},
 {"date":"2026-09-05","attendance":{"present":9,"total":9,"rate":100.0},"putaway":{"team_net":746.15},"fast_start_rate":100.0,"at":102.62},
 {"date":"2026-09-06","attendance":{"present":6,"total":6,"rate":100.0},"putaway":{"team_net":389.4},"fast_start_rate":100.0,"at":103.54},
 {"date":"2026-09-07","attendance":{"present":7,"total":7,"rate":100.0},"putaway":{"team_net":652.7},"fast_start_rate":87.5,"at":90.02}];
