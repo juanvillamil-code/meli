@@ -1472,6 +1472,37 @@ const DAILY_DATA = {
     { ldap:"stsolanodomi", proc:"putaway",       units:0,    netProd:0,       ef:0.000, ts:0.000, tns:7.770 },
     { ldap:"edmaldonado",  proc:"receiving",     units:28,   netProd:434.48,  ef:0.064, ts:0.145, tns:7.911 },
   ]
+},
+"2026-09-05": {
+  label: "Sábado 5 · Septiembre 2026 (día cerrado)",
+  attendance: {present:9, total:9, rate:100.0, absentees:[]},
+  fastStart: {rate:100, ok:7, total:7},
+  strongFinish: {rate:100, ok:7, total:7},
+  quality: null,
+  at: {team_avg:102.62, byOperator:[
+    {ldap:"edchavezhern",at:103.44},{ldap:"edelalozanav",at:103.35},{ldap:"rcoronaperez",at:103.3},
+    {ldap:"jmanriquebra",at:102.94},{ldap:"osruizolea",at:102.8},{ldap:"edmaldonado",at:102.58},
+    {ldap:"rmontessalda",at:102.52},{ldap:"stsolanodomi",at:100.04}
+  ]},
+  processTime: [
+    {proc:"putaway", label:"Putaway", ef:13.283, ts:20.385, tns:13.741},
+    {proc:"receiving", label:"Receiving", ef:0.123, ts:0.196, tns:23.797},
+    {proc:"stagein", label:"Stage-In", ef:0.849, ts:1.634, tns:0.000},
+    {proc:"reposition", label:"Reposition", ef:0.000, ts:0.000, tns:3.535},
+    {proc:"inbound_support_management", label:"Inbound Support Mgmt", ef:0.000, ts:0.000, tns:2.937},
+    {proc:"massive_count", label:"Massive Count", ef:0.000, ts:0.000, tns:0.144},
+  ],
+  reposicionNote: "23.8 horas en Receiving fueron 100% tiempo no sistémico entre edmaldonado, rmontessalda y stsolanodomi — el volumen más alto en este proceso hasta ahora.",
+  raw: [
+    { ldap:"osruizolea",   proc:"putaway",   units:16852, netProd:4233.28, ef:3.981, ts:6.520, tns:0.994 },
+    { ldap:"jmanriquebra", proc:"putaway",   units:7401,  netProd:2496.59, ef:2.964, ts:4.287, tns:0.599 },
+    { ldap:"rcoronaperez", proc:"putaway",   units:340,   netProd:149.87,  ef:2.269, ts:3.577, tns:4.547 },
+    { ldap:"edelalozanav", proc:"putaway",   units:463,   netProd:124.36,  ef:3.723, ts:5.072, tns:0.000 },
+    { ldap:"edchavezhern", proc:"putaway",   units:34,    netProd:98.23,   ef:0.346, ts:0.429, tns:7.601 },
+    { ldap:"edmaldonado",  proc:"receiving", units:59,    netProd:479.46,  ef:0.123, ts:0.196, tns:7.872 },
+    { ldap:"rmontessalda", proc:"receiving", units:0,     netProd:0,       ef:0.000, ts:0.073, tns:8.058 },
+    { ldap:"stsolanodomi", proc:"receiving", units:0,     netProd:0,       ef:0.000, ts:0.000, tns:7.867 },
+  ]
 }
 };
 
@@ -1854,7 +1885,7 @@ const WEEK_DATA = [{"date":"2026-07-21","attendance":{"present":19,"total":19,"r
 {"date":"2026-09-02","attendance":{"present":17,"total":17,"rate":100.0},"putaway":{"team_net":655.2,"util":37.1,"ocio":52.3,"units":20146},"checkin":{"team_net":267.04,"units":318},"fast_start_rate":93.33,"at":97.69},
 {"date":"2026-09-03","attendance":{"present":16,"total":16,"rate":100.0},"putaway":{"team_net":577.8,"util":34.4,"ocio":56.0,"units":17335},"checkin":{"team_net":327.03,"units":739},"fast_start_rate":100.0,"at":99.91},
 {"date":"2026-09-04","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":1327.0,"util":22.7,"ocio":67.8,"units":15605},"fast_start_rate":66.67,"at":102.05},
-{"date":"2026-09-05","attendance":{"present":9,"total":9,"rate":100.0},"putaway":{"team_net":746.15},"fast_start_rate":100.0,"at":102.62},
+{"date":"2026-09-05","attendance":{"present":9,"total":9,"rate":100.0},"putaway":{"team_net":1888.9,"util":39.5,"ocio":40.9,"units":25090},"fast_start_rate":100.0,"at":102.62},
 {"date":"2026-09-06","attendance":{"present":6,"total":6,"rate":100.0},"putaway":{"team_net":389.4},"fast_start_rate":100.0,"at":103.54},
 {"date":"2026-09-07","attendance":{"present":7,"total":7,"rate":100.0},"putaway":{"team_net":652.7},"fast_start_rate":87.5,"at":90.02}];
 const PUTAWAY_TARGET = 300;
