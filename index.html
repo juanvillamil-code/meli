@@ -1568,7 +1568,16 @@ const WEEK_DATA = [{"date":"2026-07-21","attendance":{"present":19,"total":19,"r
 {"date":"2026-08-26","attendance":{"present":18,"total":18,"rate":100.0},"putaway":{"team_net":958.3,"util":36.4,"ocio":51.0,"units":37791},"checkin":{"team_net":286.3,"units":590},"fast_start_rate":93.8,"at":103.1},
 {"date":"2026-08-27","attendance":{"present":17,"total":17,"rate":100.0},"putaway":{"team_net":1053.0,"util":28.2,"ocio":63.5,"units":28774},"checkin":{"team_net":236.7,"units":1914},"fast_start_rate":100,"at":0.0},
 {"date":"2026-08-28","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":4391.7,"util":12.6,"ocio":79.7,"units":34356},"checkin":{"team_net":4072.8,"units":4142},"fast_start_rate":100,"at":0.0,"partial_day":true},
-{"date":"2026-08-29","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":2479.5,"util":18.8,"ocio":75.8,"units":28618},"fast_start_rate":90.0,"at":0.0}];
+{"date":"2026-08-29","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":2479.5,"util":18.8,"ocio":75.8,"units":28618},"fast_start_rate":90.0,"at":0.0},
+{"date":"2026-08-30","attendance":{"present":6,"total":6,"rate":100.0},"putaway":{"team_net":425.68},"checkin":{"team_net":300.85},"fast_start_rate":85.71,"at":88.24},
+{"date":"2026-08-31","attendance":{"present":7,"total":7,"rate":100.0},"putaway":{"team_net":679.99},"fast_start_rate":100.0,"at":83.57},
+{"date":"2026-09-01","attendance":{"present":14,"total":14,"rate":100.0},"putaway":{"team_net":294.59},"checkin":{"team_net":235.6},"fast_start_rate":100.0,"at":103.1},
+{"date":"2026-09-02","attendance":{"present":17,"total":17,"rate":100.0},"putaway":{"team_net":241.63},"checkin":{"team_net":228.61},"fast_start_rate":93.33,"at":97.69},
+{"date":"2026-09-03","attendance":{"present":16,"total":16,"rate":100.0},"putaway":{"team_net":199.05},"checkin":{"team_net":239.31},"fast_start_rate":100.0,"at":99.91},
+{"date":"2026-09-04","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":301.44},"fast_start_rate":66.67,"at":102.05},
+{"date":"2026-09-05","attendance":{"present":9,"total":9,"rate":100.0},"putaway":{"team_net":746.15},"fast_start_rate":100.0,"at":102.62},
+{"date":"2026-09-06","attendance":{"present":6,"total":6,"rate":100.0},"putaway":{"team_net":389.4},"fast_start_rate":100.0,"at":103.54},
+{"date":"2026-09-07","attendance":{"present":7,"total":7,"rate":100.0},"putaway":{"team_net":652.7},"fast_start_rate":87.5,"at":90.02}];
 const PUTAWAY_TARGET = 300;
 const allDays = WEEK_DATA.slice().sort((a,b)=>a.date.localeCompare(b.date));
 function fmtDateShort(d){
