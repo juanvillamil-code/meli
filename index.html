@@ -1503,6 +1503,63 @@ const DAILY_DATA = {
     { ldap:"rmontessalda", proc:"receiving", units:0,     netProd:0,       ef:0.000, ts:0.073, tns:8.058 },
     { ldap:"stsolanodomi", proc:"receiving", units:0,     netProd:0,       ef:0.000, ts:0.000, tns:7.867 },
   ]
+},
+"2026-09-06": {
+  label: "Domingo 6 · Septiembre 2026 (día cerrado)",
+  attendance: {present:6, total:6, rate:100.0, absentees:[]},
+  fastStart: {rate:100, ok:6, total:6},
+  strongFinish: {rate:100, ok:6, total:6},
+  quality: null,
+  at: {team_avg:103.54, byOperator:[
+    {ldap:"agonzalezure",at:104.08},{ldap:"shrodriguezf",at:103.99},{ldap:"bmanzanorodr",at:103.85},
+    {ldap:"fhernandezca",at:103.65},{ldap:"brogelcampos",at:103.33},{ldap:"jbarrongarci",at:102.32}
+  ]},
+  processTime: [
+    {proc:"putaway", label:"Putaway", ef:7.987, ts:9.913, tns:16.358},
+    {proc:"stagein", label:"Stage-In", ef:0.622, ts:1.243, tns:0.000},
+    {proc:"reposition", label:"Reposition", ef:0.000, ts:0.000, tns:18.579},
+    {proc:"inp_transfer", label:"Inp. Transfer", ef:0.000, ts:0.000, tns:3.502},
+    {proc:"massive_count", label:"Massive Count", ef:0.000, ts:0.000, tns:0.012},
+  ],
+  reposicionNote: "18.6 horas en Reposition, casi el doble de las horas de Putaway del día. brogelcampos con 98.2% de ocio pese a estar asignado a Putaway toda la jornada.",
+  raw: [
+    { ldap:"jbarrongarci",  proc:"putaway", units:7249, netProd:1607.91, ef:4.508, ts:4.709, tns:0.552 },
+    { ldap:"fhernandezca",  proc:"putaway", units:1714, netProd:1049.03, ef:1.634, ts:2.071, tns:4.110 },
+    { ldap:"bmanzanorodr",  proc:"putaway", units:1306, netProd:2337.94, ef:0.559, ts:0.611, tns:1.346 },
+    { ldap:"shrodriguezf",  proc:"putaway", units:152,  netProd:101.22,  ef:1.502, ts:2.557, tns:2.195 },
+    { ldap:"agonzalezure",  proc:"putaway", units:22,   netProd:96.59,   ef:0.228, ts:0.372, tns:0.221 },
+    { ldap:"brogelcampos",  proc:"putaway", units:1,    netProd:18.00,   ef:0.056, ts:0.143, tns:7.934 },
+  ]
+},
+"2026-09-07": {
+  label: "Lunes 7 · Septiembre 2026 (día cerrado)",
+  attendance: {present:7, total:7, rate:100.0, absentees:[]},
+  fastStart: {rate:87.5, ok:7, total:8, note:"igarciasayas registró su primer scan 5 minutos tarde."},
+  strongFinish: {rate:100, ok:8, total:8},
+  quality: null,
+  at: {team_avg:90.02, byOperator:[
+    {ldap:"brogelcampos",at:103.74},{ldap:"shrodriguezf",at:103.74},{ldap:"bmanzanorodr",at:103.62},
+    {ldap:"agonzalezure",at:103.56},{ldap:"fhernandezca",at:103.25},{ldap:"jbarrongarci",at:102.57},
+    {ldap:"igarciasayas",at:99.65},{ldap:"rcoronaperez",at:0.0}
+  ]},
+  processTime: [
+    {proc:"putaway", label:"Putaway", ef:11.214, ts:13.920, tns:16.542},
+    {proc:"stagein", label:"Stage-In", ef:0.881, ts:2.643, tns:0.000},
+    {proc:"reposition", label:"Reposition", ef:0.000, ts:0.000, tns:23.761},
+    {proc:"inp_transfer", label:"Inp. Transfer", ef:0.000, ts:0.000, tns:7.868},
+    {proc:"massive_count", label:"Massive Count", ef:0.000, ts:0.000, tns:0.206},
+  ],
+  reposicionNote: "23.8 horas en Reposition, el volumen más alto registrado hasta ahora — más que las horas de Putaway del día completo. rcoronaperez con AT en 0% y 60.6% de ocio en Putaway.",
+  raw: [
+    { ldap:"igarciasayas",  proc:"putaway", units:4386, netProd:4282.51, ef:1.024, ts:1.069, tns:0.000 },
+    { ldap:"jbarrongarci",  proc:"putaway", units:7258, netProd:3986.09, ef:1.821, ts:1.922, tns:0.313 },
+    { ldap:"agonzalezure",  proc:"putaway", units:3740, netProd:3490.80, ef:1.071, ts:1.153, tns:0.141 },
+    { ldap:"fhernandezca",  proc:"putaway", units:3508, netProd:3084.71, ef:1.137, ts:1.500, tns:0.000 },
+    { ldap:"brogelcampos",  proc:"putaway", units:49,   netProd:234.89,  ef:0.209, ts:0.255, tns:0.041 },
+    { ldap:"shrodriguezf",  proc:"putaway", units:602,  netProd:181.98,  ef:3.308, ts:4.871, tns:3.290 },
+    { ldap:"rcoronaperez",  proc:"putaway", units:339,  netProd:128.21,  ef:2.644, ts:3.150, tns:4.854 },
+    { ldap:"bmanzanorodr",  proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.000, tns:7.903 },
+  ]
 }
 };
 
@@ -1886,8 +1943,8 @@ const WEEK_DATA = [{"date":"2026-07-21","attendance":{"present":19,"total":19,"r
 {"date":"2026-09-03","attendance":{"present":16,"total":16,"rate":100.0},"putaway":{"team_net":577.8,"util":34.4,"ocio":56.0,"units":17335},"checkin":{"team_net":327.03,"units":739},"fast_start_rate":100.0,"at":99.91},
 {"date":"2026-09-04","attendance":{"present":10,"total":10,"rate":100.0},"putaway":{"team_net":1327.0,"util":22.7,"ocio":67.8,"units":15605},"fast_start_rate":66.67,"at":102.05},
 {"date":"2026-09-05","attendance":{"present":9,"total":9,"rate":100.0},"putaway":{"team_net":1888.9,"util":39.5,"ocio":40.9,"units":25090},"fast_start_rate":100.0,"at":102.62},
-{"date":"2026-09-06","attendance":{"present":6,"total":6,"rate":100.0},"putaway":{"team_net":389.4},"fast_start_rate":100.0,"at":103.54},
-{"date":"2026-09-07","attendance":{"present":7,"total":7,"rate":100.0},"putaway":{"team_net":652.7},"fast_start_rate":87.5,"at":90.02}];
+{"date":"2026-09-06","attendance":{"present":6,"total":6,"rate":100.0},"putaway":{"team_net":1230.6,"util":31.6,"ocio":61.0,"units":10444},"fast_start_rate":100.0,"at":103.54},
+{"date":"2026-09-07","attendance":{"present":7,"total":7,"rate":100.0},"putaway":{"team_net":1773.0,"util":36.8,"ocio":54.3,"units":19882},"fast_start_rate":87.5,"at":90.02}];
 const PUTAWAY_TARGET = 300;
 const allDays = WEEK_DATA.slice().sort((a,b)=>a.date.localeCompare(b.date));
 function fmtDateShort(d){
