@@ -1632,6 +1632,23 @@ const DAILY_DATA = {
     { ldap:"edmaldonado",   proc:"receiving",       units:547,  netProd:108.50,  ef:1.112, ts:5.041, tns:3.666 },
   ]
 },
+"2026-09-09": {
+  label: "Miércoles 9 · Septiembre 2026 (sin operación registrada)",
+  attendance: {present:14, total:14, rate:100.0, absentees:[]},
+  fastStart: {rate:0, ok:0, total:0, note:"Sin registros de Fast Start para este día."},
+  strongFinish: {rate:0, ok:0, total:0, note:"Sin registros de Strong Finish para este día."},
+  quality: null,
+  at: {team_avg:59.02, byOperator:[
+    {ldap:"jmartinezlop",at:59.02}
+  ]},
+  processTime: [
+    {proc:"receiving", label:"Receiving", ef:0.000, ts:0.000, tns:0.050},
+  ],
+  reposicionNote: "⚠️ Día atípico: 14 operadores marcados como presentes en asistencia, pero Polaris solo registró actividad real para 1 persona (jmartinezlop, 0.05h en Receiving, sin unidades). No hay evidencia de que el resto del equipo haya escaneado ese día — vale la pena confirmar si fue un día no laborable, un corte de sistema, o un problema de captura masivo.",
+  raw: [
+    { ldap:"jmartinezlop", proc:"receiving", units:0, netProd:0, ef:0.000, ts:0.000, tns:0.050 },
+  ]
+},
 "2026-09-10": {
   label: "Jueves 10 · Septiembre 2026 (turno en curso)",
   attendance: {present:12, total:12, rate:100.0, absentees:[], note:"⚠️ Equipo completamente nuevo — ningún operador coincide con el histórico anterior (18 ago - 8 sep). Posible rotación o reasignación de plantilla."},
