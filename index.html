@@ -1762,6 +1762,57 @@ const DAILY_DATA = {
     { ldap:"lparedesvazq", proc:"stagein", units:3,    netProd:27.34,   ef:0.110, ts:0.443, tns:0.000 },
     { ldap:"rcastrofuent", proc:"stagein", units:2,    netProd:19.25,   ef:0.104, ts:0.341, tns:0.000 },
   ]
+},
+"2026-09-12": {
+  label: "Sábado 12 · Septiembre 2026 (día cerrado)",
+  attendance: {present:11, total:11, rate:100.0, absentees:[]},
+  fastStart: {rate:50.0, ok:5, total:10, note:"gralvarezmar (26 min), cingutierrez (18 min), maufloresmen (17 min), ugarciaponce (17 min) y arodamontes (16 min) llegaron tarde a su primer scan."},
+  strongFinish: {rate:75.0, ok:3, total:4, note:"lparedesvazq con 1 minuto de retraso."},
+  quality: {
+    team_error_rate: 4.897, total_errors:147, total_processed:3696,
+    bySubprocess: [
+      {subprocess:"putaway", error_rate:0.394, errors:7, processed:2921},
+      {subprocess:"receiving", error_rate:18.06, errors:140, processed:775},
+    ],
+    byOperator: [
+      {ldap:"ncamargomont", subprocess:"receiving", error_rate:18.06, errors:140, processed:775},
+      {ldap:"jventuracuen", subprocess:"putaway", error_rate:1.577, errors:7, processed:1171},
+      {ldap:"bmoranfranco", subprocess:"putaway", error_rate:0.0, errors:0, processed:842},
+      {ldap:"jsanchezgard", subprocess:"putaway", error_rate:0.0, errors:0, processed:491},
+      {ldap:"kruedas", subprocess:"putaway", error_rate:0.0, errors:0, processed:417},
+    ]
+  },
+  at: {team_avg:70.73, byOperator:[
+    {ldap:"lparedesvazq",at:102.83},{ldap:"kruedas",at:101.64},{ldap:"jgodinezmend",at:101.64},
+    {ldap:"almaldonadot",at:100.92},{ldap:"egomezchimal",at:100.39},{ldap:"carlgarcia",at:0.0},
+    {ldap:"chernandezch",at:0.0},{ldap:"jsanchezgard",at:0.0},{ldap:"rnunezmunoz",at:0.0},{ldap:"aramirezalva",at:0.0}
+  ]},
+  processTime: [
+    {proc:"putaway", label:"Putaway", ef:19.007, ts:31.433, tns:20.264},
+    {proc:"picking", label:"Picking", ef:4.943, ts:6.845, tns:1.546},
+    {proc:"open_transfer", label:"Open Transfer", ef:0.085, ts:0.224, tns:0.000},
+    {proc:"stagein", label:"Stage-In", ef:0.478, ts:1.775, tns:0.000},
+    {proc:"reposition", label:"Reposition", ef:0.000, ts:0.000, tns:1.692},
+    {proc:"inbound_support_management", label:"Inbound Support Mgmt", ef:0.000, ts:0.000, tns:9.357},
+    {proc:"fbm_transfers_hu_assembly", label:"FBM HU Assembly", ef:0.000, ts:0.000, tns:7.475},
+  ],
+  reposicionNote: "⚠️ ncamargomont con 18.06% de error rate en Receiving (140 errores de 775 auditados) — el más alto registrado en todo el histórico del reporte. Fast Start sigue crítico (50%), aunque mejoró respecto al 31.6% del día anterior.",
+  raw: [
+    { ldap:"jsanchezgard", proc:"putaway", units:4999, netProd:1769.38, ef:2.825, ts:6.869, tns:1.653 },
+    { ldap:"kruedas",      proc:"putaway", units:3029, netProd:1663.02, ef:1.821, ts:6.643, tns:1.089 },
+    { ldap:"cingutierrez", proc:"putaway", units:723,  netProd:190.30,  ef:3.799, ts:4.783, tns:0.026 },
+    { ldap:"gralvarezmar", proc:"putaway", units:703,  netProd:185.08,  ef:3.798, ts:4.715, tns:0.000 },
+    { ldap:"arodamontes",  proc:"putaway", units:578,  netProd:149.04,  ef:3.878, ts:4.813, tns:0.000 },
+    { ldap:"maufloresmen", proc:"putaway", units:400,  netProd:125.27,  ef:3.193, ts:4.373, tns:0.010 },
+    { ldap:"ugarciaponce", proc:"putaway", units:367,  netProd:99.29,   ef:3.696, ts:4.797, tns:0.016 },
+    { ldap:"lparedesvazq", proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.000, tns:2.548 },
+    { ldap:"egomezchimal", proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.000, tns:8.512 },
+    { ldap:"jgodinezmend", proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.000, tns:6.593 },
+    { ldap:"rcastrofuent", proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.000, tns:3.834 },
+    { ldap:"almaldonadot", proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.082, tns:0.664 },
+    { ldap:"dcalixtoelis", proc:"picking", units:493,  netProd:99.74,   ef:4.943, ts:6.845, tns:1.546 },
+    { ldap:"almaldonadot", proc:"open_transfer", units:3, netProd:35.41, ef:0.085, ts:0.224, tns:0.000 },
+  ]
 }
 };
 
@@ -2150,7 +2201,8 @@ const WEEK_DATA = [{"date":"2026-07-21","attendance":{"present":19,"total":19,"r
 {"date":"2026-09-08","attendance":{"present":15,"total":15,"rate":100.0},"putaway":{"team_net":1524.7,"util":15.1,"ocio":81.4,"units":18972},"checkin":{"team_net":312.4,"units":1544},"fast_start_rate":100,"at":98.71},
 {"date":"2026-09-09","attendance":{"present":14,"total":14,"rate":100.0},"putaway":{"team_net":0,"units":0},"fast_start_rate":null,"at":59.02},
 {"date":"2026-09-10","attendance":{"present":12,"total":12,"rate":100.0},"putaway":{"team_net":2841.4,"util":12.3,"ocio":71.7,"units":25175},"fast_start_rate":100,"at":82.52,"partial_day":true},
-{"date":"2026-09-11","attendance":{"present":30,"total":30,"rate":100.0},"putaway":{"team_net":372.8,"util":57.1,"ocio":20.3,"units":30569},"fast_start_rate":31.58,"at":73.52}];
+{"date":"2026-09-11","attendance":{"present":30,"total":30,"rate":100.0},"putaway":{"team_net":372.8,"util":57.1,"ocio":20.3,"units":30569},"fast_start_rate":31.58,"at":73.52},
+{"date":"2026-09-12","attendance":{"present":11,"total":11,"rate":100.0},"putaway":{"team_net":469.3,"util":37.1,"ocio":40.2,"units":10799},"fast_start_rate":50.0,"at":70.73}];
 const PUTAWAY_TARGET = 300;
 const allDays = WEEK_DATA.slice().sort((a,b)=>a.date.localeCompare(b.date));
 function fmtDateShort(d){
