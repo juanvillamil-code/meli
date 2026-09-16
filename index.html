@@ -1863,6 +1863,52 @@ const DAILY_DATA = {
     { ldap:"jhernandezap", proc:"picking", units:33,   netProd:125.98,  ef:0.262, ts:0.425, tns:0.000 },
     { ldap:"carlgarcia",   proc:"picking", units:15,   netProd:97.83,   ef:0.153, ts:0.377, tns:0.000 },
   ]
+},
+"2026-09-14": {
+  label: "Lunes 14 · Septiembre 2026 (día cerrado)",
+  attendance: {present:7, total:7, rate:100.0, absentees:[]},
+  fastStart: {rate:100, ok:9, total:9},
+  strongFinish: {rate:100, ok:6, total:6},
+  quality: {
+    team_error_rate: 0.133, total_errors:4, total_processed:5700,
+    bySubprocess: [
+      {subprocess:"checkin", error_rate:0.6686, errors:4, processed:2682},
+      {subprocess:"putaway", error_rate:0.0, errors:0, processed:3018},
+    ],
+    byOperator: [
+      {ldap:"ogonzalezbad", subprocess:"checkin", error_rate:0.6686, errors:4, processed:2682},
+      {ldap:"chernandezch", subprocess:"putaway", error_rate:0.0, errors:0, processed:413},
+      {ldap:"dchavezlopez", subprocess:"putaway", error_rate:0.0, errors:0, processed:2240},
+      {ldap:"kruedas", subprocess:"putaway", error_rate:0.0, errors:0, processed:365},
+    ]
+  },
+  at: {team_avg:67.53, byOperator:[
+    {ldap:"acruzconejo",at:103.17},{ldap:"dchavezlopez",at:101.98},{ldap:"chernandezch",at:101.76},
+    {ldap:"carlgarcia",at:101.41},{ldap:"rnunezmunoz",at:101.36},{ldap:"jhernandezap",at:99.25},
+    {ldap:"kruedas",at:0.0},{ldap:"osalguerogon",at:0.0},{ldap:"rcastrofuent",at:0.0},{ldap:"aramirezalva",at:0.0}
+  ]},
+  processTime: [
+    {proc:"putaway", label:"Putaway", ef:6.644, ts:11.511, tns:31.408},
+    {proc:"picking", label:"Picking", ef:10.217, ts:13.975, tns:0.139},
+    {proc:"returns_putaway", label:"Returns Putaway", ef:1.355, ts:2.279, tns:0.864},
+    {proc:"stagein", label:"Stage-In", ef:0.354, ts:1.099, tns:0.000},
+    {proc:"inbound_support_management", label:"Inbound Support Mgmt", ef:0.000, ts:0.000, tns:4.353},
+    {proc:"receiving", label:"Receiving", ef:0.000, ts:0.000, tns:8.088},
+    {proc:"massive_count", label:"Massive Count", ef:0.000, ts:0.000, tns:0.089},
+  ],
+  reposicionNote: "Excelente día en puntualidad: Fast Start y Strong Finish al 100%, calidad muy buena (0.13% de error). Sin embargo, 3 de 7 operadores de Putaway (acruzconejo, rcastrofuent, jsanchezgard) terminaron con 89-100% de ocio ese proceso.",
+  raw: [
+    { ldap:"dchavezlopez", proc:"putaway", units:8939, netProd:2005.76, ef:4.457, ts:7.318, tns:1.180 },
+    { ldap:"kruedas",      proc:"putaway", units:3889, netProd:1778.51, ef:2.187, ts:4.193, tns:4.234 },
+    { ldap:"chernandezch", proc:"putaway", units:508,  netProd:192.83,  ef:2.634, ts:3.647, tns:5.072 },
+    { ldap:"acruzconejo",  proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.000, tns:4.352 },
+    { ldap:"rcastrofuent", proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.000, tns:8.515 },
+    { ldap:"rnunezmunoz",  proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:1.000, tns:8.055 },
+    { ldap:"jsanchezgard", proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.000, tns:8.354 },
+    { ldap:"carlgarcia",   proc:"picking", units:562,  netProd:133.51,  ef:4.209, ts:5.649, tns:0.000 },
+    { ldap:"jhernandezap", proc:"picking", units:574,  netProd:95.53,   ef:6.008, ts:8.326, tns:0.139 },
+    { ldap:"iolveradepaz", proc:"returns_putaway", units:253, netProd:186.72, ef:1.355, ts:2.279, tns:0.864 },
+  ]
 }
 };
 
@@ -2253,7 +2299,8 @@ const WEEK_DATA = [{"date":"2026-07-21","attendance":{"present":19,"total":19,"r
 {"date":"2026-09-10","attendance":{"present":12,"total":12,"rate":100.0},"putaway":{"team_net":2841.4,"util":12.3,"ocio":71.7,"units":25175},"fast_start_rate":100,"at":82.52,"partial_day":true},
 {"date":"2026-09-11","attendance":{"present":30,"total":30,"rate":100.0},"putaway":{"team_net":372.8,"util":57.1,"ocio":20.3,"units":30569},"fast_start_rate":31.58,"at":73.52},
 {"date":"2026-09-12","attendance":{"present":11,"total":11,"rate":100.0},"putaway":{"team_net":469.3,"util":37.1,"ocio":40.2,"units":10799},"fast_start_rate":50.0,"at":70.73},
-{"date":"2026-09-13","attendance":{"present":6,"total":6,"rate":100.0},"putaway":{"team_net":554.3,"util":31.0,"ocio":44.6,"units":9299},"fast_start_rate":88.89,"at":66.86}];
+{"date":"2026-09-13","attendance":{"present":6,"total":6,"rate":100.0},"putaway":{"team_net":554.3,"util":31.0,"ocio":44.6,"units":9299},"fast_start_rate":88.89,"at":66.86},
+{"date":"2026-09-14","attendance":{"present":7,"total":7,"rate":100.0},"putaway":{"team_net":1437.4,"util":16.6,"ocio":71.1,"units":13336},"fast_start_rate":100.0,"at":67.53}];
 const PUTAWAY_TARGET = 300;
 const allDays = WEEK_DATA.slice().sort((a,b)=>a.date.localeCompare(b.date));
 function fmtDateShort(d){
