@@ -1685,6 +1685,83 @@ const DAILY_DATA = {
     { ldap:"almaldonadot", proc:"putaway", units:0, netProd:0, ef:0.000, ts:0.062, tns:1.373 },
     { ldap:"rnunezmunoz",  proc:"putaway", units:0, netProd:0, ef:0.000, ts:0.287, tns:3.581 },
   ]
+},
+"2026-09-11": {
+  label: "Viernes 11 · Septiembre 2026 (día cerrado)",
+  attendance: {present:12, total:12, rate:100.0, absentees:[], note:"⚠️ Plantilla ampliada: 30 operadores con actividad registrada (vs. 12 el día anterior) — el equipo creció significativamente, con nuevos procesos activos: Checkin, Packing, Picking, Open Transfer, además de roles de liderazgo (Inbound/Outbound/Line Team Leader)."},
+  fastStart: {rate:31.58, ok:6, total:19, note:"13 retrasos el mismo día — jsotoconde (31 min), jhernandezap (28 min), omelendezcan (28 min), jgascon (28 min), dcalixtoelis (27 min) entre los más notorios. El peor resultado de Fast Start registrado en todo el histórico, coincidiendo con el arranque del equipo ampliado."},
+  strongFinish: {rate:91.67, ok:11, total:12, note:"aherrerapadi con 2 minutos de retraso, único caso."},
+  quality: {
+    team_error_rate: 0.0, total_errors:0, total_processed:2226,
+    bySubprocess: [
+      {subprocess:"checkin", error_rate:0.0, errors:0, processed:371},
+      {subprocess:"picking", error_rate:0.0, errors:0, processed:129},
+      {subprocess:"putaway", error_rate:0.0, errors:0, processed:1340},
+      {subprocess:"receiving", error_rate:0.0, errors:0, processed:283},
+    ],
+    byOperator: [
+      {ldap:"jventuracuen", subprocess:"checkin", error_rate:0.0, errors:0, processed:371},
+      {ldap:"bmoranfranco", subprocess:"picking", error_rate:0.0, errors:0, processed:129},
+      {ldap:"bmoranfranco", subprocess:"putaway", error_rate:0.0, errors:0, processed:14},
+      {ldap:"brmorenogarc", subprocess:"putaway", error_rate:0.0, errors:0, processed:900},
+      {ldap:"jventuracuen", subprocess:"putaway", error_rate:0.0, errors:0, processed:118},
+      {ldap:"kruedas", subprocess:"putaway", error_rate:0.0, errors:0, processed:308},
+      {ldap:"ncamargomont", subprocess:"receiving", error_rate:0.0, errors:0, processed:283},
+    ]
+  },
+  at: {team_avg:73.52, byOperator:[
+    {ldap:"lparedesvazq",at:102.28},{ldap:"jgodinezmend",at:102.18},{ldap:"rcastrofuent",at:101.98},
+    {ldap:"egomezchimal",at:101.91},{ldap:"katolentinoc",at:101.9},{ldap:"mgutierrezbe",at:0.0},
+    {ldap:"lramirezandr",at:0.0},{ldap:"jhernandezap",at:0.0},{ldap:"carlgarcia",at:0.0},{ldap:"gegarcia",at:0.0}
+  ]},
+  processTime: [
+    {proc:"putaway", label:"Putaway", ef:59.437, ts:99.906, tns:25.616},
+    {proc:"open_transfer", label:"Open Transfer", ef:0.085, ts:0.190, tns:0.000},
+    {proc:"stagein", label:"Stage-In", ef:0.420, ts:1.842, tns:0.000},
+    {proc:"reposition", label:"Reposition", ef:0.000, ts:0.000, tns:0.805},
+    {proc:"inbound_support_management", label:"Inbound Support Mgmt", ef:0.000, ts:0.000, tns:9.573},
+    {proc:"receiving", label:"Receiving", ef:0.000, ts:0.000, tns:7.896},
+  ],
+  reposicionNote: "Mejor utilización de Putaway registrada hasta ahora (57.1%) gracias al equipo ampliado con más gente en tareas productivas simultáneas. Sin embargo, Fast Start fue el peor del histórico (31.6%) — sugiere que el equipo nuevo aún no domina bien el arranque de turno pese a operar con buena productividad una vez en marcha.",
+  raw: [
+    { ldap:"jgodinezmend", proc:"open_transfer", units:40,   netProd:472.13,  ef:0.085, ts:0.190, tns:0.000 },
+    { ldap:"jgodinezmend", proc:"putaway", units:9374, netProd:3421.51, ef:2.740, ts:6.680, tns:1.474 },
+    { ldap:"kruedas",      proc:"putaway", units:4888, netProd:1654.92, ef:2.954, ts:7.422, tns:0.963 },
+    { ldap:"aliciaguadal", proc:"putaway", units:918,  netProd:412.48,  ef:2.226, ts:3.501, tns:0.000 },
+    { ldap:"mgutierrezbe", proc:"putaway", units:1040, netProd:318.80,  ef:3.262, ts:3.905, tns:0.000 },
+    { ldap:"mfuentesgarc", proc:"putaway", units:980,  netProd:315.90,  ef:3.102, ts:3.515, tns:0.000 },
+    { ldap:"drodriguezca", proc:"putaway", units:913,  netProd:315.13,  ef:2.897, ts:3.860, tns:0.000 },
+    { ldap:"jsotoconde",   proc:"putaway", units:215,  netProd:286.88,  ef:0.749, ts:1.004, tns:0.000 },
+    { ldap:"atorresramos", proc:"putaway", units:1010, netProd:278.79,  ef:3.623, ts:5.271, tns:0.000 },
+    { ldap:"omelendezcan", proc:"putaway", units:786,  netProd:266.29,  ef:2.952, ts:3.566, tns:0.001 },
+    { ldap:"micamposcast", proc:"putaway", units:806,  netProd:246.90,  ef:3.264, ts:3.716, tns:0.000 },
+    { ldap:"macamachomar", proc:"putaway", units:747,  netProd:245.93,  ef:3.038, ts:3.624, tns:0.000 },
+    { ldap:"sdelgadillop", proc:"putaway", units:1239, netProd:232.28,  ef:5.334, ts:6.293, tns:0.000 },
+    { ldap:"jgascon",      proc:"putaway", units:1116, netProd:217.16,  ef:5.139, ts:6.464, tns:0.000 },
+    { ldap:"erdelacruzhe", proc:"putaway", units:943,  netProd:204.72,  ef:4.606, ts:6.051, tns:0.000 },
+    { ldap:"aherrerapadi", proc:"putaway", units:475,  netProd:192.57,  ef:2.467, ts:3.723, tns:0.000 },
+    { ldap:"mugaldeortiz", proc:"putaway", units:890,  netProd:185.73,  ef:4.792, ts:7.184, tns:0.000 },
+    { ldap:"dcalixtoelis", proc:"putaway", units:577,  netProd:172.50,  ef:3.345, ts:3.902, tns:0.000 },
+    { ldap:"lramirezandr", proc:"putaway", units:556,  netProd:159.00,  ef:3.497, ts:4.668, tns:0.000 },
+    { ldap:"brvargasflor", proc:"putaway", units:740,  netProd:155.71,  ef:4.753, ts:6.883, tns:0.000 },
+    { ldap:"jhernandezap", proc:"putaway", units:413,  netProd:153.63,  ef:2.688, ts:3.351, tns:0.000 },
+    { ldap:"csanchezseco", proc:"putaway", units:287,  netProd:150.57,  ef:1.906, ts:3.745, tns:0.000 },
+    { ldap:"gagarciacruz", proc:"putaway", units:770,  netProd:149.32,  ef:5.157, ts:6.562, tns:0.000 },
+    { ldap:"carlgarcia",   proc:"putaway", units:433,  netProd:144.05,  ef:3.006, ts:3.562, tns:0.000 },
+    { ldap:"iperezacosta", proc:"putaway", units:453,  netProd:100.81,  ef:4.494, ts:5.847, tns:0.000 },
+    { ldap:"katolentinoc", proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.000, tns:8.474 },
+    { ldap:"egomezchimal", proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.000, tns:4.429 },
+    { ldap:"almaldonadot", proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.113, tns:3.076 },
+    { ldap:"rcastrofuent", proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.000, tns:4.229 },
+    { ldap:"lparedesvazq", proc:"putaway", units:0,    netProd:0,       ef:0.000, ts:0.000, tns:6.495 },
+    { ldap:"jmartinezlop", proc:"receiving", units:0,  netProd:0,       ef:0.000, ts:0.000, tns:7.896 },
+    { ldap:"egomezchimal", proc:"stagein", units:1,    netProd:112.50,  ef:0.009, ts:0.257, tns:0.000 },
+    { ldap:"katolentinoc", proc:"stagein", units:3,    netProd:43.03,   ef:0.070, ts:0.247, tns:0.000 },
+    { ldap:"kruedas",      proc:"stagein", units:2,    netProd:32.00,   ef:0.062, ts:0.294, tns:0.000 },
+    { ldap:"jgodinezmend", proc:"stagein", units:2,    netProd:30.90,   ef:0.065, ts:0.260, tns:0.000 },
+    { ldap:"lparedesvazq", proc:"stagein", units:3,    netProd:27.34,   ef:0.110, ts:0.443, tns:0.000 },
+    { ldap:"rcastrofuent", proc:"stagein", units:2,    netProd:19.25,   ef:0.104, ts:0.341, tns:0.000 },
+  ]
 }
 };
 
@@ -2072,7 +2149,8 @@ const WEEK_DATA = [{"date":"2026-07-21","attendance":{"present":19,"total":19,"r
 {"date":"2026-09-07","attendance":{"present":7,"total":7,"rate":100.0},"putaway":{"team_net":1773.0,"util":36.8,"ocio":54.3,"units":19882},"fast_start_rate":87.5,"at":90.02},
 {"date":"2026-09-08","attendance":{"present":15,"total":15,"rate":100.0},"putaway":{"team_net":1524.7,"util":15.1,"ocio":81.4,"units":18972},"checkin":{"team_net":312.4,"units":1544},"fast_start_rate":100,"at":98.71},
 {"date":"2026-09-09","attendance":{"present":14,"total":14,"rate":100.0},"putaway":{"team_net":0,"units":0},"fast_start_rate":null,"at":59.02},
-{"date":"2026-09-10","attendance":{"present":12,"total":12,"rate":100.0},"putaway":{"team_net":2841.4,"util":12.3,"ocio":71.7,"units":25175},"fast_start_rate":100,"at":82.52,"partial_day":true}];
+{"date":"2026-09-10","attendance":{"present":12,"total":12,"rate":100.0},"putaway":{"team_net":2841.4,"util":12.3,"ocio":71.7,"units":25175},"fast_start_rate":100,"at":82.52,"partial_day":true},
+{"date":"2026-09-11","attendance":{"present":30,"total":30,"rate":100.0},"putaway":{"team_net":372.8,"util":57.1,"ocio":20.3,"units":30569},"fast_start_rate":31.58,"at":73.52}];
 const PUTAWAY_TARGET = 300;
 const allDays = WEEK_DATA.slice().sort((a,b)=>a.date.localeCompare(b.date));
 function fmtDateShort(d){
